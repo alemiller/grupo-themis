@@ -1,5 +1,10 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+
+
+$config['save_file_folder'] = './uploads/';
+$config['save_file_root'] = 'uploads/';
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL

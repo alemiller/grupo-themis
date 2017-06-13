@@ -1,5 +1,8 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+$config['save_file_folder'] = 'tmp/';
+$config['save_file_toot'] = 'tmp/';
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
