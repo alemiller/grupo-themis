@@ -59,7 +59,7 @@ if (file_exists("env.php")) {require_once("env.php");
 }else{
 define('ENVIRONMENT', getenv("ENVIRONMENT"));
 }
-error_log('environment: '.ENVIRONMENT);
+
 
 /*
  * ---------------------------------------------------------------
