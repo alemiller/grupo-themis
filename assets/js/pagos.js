@@ -124,7 +124,7 @@ namespace["pagos"] = {
                             });
                         }
 
-                        reset_pagos - metadata();
+                        reset_pagos_metadata();
                         $('.pago-footer-buttons').find('button').attr('disabled', 'disabled');
 
                         set_small_box_message("Eliminar pago(s)", data.msg, "#659265", "fa fa-check fa-2x fadeInRight animated", 4000);
