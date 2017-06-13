@@ -39,7 +39,8 @@
 /*
  * ---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
- * ---------------------------------------------------------------
+ 
+ * * ---------------------------------------------------------------
  *
  * You can load different configurations depending on your
  * current environment. Setting the environment also influences
@@ -53,7 +54,10 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+if (file_exists("env.php")) {require_once("env.php");
+}else{
+define('ENVIRONMENT', getenv("ENVIRONMENT"));
+}
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 /*
  * ---------------------------------------------------------------
