@@ -47,24 +47,46 @@
 
 $active_group = 'default';
 $active_record = TRUE;
-$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-error_log('database url: '.json_encode($url));
-$db['default']['hostname'] = $url["host"];
-$db['default']['username'] = $url["user"];
-$db['default']['password'] = $url["pass"];
-$db['default']['database'] = substr($url["path"], 1);
-$db['default']['dbdriver'] = 'mysqli';
-$db['default']['dbprefix'] = '';
-$db['default']['pconnect'] = TRUE;
-$db['default']['db_debug'] = TRUE;
-$db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = '';
-$db['default']['char_set'] = 'utf8';
-$db['default']['dbcollat'] = 'utf8_general_ci';
-$db['default']['swap_pre'] = '';
-$db['default']['autoinit'] = TRUE;
-$db['default']['stricton'] = FALSE;
+//$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+//error_log('database url: '.json_encode($url));
+//$db['default']['hostname'] = $url["host"];
+//$db['default']['username'] = $url["user"];
+//$db['default']['password'] = $url["pass"];
+//$db['default']['database'] = substr($url["path"], 1);
+//$db['default']['dbdriver'] = 'mysqli';
+//$db['default']['dbprefix'] = '';
+//$db['default']['pconnect'] = TRUE;
+//$db['default']['db_debug'] = TRUE;
+//$db['default']['cache_on'] = FALSE;
+//$db['default']['cachedir'] = '';
+//$db['default']['char_set'] = 'utf8';
+//$db['default']['dbcollat'] = 'utf8_general_ci';
+//$db['default']['swap_pre'] = '';
+//$db['default']['autoinit'] = TRUE;
+//$db['default']['stricton'] = FALSE;
 
+
+$db['default'] = array(
+	'dsn'	=> '',
+	'hostname' => 'localhost',
+	'username' => '',
+	'password' => '',
+	'database' => '',
+	'dbdriver' => 'mysqli',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
