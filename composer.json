@@ -1,11 +1,7 @@
 {
-    "extra": {
-        "heroku": {
-            "compile": [
-                "chmod 777 /app/app/uploads"
-            ]
-        }
-    }
+ "require": {
+    "sendgrid/sendgrid": "~5.0.9"
+  }
 }
   
 
