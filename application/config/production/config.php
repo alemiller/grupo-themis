@@ -14,8 +14,8 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://pokesend.com';
-$config['fb_app_id'] = '578265198967250';
+$config['base_url']	= 'http://grupo-themis.herokuapp.com/';
+
 
 /*
 |--------------------------------------------------------------------------
