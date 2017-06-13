@@ -65,18 +65,14 @@ $active_record = TRUE;
 //$db['default']['autoinit'] = TRUE;
 //$db['default']['stricton'] = FALSE;
 
-$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-$server = $url["host"];
-$username = $url["user"];
-$password = $url["pass"];
-$db = substr($url["path"], 1);
+
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => $server,
-	'username' => $username,
-	'password' => $password,
-	'database' => $db,
+	'hostname' => 'us-cdbr-iron-east-03.cleardb.net',
+	'username' => 'bb15b20dd502f8',
+	'password' => '7610465a',
+	'database' => 'heroku_7ad906a4627bbea',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
