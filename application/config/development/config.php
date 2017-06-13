@@ -30,23 +30,6 @@ $config['fb_app_id'] = '525115754299804';
 */
 $config['index_page'] = 'index.php';
 
-/*
- * Costo de cada postal
- */
-$config['cost_arg']= 37;
-$config['cost_ext']= 52;
-
-$config['dolar_conversion']='8.27';
-/* 
- * Cuentas de email 
- */
-
-$config['mail_host']= "mail.segundarotacao.com";
-$config['mail_port']= 2525;
-$config['mail_user']= "admin@segundarotacao.com";
-$config['mail_pass']= "8qf9Vp6V";
-
-$config['mail_forgot_subject']= "Recuperacion de clave";
 
 
 /*
