@@ -1,3 +1,5 @@
 {
-    "name": "ale_miller10"
+    "require": {
+        "ext-ftp": "*"
+    }
 }
