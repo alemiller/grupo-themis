@@ -29,25 +29,6 @@ $config['base_url'] = 'https://grupo-themis.herokuapp.com/';
 $config['index_page'] = 'index.php';
 
 /*
- * Costo de cada postal
- */
-$config['cost_arg']= 37;
-$config['cost_ext']= 52;
-
-$config['dolar_conversion']='8.27';
-/* 
- * Cuentas de email 
- */
-
-//$config['mail_host']= "mail.pokesend.com";
-$config['mail_host']= "localhost";
-$config['mail_port']= 25;
-$config['mail_user']= "no-reply@pokesend.com";
-$config['mail_pass']= "Poke1234";
-
-$config['mail_forgot_subject']= "Recuperacion de clave";
-
-/*
 |--------------------------------------------------------------------------
 | URI PROTOCOL
 |--------------------------------------------------------------------------
