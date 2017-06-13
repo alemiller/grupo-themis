@@ -54,12 +54,13 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
+date_default_timezone_set('America/Argentina/Buenos_Aires');
 if (file_exists("env.php")) {require_once("env.php");
 }else{
 define('ENVIRONMENT', getenv("ENVIRONMENT"));
 }
+error_log('environment: '.ENVIRONMENT);
 
-date_default_timezone_set('America/Argentina/Buenos_Aires');
 /*
  * ---------------------------------------------------------------
  * ERROR REPORTING
