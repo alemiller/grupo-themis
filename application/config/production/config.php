@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url'] = '';
+$config['base_url'] = 'https://grupo-themis.herokuapp.com/';
 
 /*
 |--------------------------------------------------------------------------
@@ -26,13 +26,8 @@ $config['base_url'] = '';
 | variable so that it is blank.
 |
 */
-//$config['index_page'] = 'index.php';
+$config['index_page'] = 'index.php';
 
-
-$config['base_url'] = 'https://grupo-themis.herokuapp.com/';
-$config['index_page'] = 'views/pages/login.php';
-$config['uri_protocol'] = 'REQUEST_URI';
-$config['sess_save_path'] = sys_get_temp_dir();
 /*
  * Costo de cada postal
  */

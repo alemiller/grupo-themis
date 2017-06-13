@@ -68,10 +68,10 @@ $active_record = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '	mysql.hostinger.com.ar',
-	'username' => 'u824517103_admin',
-	'password' => '12345678',
-	'database' => 'u824517103_themi',
+	'hostname' => 'localhost',
+	'username' => '',
+	'password' => '',
+	'database' => '',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
