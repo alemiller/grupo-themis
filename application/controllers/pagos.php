@@ -10,7 +10,17 @@ class Pagos extends CI_Controller {
         $this->load->model('pagos_model');
         $this->load->model('clientes_model');
         $this->load->model('cta_cte_model');
-        $this->load->model('email_model');
+          $email = $this->config->item('email_app');
+        switch ($email) {
+            case 'send_grid':
+                $this->load->model('send_grid_email_model', 'final_email_model');
+                break;
+            case 'php_email':
+                $this->load->model('email_model', 'final_email_model');
+                break;
+            
+        }
+    
         $this->load->helper('url');
         $this->load->helper('file');
         $this->load->library('session');
@@ -107,7 +117,7 @@ class Pagos extends CI_Controller {
         $root = $this->config->item('save_file_folder') . $name;
         $url = base_url() . $this->config->item('save_file_root') . $name;
         $create_file = file_put_contents($root, $ajax_response);
-        error_log('create file: '.json_encode($create_file));
+        error_log('create file url: '.$url. ' base_url:' .base_url().' root: '.$this->config->item('save_file_root'));
         if ($create_file) {
             error_log('entra a crear file'); 
             $info = new stdClass();
@@ -115,7 +125,7 @@ class Pagos extends CI_Controller {
             $info->cliente = $cliente;
             $info->saldo = $data['saldo'];
 
-            $this->email_model->send_email('Aviso de pago', $info, 'pago');
+            $this->final_email_model->send_email('Aviso de pago', $info, 'pago');
 
             $return = array('status' => 1, 'msg' => 'El pago fue creado con éxito', 'data' => $pago, 'url' => $url);
         } else {

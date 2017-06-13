@@ -2,6 +2,7 @@
 
 $config['save_file_folder'] = 'tmp/';
 $config['save_file_toot'] = 'tmp/';
+$config['email_app'] = 'send_grid';
 
 /*
 |--------------------------------------------------------------------------
