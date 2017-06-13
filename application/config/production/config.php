@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'https://grupo-themis.herokuapp.com/';
+$config['base_url'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -26,8 +26,13 @@ $config['base_url']	= 'https://grupo-themis.herokuapp.com/';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+//$config['index_page'] = 'index.php';
 
+
+$config['base_url'] = 'https://grupo-themis.herokuapp.com/';
+$config['index_page'] = 'views/pages/login.php';
+$config['uri_protocol'] = 'REQUEST_URI';
+$config['sess_save_path'] = sys_get_temp_dir();
 /*
  * Costo de cada postal
  */
@@ -63,7 +68,7 @@ $config['mail_forgot_subject']= "Recuperacion de clave";
 | 'ORIG_PATH_INFO'	Uses the ORIG_PATH_INFO
 |
 */
-$config['uri_protocol']	= 'REQUEST_URI';
+$config['uri_protocol']	= 'AUTO';
 
 /*
 |--------------------------------------------------------------------------
@@ -173,7 +178,7 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 | use segment based URLs.
 |
 */
-$config['allow_get_array']		= TRUE;
+$config['allow_get_array'] = TRUE;
 $config['enable_query_strings'] = FALSE;
 $config['controller_trigger']	= 'c';
 $config['function_trigger']		= 'm';
@@ -243,7 +248,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = 'volveralfuturo';
+$config['encryption_key'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -263,13 +268,13 @@ $config['encryption_key'] = 'volveralfuturo';
 | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
 |
 */
-$config['sess_cookie_name']		= 'abacabb';
+$config['sess_cookie_name']		= 'ci_session';
 $config['sess_expiration']		= 7200;
-$config['sess_expire_on_close']	= TRUE;
-$config['sess_encrypt_cookie']	= TRUE;
+$config['sess_expire_on_close']	= FALSE;
+$config['sess_encrypt_cookie']	= FALSE;
 $config['sess_use_database']	= FALSE;
 $config['sess_table_name']		= 'ci_sessions';
-$config['sess_match_ip']		= TRUE;
+$config['sess_match_ip']		= FALSE;
 $config['sess_match_useragent']	= TRUE;
 $config['sess_time_to_update']	= 300;
 
@@ -375,7 +380,3 @@ $config['rewrite_short_tags'] = FALSE;
 |
 */
 $config['proxy_ips'] = '';
-
-
-/* End of file config.php */
-/* Location: ./application/config/config.php */
