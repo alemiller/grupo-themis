@@ -17,7 +17,7 @@ class Main extends CI_Controller {
         // check user login
         if (!$this->session->userdata('user') || !$this->session->userdata('password')) {
             error_log('base url: '.base_url());
-            redirect('index.php/adminLogin');
+            redirect(base_url().'index.php/adminLogin');
             return;
         }
         
