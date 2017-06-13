@@ -65,13 +65,18 @@ $active_record = TRUE;
 //$db['default']['autoinit'] = TRUE;
 //$db['default']['stricton'] = FALSE;
 
+$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+$server = $url["host"];
+$username = $url["user"];
+$password = $url["pass"];
+$db = substr($url["path"], 1);
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => '',
-	'password' => '',
-	'database' => '',
+	'hostname' => $server,
+	'username' => $username,
+	'password' => $password,
+	'database' => $db,
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
