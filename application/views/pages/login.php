@@ -116,22 +116,22 @@
                                     <section>
                                         <label class="label">Usuario</label>
                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="user" id="user">
+                                            <input type="text" name="user" id="user" class="metadata">
                                             <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Por favor ingrese su username</b></label>
                                     </section>
 
                                     <section>
                                         <label class="label">Password</label>
                                         <label class="input"> <i class="icon-append fa fa-lock"></i>
-                                            <input type="password" name="password" id="password">
+                                            <input type="password" name="password" id="password" class="metadata">
                                             <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Ingrese su password</b> </label>
                                         <div class="note">
                                         </div>
                                     </section>
 
                                     <section>
-                                        <div class="alert alert-danger fade in" style="display: none;">
-                                            <button class="close" data-dismiss="alert">×</button>
+                                        <div id="error-msg" class="alert alert-danger fade in" style="display: none;">
+                                            <button class="close">×</button>
                                             <strong>Error: </strong> El usuario o el password son incorrectos
                                         </div>
 
@@ -161,62 +161,52 @@
 
             $(function () {
 
-                $("#login-form").validate({
-                    rules: {
-                        email: {
-                            required: true,
-                            email: true
-                        },
-                        password: {
-                            required: true,
-                            minlength: 3,
-                            maxlength: 20
-                        }
-                    },
-                    messages: {
-                        email: {
-                            required: 'Please enter your email address',
-                            email: 'Please enter a valid email address'
-                        },
-                        password: {
-                            required: 'Please enter your password'
-                        }
-                    },
-                    errorPlacement: function (error, element) {
-                        error.insertAfter(element.parent());
-                    }
-                });
-
                 $('#login-form input').focus(function () {
 
-                    if ($('#password').hasClass('error')) {
+                    if ($('#password').hasClass('login-error')) {
                         $(this).val('');
                     }
-                    $(this).removeClass('error');
-                    $('.alert').fadeOut(200);
-                })
+                    $(this).removeClass('login-error');
+                    $('#error-msg').hide();
+                });
 
                 $("#btnLogin").click(function (event) {
+
+                    admin_login();
+
                     event.preventDefault();
+                });
+
+
+
+                $(document).on('submit', '#login-form', function (event) {
+                    admin_login();
+                    event.preventDefault();
+                });
+
+
+                function admin_login() {
+
                     $.ajax({
                         url: '<?php echo base_url(); ?>index.php/adminLogin/login',
                         type: 'POST',
                         dataType: 'json',
-                        data: $('#login-form').serialize(),
+                        data: "user=" + $('#user').val() + "&password=" + $('#password').val(),
                         success: function (data) {
+                            console.log(data);
 
                             if (data) {
-
                                 window.location.href = 'main#clientes';
                             } else {
+                                console.log('distinto a uno')
+                                $('input.metadata').addClass('login-error');
+                                $('#error-msg').show();
 
-                                $('.alert').toggle('fast');
-                                $('#user').addClass('error');
-                                $('#password').addClass('error');
+
                             }
                         }
                     });
-                });
+                }
             });
         </script>
 

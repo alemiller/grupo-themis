@@ -23,7 +23,7 @@ class AdminLogin extends CI_Controller {
 
         $result = $this->admin_user->login($_POST['user'], $_POST['password']);
 
-        if ($result == 'true') {
+        if ($result === 'true') {
             delete_files('./uploads/');
             $this->session->set_userdata('user', $_POST['user']);
             $this->session->set_userdata('password', $_POST['password']);

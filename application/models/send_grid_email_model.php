@@ -4,9 +4,6 @@ require 'vendor/autoload.php';
 
 class Send_grid_email_model extends CI_Model {
 
-    function __construct() {
-        
-    }
 
     public function send_email($title, $data, $view) {
 
@@ -24,7 +21,7 @@ class Send_grid_email_model extends CI_Model {
 
         $message = $this->load->view('templates/emails/' . $view, $data, TRUE);
         $from = new SendGrid\Email(null, 'info@grupo-themis.com.ar');
-        ;
+
         $to = new SendGrid\Email(null, $data->cliente->email);
         $content = new SendGrid\Content("text/html", $message);
         $mail = new SendGrid\Mail($from, $title, $to, $content);
@@ -33,7 +30,12 @@ class Send_grid_email_model extends CI_Model {
         $sg = new \SendGrid($apiKey);
 
         $response = $sg->client->mail()->send()->post($mail);
-        echo $response->statusCode();
+        $return = new stdClass();
+        $return->status = $response->statusCode();
+        $return->header = $response->headers();
+        $return->body = $response->body();
+        error_log('mail: '.json_encode($return));
+        return $return;
     }
 
 }
