@@ -26,6 +26,7 @@ class Heroku_email_model extends CI_Model {
         $mail->Subject = $title;
         $message = $this->load->view('templates/emails/' . $view, $data, TRUE);
         $mail->Body = $message;
+        $mail->IsHTML(true); 
 
         $result = new stdClass();
         
