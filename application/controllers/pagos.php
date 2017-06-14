@@ -125,8 +125,8 @@ class Pagos extends CI_Controller {
             $info->cliente = $cliente;
             $info->saldo = $data['saldo'];
 
-            $this->final_email_model->send_email('Aviso de pago', $info, 'pago');
-
+            $email = $this->final_email_model->send_email('Aviso de pago', $info, 'pago');
+            error_log('send email: '.json_encode($email));
             $return = array('status' => 1, 'msg' => 'El pago fue creado con éxito', 'data' => $pago, 'url' => $url);
         } else {
             $return = array('status' => 0, 'msg' => 'Hubo un problema en la creación del pago');
