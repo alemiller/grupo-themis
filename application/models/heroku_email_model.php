@@ -1,28 +1,43 @@
 <?php
 
 require 'vendor/autoload.php';
-
-use Mailgun\Mailgun;
+require 'PHPMailerAutoload.php';
 
 class Heroku_email_model extends CI_Model {
 
     public function send_email($title, $data, $view) {
 
 
-# Instantiate the client.
-        $mgClient = new Mailgun('key-729e24b4c8cc8bb3eba2af46bccb57e6');
-        $domain = "app69beac19ee3b410d8526c056fda745bd.mailgun.org";
+        $mail = new PHPMailer;
+
+        $mail->isSMTP();                                      // Set mailer to use SMTP
+        $mail->Host = 'smtp.mailgun.org';                     // Specify main and backup SMTP servers
+        $mail->SMTPAuth = true;                               // Enable SMTP authentication
+        $mail->Username = 'postmaster@app69beac19ee3b410d8526c056fda745bd.mailgun.org';   // SMTP username
+        $mail->Password = '765622ae1716c1b96de026165f1116ac';                           // SMTP password
+        $mail->SMTPSecure = 'tls';                            // Enable encryption, only 'tls' is accepted
+
+        $mail->From = 'info@grupo-themis.com.ar';
+        $mail->FromName = 'Grupo-Themis';
+        $mail->addAddress($data->cliente->email);                 // Add a recipient
+
+        $mail->WordWrap = 50;                                 // Set word wrap to 50 characters
+
+        $mail->Subject = $title;
         $message = $this->load->view('templates/emails/' . $view, $data, TRUE);
-# Make the call to the client.
-        $result = $mgClient->sendMessage($domain, array(
-            'from' => 'Grupo-Themis <info@grupo-themis.com.ar>',
-            'to' => '<' . $data->cliente->email . '>',
-            'subject' => $title,
-            'html' => $message
-        ));
+        $mail->Body = $message;
+
+        $result = new stdClass();
         
-        error_log('send email: '.json_encode($result));
-        
+        if (!$mail->send()) {
+            $result->status = 0;
+             $result->error = $mail->ErrorInfo;
+        } else {
+           $result->status = 1;
+           $result->error = null;
+        }
+        error_log('send email result: '.json_encode($result));
         return $result;
     }
+
 }
