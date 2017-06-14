@@ -22,22 +22,22 @@ class Heroku_email_model extends CI_Model {
         $mail->addAddress($data->cliente->email);                 // Add a recipient
 
         $mail->WordWrap = 50;                                 // Set word wrap to 50 characters
-
+        $mail->CharSet = 'UTF-8';
         $mail->Subject = $title;
         $message = $this->load->view('templates/emails/' . $view, $data, TRUE);
         $mail->Body = $message;
-        $mail->IsHTML(true); 
+        $mail->IsHTML(true);
 
         $result = new stdClass();
-        
+
         if (!$mail->send()) {
             $result->status = 0;
-             $result->error = $mail->ErrorInfo;
+            $result->error = $mail->ErrorInfo;
         } else {
-           $result->status = 1;
-           $result->error = null;
+            $result->status = 1;
+            $result->error = null;
         }
-        error_log('send email result: '.json_encode($result));
+        error_log('send email result: ' . json_encode($result));
         return $result;
     }
 
