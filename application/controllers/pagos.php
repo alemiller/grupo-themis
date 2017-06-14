@@ -12,8 +12,8 @@ class Pagos extends CI_Controller {
         $this->load->model('cta_cte_model');
           $email = $this->config->item('email_app');
         switch ($email) {
-            case 'send_grid':
-                $this->load->model('send_grid_email_model', 'final_email_model');
+            case 'heroku_email':
+                $this->load->model('heroku_email_model', 'final_email_model');
                 break;
             case 'php_email':
                 $this->load->model('email_model', 'final_email_model');

@@ -2,7 +2,7 @@
 
 $config['save_file_folder'] = 'tmp/';
 $config['save_file_root'] = 'tmp/';
-$config['email_app'] = 'send_grid';
+$config['email_app'] = 'heroku_email';
 
 /*
 |--------------------------------------------------------------------------
