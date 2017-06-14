@@ -1,7 +1,7 @@
 <?php
 
 require 'vendor/autoload.php';
-require 'PHPMailerAutoload.php';
+require 'vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
 
 class Heroku_email_model extends CI_Model {
 
