@@ -10,7 +10,7 @@ class Pagos extends CI_Controller {
         $this->load->model('pagos_model');
         $this->load->model('clientes_model');
         $this->load->model('cta_cte_model');
-          $email = $this->config->item('email_app');
+        $email = $this->config->item('email_app');
         switch ($email) {
             case 'heroku_email':
                 $this->load->model('heroku_email_model', 'final_email_model');
@@ -18,9 +18,8 @@ class Pagos extends CI_Controller {
             case 'php_email':
                 $this->load->model('email_model', 'final_email_model');
                 break;
-            
         }
-    
+
         $this->load->helper('url');
         $this->load->helper('file');
         $this->load->library('session');
@@ -117,16 +116,16 @@ class Pagos extends CI_Controller {
         $root = $this->config->item('save_file_folder') . $name;
         $url = base_url() . $this->config->item('save_file_root') . $name;
         $create_file = file_put_contents($root, $ajax_response);
-        error_log('create file url: '.$url. ' base_url:' .base_url().' root: '.$this->config->item('save_file_root'));
+        
         if ($create_file) {
-            error_log('entra a crear file'); 
+         
             $info = new stdClass();
             $info->pago = $pago;
             $info->cliente = $cliente;
             $info->saldo = $data['saldo'];
 
             $email = $this->final_email_model->send_email('Aviso de pago', $info, 'pago');
-            error_log('send email: '.json_encode($email));
+            
             $return = array('status' => 1, 'msg' => 'El pago fue creado con éxito', 'data' => $pago, 'url' => $url);
         } else {
             $return = array('status' => 0, 'msg' => 'Hubo un problema en la creación del pago');

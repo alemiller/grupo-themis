@@ -77,7 +77,7 @@ switch (ENVIRONMENT) {
 
     case 'testing':
     case 'production':
-        ini_set('display_errors', 1);
+        ini_set('display_errors', 0);
          error_reporting(E_ALL);
         break;
 
@@ -272,5 +272,5 @@ define('VIEWPATH', $view_folder . DIRECTORY_SEPARATOR);
  *
  * And away we go...
  */
-error_log('llega al final del index');
+
 require_once BASEPATH . 'core/CodeIgniter.php';

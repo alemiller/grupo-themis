@@ -87,17 +87,17 @@
 
     </head>
 
-    <body id="login" class="animated fadeInDown">
+    <body id="login" class="animated fadeInDown" style="height: 100%">
         <header id="mainHeader">
         </header>
         <script type="text/javascript">
             msg = '<?php (isset($msg) ? $msg : ''); ?>';
         </script>
 
-        <header id="main-header"style="height: 60px;"></header>
+       
 
-        <div id="main" role="main">
-            <div id="content" class="container">
+        <div id="main" role="main" style="min-height: 100%;height: auto!important;margin: 0 auto -45px;">
+            <div id="content" class="container" style="padding-top: 100px;">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6 hidden-xs hidden-sm">
                         <div class="hero">

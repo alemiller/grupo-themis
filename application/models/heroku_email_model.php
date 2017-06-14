@@ -37,7 +37,7 @@ class Heroku_email_model extends CI_Model {
             $result->status = 1;
             $result->error = null;
         }
-        error_log('send email result: ' . json_encode($result));
+   
         return $result;
     }
 

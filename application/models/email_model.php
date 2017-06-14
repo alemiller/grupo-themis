@@ -8,7 +8,7 @@ class Email_model extends CI_Model {
     }
 
     public function send_email($title, $data, $view) {
-        error_log('llego a send email');
+
         $config['charset'] = 'utf-8';
         $config['wordwrap'] = TRUE;
         $config['mailtype'] = 'html';
@@ -20,8 +20,8 @@ class Email_model extends CI_Model {
         $message = $this->load->view('templates/emails/' . $view, $data, TRUE);
         $this->email->message($message);
 
-        $send =$this->email->send();
-        error_log('result send email: '.json_encode($send));
+        $send = $this->email->send();
+        return $send;
     }
 
 }

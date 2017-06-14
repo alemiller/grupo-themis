@@ -125,8 +125,8 @@ class Ordenes extends CI_Controller {
         $ajax_response = $this->load->view('templates/constancias/orden_trabajo', $data, TRUE);
 
         $name = 'orden_' . time() . '.html';
-        $root = './uploads/' . $name;
-        $url = base_url() . 'uploads/' . $name;
+        $root = $this->config->item('save_file_folder') . $name;
+        $url = base_url() . $this->config->item('save_file_root') . $name;
         $create_file = file_put_contents($root, $ajax_response);
 
         if ($create_file) {
