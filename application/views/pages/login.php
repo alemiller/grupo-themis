@@ -161,6 +161,8 @@
 
             $(function () {
 
+                $('#user').focus();
+
                 $('#login-form input').focus(function () {
 
                     if ($('#password').hasClass('login-error')) {
