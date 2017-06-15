@@ -23,7 +23,13 @@ class Tramites_model extends CI_Model {
         $this->db->where('id', $id);
         $query = $this->db->get();
 
-        return $query->result()[0];
+        if(isset($query->result()[0])){
+            $result = $query->result()[0];
+        }else{
+            $result = new stdClass();
+        }
+        
+        return $result;
     }
 
     public function get_by_cliente_id($id) {

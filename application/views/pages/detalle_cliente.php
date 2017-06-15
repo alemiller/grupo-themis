@@ -49,7 +49,7 @@
                     </div>
                     <div id="tabs-cta">
                         <div id="tabla-cta-cte">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -65,9 +65,9 @@
     loadScript("<?php echo base_url(); ?>assets/js/clientes.js", dt_1);
 
     function dt_1() {
-        loadScript("<?php echo base_url(); ?>assets/js/tramites.js",dt_2);
+        loadScript("<?php echo base_url(); ?>assets/js/tramites.js", dt_2);
     }
-    
+
     function dt_2() {
         loadScript("<?php echo base_url(); ?>assets/js/pagos.js");
     }
@@ -107,6 +107,7 @@
                     "bSortable": false
                 }]
         });
+
 
 
         pagos_table = $('#dt_pagos').dataTable({
@@ -186,6 +187,36 @@
         });
 
         /* END TABLE TOOLS */
+
+<?php
+//Si hay un tramite seleccionado busca el tramite en la tabla y pagina hasta encontrarlo
+if (isset($tramite_selected)) {
+    ?>
+
+            var id_tramite_seleced = <?php echo $tramite_selected->id; ?>;
+            var row = tramites_table.fnGetNodes();
+            var i = 0;
+
+            $('.metadata').removeAttr('disabled');
+            $('.footerButtons').find('button').removeAttr('disabled');
+
+            row.forEach(function (item) {
+
+                if ($(item).children('td:eq( 1 )').text() === id_tramite_seleced.toString()) {
+                    var page_nbr = Math.ceil(((i+1) / 10));
+                  
+                    if (page_nbr > 0) {
+                        tramites_table.fnPageChange((page_nbr - 1), true);
+                    }
+                    return true;
+                }
+                i++;
+            });
+    <?php
+}
+?>
+
+
     });
 
 
@@ -195,4 +226,7 @@
 
 
 
+
+
 </script>
+

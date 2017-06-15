@@ -36,6 +36,7 @@ namespace["clases_tramite"] = {
             success: function (data) {
 
                 var row_index = clases_tramite_table.dataTable().fnAddData(["", data.data.id, data.data.nombre, data.data.duracion]);
+                clases_tramite_table.fnSort( [ [1,'desc'] ] );
                 var row = clases_tramite_table.fnGetNodes(row_index);
 
                 $(row).addClass('row-item');

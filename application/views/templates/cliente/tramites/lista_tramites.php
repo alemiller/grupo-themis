@@ -1,4 +1,10 @@
-
+<?php
+if (isset($tramite_selected)) {
+    $tramite_selected_id = $tramite_selected->id;
+} else {
+    $tramite_selected_id = null;
+}
+?>
 <section id="widget-grid" class="col-md-8">
 
     <!-- NEW WIDGET START -->
@@ -39,16 +45,23 @@
                             if (isset($cliente)) {
 
                                 for ($i = 0; $i < sizeof($tramites); $i++) {
-                                    
+                                   
+                                    if ($tramite_selected_id && $tramite_selected_id === $tramites[$i]->id) {
+                                        $item_selected = 'item-selected';
+                                       
+                                    } else {
+                                        $item_selected = '';
+                                    }
+
                                     $fecha_creacion = date('d-m-Y H:i', strtotime($tramites[$i]->fecha_creacion));
-                                          
+
                                     $checkbox = "<td class='chbx-item-cell'><input type='checkbox' class='chbx-item' id='" . $tramites[$i]->id . "'></td>";
                                     $tramite_id = "<td class='clickeable-item'>" . $tramites[$i]->id . "</td>";
                                     $caratula = "<td class='row-nombre clickeable-item'>" . $tramites[$i]->caratula . "</td>";
                                     $creacion = "<td class='clickeable-item'>" . $fecha_creacion . " hs.</td>";
-                                    $estado = "<td class='row-estado clickeable-item'>" . ucwords(str_replace('en_tramite','en trámite',$tramites[$i]->estado)) . "</td>";
+                                    $estado = "<td class='row-estado clickeable-item'>" . ucwords(str_replace('en_tramite', 'en trámite', $tramites[$i]->estado)) . "</td>";
 
-                                    echo "<tr class='row-item' id='" . $tramites[$i]->id . "'>" .
+                                    echo "<tr class='row-item " . $item_selected . "' id='" . $tramites[$i]->id . "'>" .
                                     $checkbox .
                                     $tramite_id .
                                     $creacion .

@@ -36,6 +36,7 @@ namespace["pagos"] = {
                 success: function (data) {
 
                     var row_index = pagos_table.dataTable().fnAddData(["", data.data.id, format_datetime(data.data.fecha_creacion), data.data.title, capitalise(data.data.valor.toString().replace('-', ''))]);
+                    pagos_table.fnSort( [ [1,'desc'] ] );
                     var row = pagos_table.fnGetNodes(row_index);
 
                     $(row).addClass('item-selected row-item');

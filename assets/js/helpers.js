@@ -43,6 +43,18 @@ function set_small_box_message(title, message, color, animation, timeout) {
     });
 }
 
+function set_small_message(title, message, color, animation, timeout) {
+
+    $.smallBox({
+        title: title,
+        content: "<i class='fa fa-info-circle fa-lg'></i> <i>&nbsp;" + message + "</i>",
+        color: color,
+        iconSmall: animation,
+        timeout: timeout
+
+    });
+}
+
 function set_small_box_error_message(title, message, color, animation) {
 
     $.smallBox({

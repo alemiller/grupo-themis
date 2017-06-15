@@ -43,6 +43,8 @@ $(document).on('click', '#crear-item-btn', function () {
         $('.footerButtons').find('button').attr('disabled', 'disabled');
         $('.save_waiting').show();
         namespace[page].create();
+    }else{
+        set_small_box_error_message("Error!", "Complete los campos obligatorios", "#C46A69", "fa fa-times fa-2x fadeInRight animated");
     }
 });
 

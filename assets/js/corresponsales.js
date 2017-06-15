@@ -45,6 +45,7 @@ namespace["corresponsales"] = {
             success: function (data) {
 
                 var row_index = corresponsales_table.dataTable().fnAddData(["", data.data.id, data.data.nombre]);
+                corresponsales_table.fnSort( [ [1,'desc'] ] );
                 var row = corresponsales_table.fnGetNodes(row_index);
 
                 $(row).addClass('row-item');

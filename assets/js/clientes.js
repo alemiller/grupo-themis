@@ -9,6 +9,33 @@ $(document).on('click', '#nuevo-cliente-btn', function () {
     window.location.href = "main#clientes/new_client";
 });
 
+$(document).on('submit', '#search-by-tramite-form', function (event) {
+    event.preventDefault();
+    var tram_id = $('#search-tramite-id').val();
+    $.ajax({
+        url: base_url + "index.php/tramites/get_by_id",
+        type: 'POST',
+        dataType: 'json',
+        data: "id=" + tram_id,
+        success: function (data) {
+            if (data) {
+
+                if (typeof (data.id_cliente) !== 'undefined') {
+                    window.location.href = "main#clientes/get_by_id?id=" + data.id_cliente + "&tramite_id=" + tram_id;
+                } else {
+                    set_small_message("Información", "No existe el trámite buscado", "#dfb56c", "fa fa-warning fa-2x fadeInRight animated", 4000);
+                }
+
+
+            } else {
+                set_small_box_error_message("Error!", "Se produjo un error interno", "#C46A69", "fa fa-times fa-2x fadeInRight animated");
+            }
+        }
+    });
+
+});
+
+
 
 
 $(document).on('click', '#crear-cliente-btn', function () {

@@ -40,7 +40,7 @@
                             if (isset($cliente)) {
 
                                 for ($i = 0; $i < sizeof($pagos); $i++) {
-                                    error_log('pago: '.json_encode($pagos[$i]));
+                                 
                                     $fecha_creacion = date('d-m-Y H:i', strtotime($pagos[$i]->fecha_creacion));
                                           
                                     $checkbox = "<td class='chbx-item-cell'><input type='checkbox' class='chbx-item' id='" . $pagos[$i]->id . "'></td>";

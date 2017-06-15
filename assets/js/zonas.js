@@ -19,7 +19,7 @@ namespace["zonas"] = {
     },
 
     create: function () {
-        
+
         var zona_data = {};
         zona_data.nombre = $('#zona-nombre').val();
 
@@ -33,6 +33,7 @@ namespace["zonas"] = {
             success: function (data) {
 
                 var row_index = zonas_table.dataTable().fnAddData(["", data.data.id, data.data.nombre]);
+                zonas_table.fnSort([[1, 'desc']]);
                 var row = zonas_table.fnGetNodes(row_index);
 
                 $(row).addClass('row-item');
@@ -40,7 +41,7 @@ namespace["zonas"] = {
                 $(row).children('td:eq( 0 )').addClass('chbx-item-cell');
                 $(row).children('td:eq( 0 )').html("<input type='checkbox' class='chbx-item' id='" + data.data.id + "'>");
                 $(row).children('td:eq( 2 )').addClass('row-nombre');
-                
+
 
                 $('#info_item_title').text(data.data.nombre);
                 $('#zona-id').val(data.data.id);
@@ -112,7 +113,7 @@ namespace["zonas"] = {
                         }
 
                         reset_metadata();
-                        $('.footerButtons').find('button').attr('disabled','disabled');
+                        $('.footerButtons').find('button').attr('disabled', 'disabled');
 
                         set_small_box_message("Eliminar zona(s)", data.msg, "#659265", "fa fa-check fa-2x fadeInRight animated", 4000);
                     } else {

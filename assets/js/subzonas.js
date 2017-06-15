@@ -35,6 +35,7 @@ namespace["subzonas"] = {
             success: function (data) {
 
                 var row_index = subzonas_table.dataTable().fnAddData(["", data.data.id, data.data.nombre]);
+                subzonas_table.fnSort( [ [1,'desc'] ] );
                 var row = subzonas_table.fnGetNodes(row_index);
 
                 $(row).addClass('row-item');

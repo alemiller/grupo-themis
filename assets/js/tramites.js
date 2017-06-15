@@ -33,6 +33,7 @@ namespace["tramites"] = {
                 success: function (data) {
 
                     var row_index = tramites_table.dataTable().fnAddData(["", data.data.id, format_datetime(data.data.fecha_creacion), data.data.caratula, capitalise(data.data.estado.replace('tramite', 'trámite'))]);
+                    tramites_table.fnSort([[1, 'desc']]);
                     var row = tramites_table.fnGetNodes(row_index);
 
                     $(row).addClass('item-selected row-item');
