@@ -58,10 +58,12 @@ $(document).on('click', '#crear-cliente-btn', function () {
         success: function (data) {
             if (data.status) {
 
-                set_small_box_message("Creación", data.msg, "#659265", "fa fa-check fa-2x fadeInRight animated", 4000);
+                id_cliente = data.data.id;
                 $('#cliente-id').val(data.data.id);
+                $('#cliente-title-name').html(data.data.nombre);
                 $("#crear-cliente-btn").hide();
                 $("#guardar-cliente-btn").show();
+                set_small_box_message("Creación", data.msg, "#659265", "fa fa-check fa-2x fadeInRight animated", 4000);
 
 
             } else {

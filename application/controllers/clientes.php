@@ -26,7 +26,6 @@ class Clientes extends CI_Controller {
         $this->load->view('pages/clientes', $data);
     }
 
-
     public function get_by_id() {
 
         $id = $_GET['id'];
@@ -38,9 +37,9 @@ class Clientes extends CI_Controller {
         $data['subzonas'] = $this->subzonas_model->list_subzonas();
         $data['corresponsales'] = $this->corresponsales_model->list_corresponsales();
         $data['clases_tramite'] = $this->clases_tramite_model->list_clases();
-        
-        if(isset($_GET['tramite_id'])){
-           $data['tramite_selected'] = $this->tramites_model->get_by_id($_GET['tramite_id']);
+
+        if (isset($_GET['tramite_id'])) {
+            $data['tramite_selected'] = $this->tramites_model->get_by_id($_GET['tramite_id']);
         }
 
         $ajax_response = $this->load->view('pages/detalle_cliente', $data, TRUE);
@@ -50,6 +49,10 @@ class Clientes extends CI_Controller {
     public function new_client() {
 
         $data = array();
+
+        $data['subzonas'] = $this->subzonas_model->list_subzonas();
+        $data['corresponsales'] = $this->corresponsales_model->list_corresponsales();
+        $data['clases_tramite'] = $this->clases_tramite_model->list_clases();
 
         $ajax_response = $this->load->view('pages/detalle_cliente', $data, TRUE);
         $this->output->set_output($ajax_response);
