@@ -37,7 +37,7 @@
 
                         <div class="pagos-metadata">
                             <div class="form-group col-md-12">
-                                <label class="control-label">ID</label>
+                                <label class="control-label">Nro Pago</label>
                                 <div class="col-md-12">
                                     <input id="pago-id" class="form-control readonly pagos-metadata" type="text" readonly="readonly">
                                 </div>

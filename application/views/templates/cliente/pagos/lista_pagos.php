@@ -28,7 +28,7 @@
                         <thead>
                             <tr>
                                 <th class="col-md-1"><input type="checkbox" id="select-all-items"></th>
-                                <th>ID</th>
+                                <th>Nro Pago</th>
                                 <th>Fecha</th>
                                 <th>Detalle</th>
                                 <th>Valor</th>
@@ -44,10 +44,10 @@
                                     $fecha_creacion = date('d-m-Y H:i', strtotime($pagos[$i]->fecha_creacion));
                                           
                                     $checkbox = "<td class='chbx-item-cell'><input type='checkbox' class='chbx-item' id='" . $pagos[$i]->id . "'></td>";
-                                    $tramite_id = "<td class='clickeable-item'>" . $pagos[$i]->id . "</td>";
-                                    $creacion = "<td class='clickeable-item'>" . $fecha_creacion . " hs.</td>";
-                                    $detalle = "<td class='clickeable-item'>" . $pagos[$i]->title . "</td>";
-                                    $valor = "<td class='row-valor clickeable-item'>$ " . str_replace("-","",strval($pagos[$i]->valor)) . "</td>";
+                                    $tramite_id = "<td class='pagos-clickeable-item'>" . $pagos[$i]->id . "</td>";
+                                    $creacion = "<td class='pagos-clickeable-item'>" . $fecha_creacion . " hs.</td>";
+                                    $detalle = "<td class='pagos-clickeable-item'>" . $pagos[$i]->title . "</td>";
+                                    $valor = "<td class='row-valor pagos-clickeable-item'>$ " . str_replace("-","",strval($pagos[$i]->valor)) . "</td>";
                                     
 
                                     echo "<tr class='row-item' id='" . $pagos[$i]->id . "'>" .

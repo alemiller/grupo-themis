@@ -32,10 +32,13 @@
                             <a data-toggle="tab" href="#tabs-tramites" data-page="tramites">Trámites</a>
                         </li>
                         <li>
+                            <a id="ordenes-tab-btn" data-toggle="tab" href="#tabs-ordenes" data-page="ordenes">Ordenes Trabajo</a>
+                        </li>
+                        <li>
                             <a id="pagos-tab" data-toggle="tab" href="#tabs-pagos" data-page="pagos">Pagos</a>
                         </li>
                         <li>
-                            <a id="cta-cte-tab" data-toggle="tab" href="#tabs-cta" data-page="cta_cte">Cuenta Corriente</a>
+                            <a id="cta-cte-tab-btn" data-toggle="tab" href="#tabs-cta" data-page="cta_cte">Cuenta Corriente</a>
                         </li>
                     </ul>
                     <div id="tabs-datos">
@@ -43,6 +46,9 @@
                     </div>
                     <div id="tabs-tramites">
                         <?php $this->load->view('templates/cliente/tramites/tab_tramites') ?>
+                    </div>
+                    <div id="tabs-ordenes">
+                        <?php $this->load->view('templates/cliente/ordenes/tab_ordenes') ?>
                     </div>
                     <div id="tabs-pagos">
                         <?php $this->load->view('templates/cliente/pagos/tab_pagos') ?>
@@ -69,7 +75,11 @@
     }
 
     function dt_2() {
-        loadScript("<?php echo base_url(); ?>assets/js/pagos.js");
+        loadScript("<?php echo base_url(); ?>assets/js/pagos.js",dt_3);
+    }
+    
+    function dt_3() {
+        loadScript("<?php echo base_url(); ?>assets/js/ordenes.js");
     }
 
     // DO NOT REMOVE : GLOBAL FUNCTIONS!
@@ -203,8 +213,8 @@ if (isset($tramite_selected)) {
             row.forEach(function (item) {
 
                 if ($(item).children('td:eq( 1 )').text() === id_tramite_seleced.toString()) {
-                    var page_nbr = Math.ceil(((i+1) / 10));
-                  
+                    var page_nbr = Math.ceil(((i + 1) / 10));
+
                     if (page_nbr > 0) {
                         tramites_table.fnPageChange((page_nbr - 1), true);
                     }

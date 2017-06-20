@@ -7,23 +7,38 @@ class Ordenes_model extends CI_Model {
         $this->load->database();
     }
 
-    public function list_ordenes() {
+    public function list_ordenes($cliente_id) {
 
         $this->db->select('*');
-        $this->db->order_by("nombre", "asc");
-        $query = $this->db->get('ordenes_trabajo');
+        $this->db->from('ordenes_trabajo');
+        $this->db->where('id_cliente', $cliente_id);
+        $this->db->order_by("fecha_creacion", "desc");
+        $query = $this->db->get();
 
         return $query->result();
     }
 
     public function get_by_id($id) {
 
+        $result =  new stdClass();
+        
         $this->db->select('*');
         $this->db->from('ordenes_trabajo');
         $this->db->where('id', $id);
-        $query = $this->db->get();
 
-        return $query->result()[0];
+        $orden = $this->db->get();
+        $result->orden = $orden->result()[0];
+        
+        $this->db->select('tramites.id,tramites.fecha_creacion,tramites.caratula,tramites.honorarios,tramites.sellado,'
+                . 'tramites.honorario_corresponsal,tramites.estado,clases_tramite.nombre');
+        $this->db->from('tramites');
+        $this->db->join('clases_tramite', 'tramites.id_clase = clases_tramite.id');
+        $this->db->where('id_orden_trabajo', $id);
+
+        $tramites = $this->db->get();
+        $result->tramites = $tramites->result();
+
+        return $result;
     }
 
     public function create($data) {

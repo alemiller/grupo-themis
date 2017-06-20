@@ -20,9 +20,9 @@
             }
 
             title{
-               color: #fff;
+                color: #fff;
             }
-            
+
             p{
                 margin: 0px;
                 font-weight: bold;
@@ -32,7 +32,7 @@
                 width: 100%;
                 border: 1px solid #ccc;
                 padding: 0px;
-                margin-top: 100px;
+                margin-top: 50px;
 
             }
 
@@ -89,10 +89,6 @@
                 line-height: 28px;
             }
 
-            tr.cliente-detalle td{
-                border-bottom: 1px solid #ccc;  
-            }
-
             #detalle{
                 width: 95%;
                 margin: 5px 0px 20px;
@@ -102,6 +98,10 @@
                 float: left;
                 color: #000;
                 line-height: 28px;
+            }
+
+            td.cliente-detalle{
+                border-bottom: 1px solid #ccc;  
             }
 
             td.detalle-cell{
@@ -158,7 +158,7 @@
                 text-align: center;
                 font-size: 10px;
                 font-weight: initial;
-                
+
             }
 
 
@@ -177,16 +177,32 @@
                 </td>
                 <td class="colum-der">
                     <h1>CONSTANCIA DE RETIRO</h1>
-                    <p>Fecha: 11/06/2017</p>
+                    <p>Fecha: <?php echo date('d-m-Y', time()); ?></p>
                 </td>
             </tr>
-            <tr class="cliente-detalle">
-                <td colspan="2">
+            <tr >
+                <td colspan="2" class="cliente-detalle">
                     <div id="encabezado">
                         <p>DETALLE CLIENTE:</p>
-                        <b>Cliente:</b> Alejandro Miller (1235686)<br>
-                        <b>Email</b> ale.miller10@gmail.com<br>
-                        <b>Saldo al día de la fecha:</b> $750<br>
+                        <table>
+                            <tr>
+                                <td>
+                                    <b>Nro. de cliente:</b> <?php echo $cliente->id; ?>
+                                </td>
+                                <td style="padding-left:10px;">
+
+                                    <b>Email:</b> <?php echo $cliente->email; ?> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Nombre:</b> <?php echo $cliente->nombre; ?>
+                                </td>
+                                <td style="padding-left:10px;">
+                                    <b>Saldo al día de la fecha:</b> $<?php echo $saldo; ?>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </td>
             </tr>
@@ -196,20 +212,29 @@
                         <p>DETALLE DE LOS TRAMITES RETIRADOS:</p>
                         <table id="tramites-table">
                             <tr class="detalle-header">
-                                <th class="border-right">Nro.</th>
+                                <th class="border-right">Trámite Nro.</th>
                                 <th class="border-right">Carátula</th>
-                                <th>Clase</th>
+                                <th class="border-right">Fecha de retiro</th>
+                                <th>Valor</th>
                             </tr>
-                            <tr>
-                                <td class="border-right">23</td>
-                                <td class="border-right">Adopción Sabado</td>
-                                <td>Adopciones</td>
-                            </tr>
-                            <tr>
-                                <td class="border-right">24</td>
-                                <td class="border-right">Adopción Domingo</td>
-                                <td>Adopciones</td>
-                            </tr>
+                            <?php
+                            for ($i = 0; $i < sizeof($tramites); $i++) {
+                                if ($tramites[$i]->fecha_retiro) {
+                                    $fecha_retiro = date('d-m-Y', strtotime($tramites[$i]->fecha_retiro));
+                                } else {
+                                    $fecha_retiro = date('d-m-Y', time());
+                                }
+                                ?>
+
+                                <tr>
+                                    <td class="border-right"><?php echo $tramites[$i]->id; ?></td>
+                                    <td class="border-right"><?php echo $tramites[$i]->caratula; ?></td>
+                                    <td class="border-right"><?php echo $fecha_retiro; ?></td>
+                                    <td><?php echo "$" . (floatval($tramites[$i]->honorarios) + floatval($tramites[$i]->sellado) + floatval($tramites[$i]->honorario_corresponsal)); ?></td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
                         </table>
                     </div>
                 </td>
@@ -219,7 +244,7 @@
                     <div id="firma-content">
                         <p>FIRMA Y ACLARACION</p>
                         <div id="firma"></div>
-                        <p id="pie">Se ha enviado copia de esta constancia al email: ale.miller10@gmail.com</p>
+                        <p id="pie">Se ha enviado copia de esta constancia al email: <?php echo $cliente->email ?></p>
                     </div>
                 </td>
             </tr>

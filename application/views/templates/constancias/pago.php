@@ -32,7 +32,7 @@
                 width: 100%;
                 border: 1px solid #ccc;
                 padding: 0px;
-                margin-top: 100px;
+                margin-top: 50px;
 
             }
 
@@ -89,7 +89,7 @@
                 line-height: 28px;
             }
 
-            tr.cliente-detalle td{
+            td.cliente-detalle{
                 border-bottom: 1px solid #ccc;  
             }
 
@@ -181,14 +181,29 @@
                     <p>Fecha: <?php echo date('d-m-Y', time()); ?></p>
                 </td>
             </tr>
-            <tr class="cliente-detalle">
-                <td colspan="2">
+            <tr>
+                <td class="cliente-detalle" colspan="2">
                     <div id="encabezado">
                         <p>DETALLE CLIENTE:</p>
-                        <b>Nro. de cliente:</b><?php echo $cliente->id; ?><br>
-                        <b>Nombre:</b> <?php echo $cliente->nombre; ?><br>
-                        <b>Email</b> <?php echo $cliente->email; ?><br>
-                        <b>Saldo al día de la fecha:</b> $<?php echo $saldo; ?><br>
+                        <table>
+                            <tr>
+                                <td>
+                                    <b>Nro. de cliente:</b> <?php echo $cliente->id; ?>
+                                </td>
+                                <td style="padding-left:10px;">
+
+                                    <b>Email:</b> <?php echo $cliente->email; ?> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Nombre:</b> <?php echo $cliente->nombre; ?>
+                                </td>
+                                <td style="padding-left:10px;">
+                                    <b>Saldo al día de la fecha:</b> $<?php echo $saldo; ?>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </td>
             </tr>

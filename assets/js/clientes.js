@@ -36,8 +36,6 @@ $(document).on('submit', '#search-by-tramite-form', function (event) {
 });
 
 
-
-
 $(document).on('click', '#crear-cliente-btn', function () {
 
     var cliente_data = {};
@@ -48,6 +46,7 @@ $(document).on('click', '#crear-cliente-btn', function () {
     cliente_data.email = $('#cliente-email').val();
     cliente_data.password = $('#cliente-contrasena').val();
     cliente_data.conocio = $('#cliente-conocio').val();
+    cliente_data.saldo_inicial = $('#cliente-saldo-inicial').val();
 
     var json = JSON.stringify(cliente_data);
 
@@ -73,6 +72,7 @@ $(document).on('click', '#crear-cliente-btn', function () {
 
 });
 
+
 $(document).on('click', '#guardar-cliente-btn', function () {
 
     var cliente_data = {};
@@ -83,6 +83,7 @@ $(document).on('click', '#guardar-cliente-btn', function () {
     cliente_data.email = $('#cliente-email').val();
     cliente_data.password = $('#cliente-contrasena').val();
     cliente_data.conocio = $('#cliente-conocio').val();
+    cliente_data.saldo_inicial = $('#cliente-saldo-inicial').val();
 
     var json = JSON.stringify(cliente_data);
     console.log(cliente_data);
@@ -120,14 +121,31 @@ $(document).on('click', '#volver-lista-btn', function () {
 });
 
 
-
 function reset_cliente_form() {
     $("#cliente-title-name").text("");
     $(".cliente-metadata").val("");
     $('#cliente-conocio').val("ninguno");
 }
 
-$(document).on('click', '#cta-cte-tab', function () {
+
+$(document).on('click', '#ordenes-tab-btn', function () {
+
+    if (typeof (id_cliente) !== "" && id_cliente) {
+        $('#orden-detalle-content').html('');
+        $('#tabla-ordenes').html('<h1 class="loadingMsg"><i class="fa fa-cog fa-spin"></i> Loading...</h1>');
+        $.ajax({
+            url: base_url + "index.php/ordenes/list_ordenes",
+            type: 'POST',
+            data: "id_cliente=" + id_cliente,
+            success: function (data) {
+                $('#tabla-ordenes').html(data);
+            }
+        });
+    }
+
+});
+
+$(document).on('click', '#cta-cte-tab-btn', function () {
 
     if (typeof (id_cliente) !== "" && id_cliente) {
 

@@ -20,9 +20,9 @@
             }
 
             title{
-               color: #fff;
+                color: #fff;
             }
-            
+
             p{
                 margin: 0px;
                 font-weight: bold;
@@ -32,7 +32,7 @@
                 width: 100%;
                 border: 1px solid #ccc;
                 padding: 0px;
-                margin-top: 100px;
+                margin-top: 50px;
 
             }
 
@@ -89,7 +89,7 @@
                 line-height: 28px;
             }
 
-            tr.cliente-detalle td{
+            td.cliente-detalle{
                 border-bottom: 1px solid #ccc;  
             }
 
@@ -158,7 +158,7 @@
                 text-align: center;
                 font-size: 10px;
                 font-weight: initial;
-                
+
             }
 
 
@@ -176,18 +176,33 @@
                     </div>
                 </td>
                 <td class="colum-der">
-                    <h1>ORDEN DE TRABAJO</h1>
-                    <p>Fecha: <?php echo date('d-m-Y',time());?></p>
+                    <h1>ORDEN DE TRABAJO Nro. <?php echo $orden_id; ?></h1>
+                    <p>Fecha: <?php echo date('d-m-Y', time()); ?></p>
                 </td>
             </tr>
-            <tr class="cliente-detalle">
-                <td colspan="2">
+            <tr>
+                <td class="cliente-detalle" colspan="2">
                     <div id="encabezado">
                         <p>DETALLE CLIENTE:</p>
-                        <b>Nro. de cliente:</b><?php echo $cliente->id; ?><br>
-                        <b>Nombre:</b> <?php echo $cliente->nombre; ?><br>
-                        <b>Email</b> <?php echo $cliente->email;?><br>
-                        <b>Saldo al día de la fecha:</b> $<?php echo $saldo;?><br>
+                        <table>
+                            <tr>
+                                <td>
+                                    <b>Nro. de cliente:</b> <?php echo $cliente->id; ?>
+                                </td>
+                                <td style="padding-left:10px;">
+
+                                    <b>Email:</b> <?php echo $cliente->email; ?> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Nombre:</b> <?php echo $cliente->nombre; ?>
+                                </td>
+                                <td style="padding-left:10px;">
+                                    <b>Saldo al día de la fecha:</b> $<?php echo $saldo; ?>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </td>
             </tr>
@@ -202,16 +217,16 @@
                                 <th>Clase</th>
                                 <th>Valor</th>
                             </tr>
-                            <?php 
-                            for($i=0;$i<sizeof($tramites);$i++){
+                            <?php
+                            for ($i = 0; $i < sizeof($tramites); $i++) {
                                 ?>
-                            <tr>
-                                <td class="border-right"><?php echo $tramites[$i]->id;?></td>
-                                <td class="border-right"><?php echo $tramites[$i]->caratula;?></td>
-                                <td class="border-right"><?php echo $tramites[$i]->nombre;?></td>
-                                <td><?php echo "$".(floatval($tramites[$i]->honorarios)+floatval($tramites[$i]->sellado)+floatval($tramites[$i]->honorario_corresponsal));?></td>
-                            </tr>
-                             <?php
+                                <tr>
+                                    <td class="border-right"><?php echo $tramites[$i]->id; ?></td>
+                                    <td class="border-right"><?php echo $tramites[$i]->caratula; ?></td>
+                                    <td class="border-right"><?php echo $tramites[$i]->nombre; ?></td>
+                                    <td><?php echo "$" . (floatval($tramites[$i]->honorarios) + floatval($tramites[$i]->sellado) + floatval($tramites[$i]->honorario_corresponsal)); ?></td>
+                                </tr>
+                                <?php
                             }
                             ?>
                         </table>
@@ -223,7 +238,7 @@
                     <div id="firma-content">
                         <p>FIRMA Y ACLARACION</p>
                         <div id="firma"></div>
-                        <p id="pie">Se ha enviado copia de esta constancia al email: <?php echo $cliente->email?></p>
+                        <p id="pie">Se ha enviado copia de esta constancia al email: <?php echo $cliente->email ?></p>
                     </div>
                 </td>
             </tr>

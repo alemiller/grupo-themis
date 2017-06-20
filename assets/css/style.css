@@ -91,7 +91,7 @@ input.login-error{
 }
 
 #tabs-datos{
-    height: 400px;
+    height: 460px;
 }
 
 
@@ -105,6 +105,11 @@ input.login-error{
 
 #tabs-pagos{
     min-height: 700px;
+    padding-top: 0px!important;
+}
+
+#tabs-ordenes{
+    min-height: 660px;
     padding-top: 0px!important;
 }
 
@@ -123,7 +128,7 @@ input.login-error{
     font-size: 12px;
 }
 
-.cliente-item, .clickeable-item{
+.cliente-item, .clickeable-item, .ordenes-clickeable-item, .pagos-clickeable-item {
     cursor: pointer;
 }
 
@@ -181,6 +186,6 @@ input.login-error{
     font-size: 12px;
 }
 
-.row-total-transaccion{
+.row-total-transaccion, .row-valor{
     text-align: right;
 }

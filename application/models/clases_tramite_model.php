@@ -225,7 +225,7 @@ class Clases_tramite_model extends CI_Model {
         for ($i = 0; $i < sizeof($arr); $i++) {
             $pos = strpos($arr[$i], ';');
             $substring = strtolower(substr($arr[$i], $pos + 1));
-            error_log('substring: ' . ucwords($substring));
+       
 
             $this->db->set('nombre', ucwords($substring));
 

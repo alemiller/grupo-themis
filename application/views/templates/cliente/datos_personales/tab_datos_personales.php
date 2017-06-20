@@ -7,6 +7,7 @@ if (isset($cliente)) {
     $password = $cliente->password;
     $email = $cliente->email;
     $como_conocio = $cliente->como_nos_conocio;
+    $saldo_inicial = $cliente->saldo_inicial;
 } else {
     $nombre = "";
     $id = "";
@@ -15,6 +16,7 @@ if (isset($cliente)) {
     $password = "";
     $email = "";
     $como_conocio = "";
+    $saldo_inicial = "";
 }
 ?>
 
@@ -85,6 +87,14 @@ if (isset($cliente)) {
                 </label>
             </section>
 
+        </div>
+        <div class="row">
+            <section class="col col-4">
+                <label class="label">Saldo Inicial</label>
+                <label class="input">
+                    <input id="cliente-saldo-inicial" class=" cliente-metadata" type="number" value="<?php echo $saldo_inicial; ?>">
+                </label>
+            </section>
         </div>
     </fieldset>
 </form>

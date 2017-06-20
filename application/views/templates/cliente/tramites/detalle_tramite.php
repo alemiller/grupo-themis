@@ -107,7 +107,7 @@ if (isset($tramite_selected)) {
                                             <div class="panel-body">
 
                                                 <div class="form-group col-md-12">
-                                                    <label class="control-label">ID</label>
+                                                    <label class="control-label">Nro Trámite</label>
                                                     <div class="col-md-12">
                                                         <input id="tramite-id" class="form-control readonly metadata" type="text" readonly="readonly" value="<?php echo $item_tramite_id; ?>">
                                                     </div>
@@ -220,13 +220,13 @@ if (isset($tramite_selected)) {
                                                 <div class="form-group col-md-12">
                                                     <label class="control-label">Fecha de Aviso</label>
                                                     <div class="col-md-12">
-                                                        <input id='tramite-fecha-aviso' type="text" name="mydate" placeholder="Seleccione una fecha" class="form-control datepicker metadata fechas-input" data-dateformat="dd-mm-yy" disabled="disabled" value="<?php echo $fecha_aviso; ?>">
+                                                        <input id='tramite-fecha-aviso' type="text" name="mydate" placeholder="Seleccione una fecha" class="form-control fechas-input readonly" disabled="disabled"  value="<?php echo $fecha_aviso; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-12">
                                                     <label class="control-label">Fecha de Retiro</label>
                                                     <div class="col-md-12">
-                                                        <input id='tramite-fecha-retiro' type="text" name="mydate" placeholder="Seleccione una fecha" class="form-control datepicker metadata" data-dateformat="dd-mm-yy" disabled="disabled" value="<?php echo $fecha_retiro; ?>">
+                                                        <input id='tramite-fecha-retiro' type="text" name="mydate" placeholder="Seleccione una fecha" class="form-control fechas-input readonly" disabled="disabled" value="<?php echo $fecha_retiro; ?>">
                                                     </div>
                                                 </div>
 

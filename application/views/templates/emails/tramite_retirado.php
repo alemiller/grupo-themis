@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Aviso de orden de trabajo</title>
+        <title>Aviso de Trámite retirado</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -70,26 +70,34 @@
             td.border-right, th.border-right{
                 border-right: 1px solid #ccc;  
             }
+
+            tr.tramite-row td{
+                border-bottom: 1px solid #ccc;
+            }
+
+            tr.tramite-row:last-of-type td{
+                border-bottom: none;
+            }
+
         </style>
 
     </head>
     <body>
         <header>
             <div id="logo"></div>
-            <div id="title">Orden de trabajo creada</div>
+            <div id="title">Trámites retirados</div>
         </header>
         <div id="content">
             <p id="fecha">
-                <?php 
-                if(isset($fecha_creacion)){
+                <?php
+                if (isset($fecha_creacion)) {
                     $fecha = date('d-m-Y', strtotime($fecha_creacion));
-                }else{
+                } else {
                     $fecha = date('d-m-Y', time());
                 }
-                
                 ?>
-                
-                
+
+
                 Buenos Aires, <?php echo $fecha; ?>
             </p>
             <p>                
@@ -98,25 +106,30 @@
 
             <p>
                 <br>
-                Le informamos que se ha creado la Orden de Trabajo Nro. <?php echo $id_orden; ?>
-                <br>
-                Detalle de la Orden:
+                Le informamos que los siguientes trámites han sido retirados de nuestras oficinas 
+                en el día de la fecha:
+
             </p>
             <table id="tramites-table">
                 <tr class="detalle-header">
                     <th class="border-right">Trámite Nro.</th>
                     <th class="border-right">Carátula</th>
-                    <th>Clase</th>
+                    <th class="border-right">Fecha de retiro</th>
                     <th>Valor</th>
                 </tr>
                 <?php
                 for ($i = 0; $i < sizeof($tramites); $i++) {
+                    if ($tramites[$i]->fecha_retiro) {
+                        $fecha_retiro = date('d-m-Y', strtotime($tramites[$i]->fecha_retiro));
+                    } else {
+                        $fecha_retiro = date('d-m-Y', time());
+                    }
                     ?>
 
-                    <tr>
+                    <tr class="tramite-row">
                         <td class="border-right"><?php echo $tramites[$i]->id; ?></td>
                         <td class="border-right"><?php echo $tramites[$i]->caratula; ?></td>
-                        <td class="border-right"><?php echo $tramites[$i]->nombre; ?></td>
+                        <td class="border-right"><?php echo $fecha_retiro; ?></td>
                         <td><?php echo "$" . (floatval($tramites[$i]->honorarios) + floatval($tramites[$i]->sellado) + floatval($tramites[$i]->honorario_corresponsal)); ?></td>
                     </tr>
                     <?php
@@ -124,7 +137,7 @@
                 ?>
             </table>
             <p>
-                Su saldo al día de la fecha es: $<?php echo $saldo;?>
+                Su saldo al día de la fecha es: $<?php echo $saldo; ?>
             </p>
             <p>
                 Cualquier consulta comuniquese al 4373-0739 o por email a <a href="mailto:themisgestiones@gmail.com?Subject=Re:Aviso de trámite finalizado" target="_top">themisgestiones@gmail.com</a> de lunes a viernes de 9 a 16 hs.

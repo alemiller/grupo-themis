@@ -34,10 +34,11 @@ if (isset($tramite_selected)) {
                         <thead>
                             <tr>
                                 <th class="col-md-1"><input type="checkbox" id="select-all-items"></th>
-                                <th>ID</th>
+                                <th>Nro.</th>
                                 <th>Creación</th>
                                 <th>Caratula</th>
                                 <th>Estado</th>
+                                <th>Valor</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -55,11 +56,14 @@ if (isset($tramite_selected)) {
 
                                     $fecha_creacion = date('d-m-Y H:i', strtotime($tramites[$i]->fecha_creacion));
 
+                                    
+                                    
                                     $checkbox = "<td class='chbx-item-cell'><input type='checkbox' class='chbx-item' id='" . $tramites[$i]->id . "'></td>";
                                     $tramite_id = "<td class='clickeable-item'>" . $tramites[$i]->id . "</td>";
                                     $caratula = "<td class='row-nombre clickeable-item'>" . $tramites[$i]->caratula . "</td>";
                                     $creacion = "<td class='clickeable-item'>" . $fecha_creacion . " hs.</td>";
                                     $estado = "<td class='row-estado clickeable-item'>" . ucwords(str_replace('en_tramite', 'en trámite', $tramites[$i]->estado)) . "</td>";
+                                    $valor = "<td class='row-valor clickeable-item'>$" . $tramites[$i]->total . "</td>";
 
                                     echo "<tr class='row-item " . $item_selected . "' id='" . $tramites[$i]->id . "'>" .
                                     $checkbox .
@@ -67,6 +71,7 @@ if (isset($tramite_selected)) {
                                     $creacion .
                                     $caratula .
                                     $estado .
+                                    $valor .
                                     "</tr>";
                                 }
                             }

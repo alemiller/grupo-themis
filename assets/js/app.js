@@ -159,7 +159,7 @@ $(document).ready(function () {
 
     $(document).mouseup(function (e) {
         if (!$('.ajax-dropdown').is(e.target)// if the target of the click isn't the container...
-          && $('.ajax-dropdown').has(e.target).length === 0) {
+                && $('.ajax-dropdown').has(e.target).length === 0) {
             $('.ajax-dropdown').fadeOut(150);
             $('.ajax-dropdown').prev().removeClass("active")
         }
@@ -249,7 +249,7 @@ $(document).ready(function () {
     // SHORTCUT buttons goes away if mouse is clicked outside of the area
     $(document).mouseup(function (e) {
         if (!$.shortcut_dropdown.is(e.target)// if the target of the click isn't the container...
-          && $.shortcut_dropdown.has(e.target).length === 0) {
+                && $.shortcut_dropdown.has(e.target).length === 0) {
             shortcut_buttons_hide()
         }
     });
@@ -477,14 +477,14 @@ $.fn.extend({
         });
 
         $this.find("li a").click(function () {
-            
-            if ($(this).parent().find("ul").size() != 0) {
-
+            $('nav li').removeClass("active");
+            if ($(this).parents('li').children("ul").length > 0) {
+                $('nav li').removeClass("open");
                 if (opts.accordion) {
 
                     //Do nothing when the list is open
                     if (!$(this).parent().find("ul").is(':visible')) {
-                   
+
                         parents = $(this).parent().parents("ul");
                         visible = $this.find("ul:visible");
                         visible.each(function (visibleIndex) {
@@ -522,9 +522,10 @@ $.fn.extend({
                     });
                 } // end else
             } else {
-                $('a.nav-menu-link').parent('li').find("ul").slideUp(opts.speed, function () {
-                    $('nav li.active a').parent("li").removeClass("open");
-                    $('nav li.active a').parent("li").find("b:first").delay(opts.speed).html(opts.closedSign);
+
+                $('.nav-menu-link').parents('li').find("ul").slideUp(opts.speed, function () {
+                    $('nav li.open').find("b:first").delay(opts.speed).html(opts.closedSign);
+                    $('nav li').removeClass("open");
                 });
             } // end if
         });
@@ -719,8 +720,8 @@ function runAllCharts() {
                 $this.sparkline('html', {
                     type: 'bar',
                     barColor: barColor,
-                    type : sparklineType,
-                      height: sparklineHeight,
+                    type: sparklineType,
+                    height: sparklineHeight,
                     barWidth: sparklineBarWidth,
                     barSpacing: sparklineBarSpacing,
                     stackedBarColor: sparklineStackedColor,
@@ -775,8 +776,8 @@ function runAllCharts() {
                     sliceColors: pieColors,
                     offset: 0,
                     borderWidth: 1,
-                    offset : pieOffset,
-                      borderColor: pieBorderColor
+                    offset: pieOffset,
+                    borderColor: pieBorderColor
                 });
 
             }
@@ -874,7 +875,7 @@ function runAllCharts() {
                     height: sparklineHeight,
                     barColor: thisBarColor,
                     barWidth: sparklineBarWidth
-                      //barSpacing: 5
+                            //barSpacing: 5
 
                 })
 
@@ -1146,7 +1147,7 @@ if ($.navAsAjax)
     });
 
     $(document).on('click', '.nav-menu-link', function (e) {
-      
+
         e.preventDefault();
         var $this = $(e.currentTarget);
 
@@ -1163,8 +1164,8 @@ if ($.navAsAjax)
             window.setTimeout(function () {
                 if (window.location.search) {
                     window.location.href =
-                      window.location.href.replace(window.location.search, '')
-                      .replace(window.location.hash, '') + '#' + $this.attr('href');
+                            window.location.href.replace(window.location.search, '')
+                            .replace(window.location.hash, '') + '#' + $this.attr('href');
                 } else {
                     window.location.hash = $this.attr('href');
                 }
@@ -1172,8 +1173,8 @@ if ($.navAsAjax)
         } else {
             if (window.location.search) {
                 window.location.href =
-                  window.location.href.replace(window.location.search, '')
-                  .replace(window.location.hash, '') + '#' + $this.attr('href');
+                        window.location.href.replace(window.location.search, '')
+                        .replace(window.location.hash, '') + '#' + $this.attr('href');
             } else {
                 window.location.hash = $this.attr('href');
             }
@@ -1199,8 +1200,8 @@ if ($.navAsAjax)
             window.setTimeout(function () {
                 if (window.location.search) {
                     window.location.href =
-                      window.location.href.replace(window.location.search, '')
-                      .replace(window.location.hash, '') + '#' + $this.attr('href');
+                            window.location.href.replace(window.location.search, '')
+                            .replace(window.location.hash, '') + '#' + $this.attr('href');
                 } else {
                     window.location.hash = $this.attr('href')
 
@@ -1211,8 +1212,8 @@ if ($.navAsAjax)
             if (window.location.search) {
 
                 window.location.href =
-                  window.location.href.replace(window.location.search, '')
-                  .replace(window.location.hash, '') + '#' + $this.attr('href');
+                        window.location.href.replace(window.location.search, '')
+                        .replace(window.location.hash, '') + '#' + $this.attr('href');
             } else {
                 window.location.hash = $this.attr('href');
 
@@ -1371,7 +1372,7 @@ function drawBreadCrumb() {
     var nav_elems = $('nav li.active > a'), count = nav_elems.length;
     $.bread_crumb.empty();
     nav_elems.each(function () {
-        if ($(this).attr('href') === 'javascript:void(0);'|| $(this).attr('href') === '#') {
+        if ($(this).attr('href') === 'javascript:void(0);' || $(this).attr('href') === '#') {
             $.bread_crumb.append($("<li></li>").html($.trim($(this).clone().children(".badge").remove().end().text())));
         } else {
             $.bread_crumb.append($("<li></li>").html('<a href="' + $(this).attr('href') + '" class="nav-bread-link">' + $.trim($(this).clone().children(".badge").remove().end().text()) + '</a>'));

@@ -11,7 +11,7 @@ class Clientes_model extends CI_Model {
         $this->db->select('id,nombre,fecha_ingreso');
         $this->db->order_by("nombre", "asc");
         $query = $this->db->get('clientes');
-        
+
         return $query->result();
     }
 
@@ -26,7 +26,7 @@ class Clientes_model extends CI_Model {
     }
 
     public function create($data) {
-        error_log('data insert: ' . $data);
+
 
         $data_obj = json_decode($data);
 
@@ -36,6 +36,7 @@ class Clientes_model extends CI_Model {
         $this->db->set('como_nos_conocio', $data_obj->conocio);
         $this->db->set('email', $data_obj->email);
         $this->db->set('password', $data_obj->password);
+        $this->db->set('saldo_inicial', $data_obj->saldo_inicial);
 
         $this->db->insert('clientes');
         $result = $this->db->affected_rows();
@@ -54,7 +55,7 @@ class Clientes_model extends CI_Model {
     }
 
     public function update($id, $data) {
-        error_log('data update: ' . $data);
+
 
         $data_obj = json_decode($data);
 
@@ -64,6 +65,7 @@ class Clientes_model extends CI_Model {
         $this->db->set('como_nos_conocio', $data_obj->conocio);
         $this->db->set('email', $data_obj->email);
         $this->db->set('password', $data_obj->password);
+        $this->db->set('saldo_inicial', $data_obj->saldo_inicial);
 
         $this->db->where('id', $id);
         $this->db->update('clientes');
@@ -96,7 +98,7 @@ class Clientes_model extends CI_Model {
         for ($i = 0; $i < sizeof($result); $i++) {
 
             $name = strtolower($result[$i][1]) . ' ' . strtolower($result[$i][2]);
-            error_log(ucwords($name));
+
 
             $data = array(
                 'id' => $result[$i][0],

@@ -23,12 +23,12 @@ class Tramites_model extends CI_Model {
         $this->db->where('id', $id);
         $query = $this->db->get();
 
-        if(isset($query->result()[0])){
+        if (isset($query->result()[0])) {
             $result = $query->result()[0];
-        }else{
+        } else {
             $result = new stdClass();
         }
-        
+
         return $result;
     }
 
@@ -43,14 +43,32 @@ class Tramites_model extends CI_Model {
 
         return $query->result();
     }
-    
-       public function get_by_custom($custom) {
+
+    public function get_by_custom($custom) {
 
         $this->db->select('tramites.id,tramites.caratula,tramites.honorarios,tramites.sellado,'
                 . 'tramites.honorario_corresponsal,clases_tramite.nombre');
         $this->db->from('tramites');
         $this->db->join('clases_tramite', 'tramites.id_clase = clases_tramite.id');
         $this->db->where($custom);
+        $query = $this->db->get();
+
+        return $query->result();
+    }
+
+    public function get_by_multiple_ids($ids) {
+
+        $this->db->select('*');
+        $this->db->from('tramites');
+
+        for ($i = 0; $i < sizeof($ids); $i++) {
+            if ($i === 0) {
+                $this->db->where('id', $ids[$i]);
+            } else {
+                $this->db->or_where('id ', $ids[$i]);
+            }
+        }
+
         $query = $this->db->get();
 
         return $query->result();
@@ -71,7 +89,12 @@ class Tramites_model extends CI_Model {
 
             $id = $this->db->insert_id();
 
-            $query = $this->db->get_where('tramites', array('id' => $id));
+
+            $query = $this->db->query('SELECT * , (SELECT (SUM(honorarios)+SUM(sellado)+SUM(honorario_corresponsal))    
+                            FROM tramites 
+                            WHERE id=' . $id . ') as total
+                            FROM tramites 
+                            WHERE id=' . $id);
 
             $result = $query->result();
         }
@@ -109,6 +132,26 @@ class Tramites_model extends CI_Model {
         $this->db->delete('tramites');
 
         return $this->db->affected_rows();
+    }
+
+    public function search($clausulas, $adicionales) {
+        
+        error_log('clausulas: '.json_encode($clausulas));
+        $this->db->select('tramites.id,tramites.fecha_creacion,caratula,estado,'
+                . '(SUM(honorarios)+SUM(sellado)+SUM(honorario_corresponsal)) AS total,'
+                . 'clientes.nombre, clases_tramite.nombre as clase_tramite, clientes.id as id_cliente');
+        $this->db->from('tramites');
+        $this->db->join('clientes', 'tramites.id_cliente = clientes.id');
+        $this->db->join('clases_tramite', 'tramites.id_clase = clases_tramite.id');
+        $this->db->where($clausulas);
+        if($adicionales){
+           $this->db->where($adicionales);  
+        }
+        $this->db->order_by("tramites.fecha_creacion", "desc");
+        $this->db->group_by("tramites.id");
+        $query = $this->db->get();
+
+        return $query->result();
     }
 
 }

@@ -48,7 +48,7 @@
 $active_group = 'default';
 $active_record = TRUE;
 //$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-//error_log('database url: '.json_encode($url));
+
 //$db['default']['hostname'] = $url["host"];
 //$db['default']['username'] = $url["user"];
 //$db['default']['password'] = $url["pass"];

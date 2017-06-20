@@ -70,7 +70,7 @@ class Clases_tramite extends CI_Controller {
             
             $ids = explode(',', $_POST['ids']);
             $delete = $this->clases_tramite_model->delete($ids);
-            error_log('delete: '.$delete." sizeof: ".sizeof($ids));
+          
             if ($delete === sizeof($ids)) {
                 if($delete > 1){
                     $msg = 'Las clases fueron eliminadas con éxito';

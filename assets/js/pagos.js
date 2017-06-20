@@ -43,10 +43,10 @@ namespace["pagos"] = {
                     $(row).attr('id', data.data.id);
                     $(row).children('td:eq( 0 )').addClass('chbx-item-cell');
                     $(row).children('td:eq( 0 )').html("<input type='checkbox' class='chbx-item' id='" + data.data.id + "'>");
-                    $(row).children('td:eq( 1 )').addClass('clickeable-item');
-                    $(row).children('td:eq( 2 )').addClass('clickeable-item');
-                    $(row).children('td:eq( 3 )').addClass('clickeable-item');
-                    $(row).children('td:eq( 4 )').addClass('clickeable-item row-valor');
+                    $(row).children('td:eq( 1 )').addClass('pagos-clickeable-item');
+                    $(row).children('td:eq( 2 )').addClass('pagos-clickeable-item');
+                    $(row).children('td:eq( 3 )').addClass('pagos-clickeable-item');
+                    $(row).children('td:eq( 4 )').addClass('pagos-clickeable-item row-valor');
 
                     that.set_data(data.data);
                     reset_pagos_footer_buttons();
@@ -81,7 +81,7 @@ namespace["pagos"] = {
             data: "id=" + item_id + "&id_cliente=" + $('#cliente-id').val() + "&data=" + json,
             success: function (data) {
                 that.set_data(data.data);
-                update_table();
+                update_pagos_table();
                 reset_pagos_footer_buttons();
                 if (data.status) {
                     set_small_box_message("Creación", data.msg, "#659265", "fa fa-check fa-2x fadeInRight animated", 4000);
@@ -180,14 +180,13 @@ namespace["pagos"] = {
         pago_data.tipo = $('#pago-clase').val();
 
         var json = JSON.stringify(pago_data);
-        console.log('pago data: ', json);
         return json;
 
     }
 };
 
 
-function update_table() {
+function update_pagos_table() {
 
     $('#info_item_title').text($('#pago-nombre').val());
     $('.item-selected').children('.row-nombre').text($('#pago-nombre').val());
@@ -211,7 +210,7 @@ $(document).on('click', '#nuevo-pago', function () {
     $('.pago-footer-buttons').find('button').removeAttr('disabled');
 });
 
-$(document).on('click', '.clickeable-item', function () {
+$(document).on('click', '.pagos-clickeable-item', function () {
 
     $('.row-item').removeClass('item-selected');
     $(this).parents('.row-item').addClass('item-selected');

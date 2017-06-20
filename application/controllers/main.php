@@ -13,10 +13,10 @@ class Main extends CI_Controller {
     }
 
     public function index() {
-        error_log('llego al main');
+
         // check user login
         if (!$this->session->userdata('user') || !$this->session->userdata('password')) {
-            error_log('base url: '.base_url());
+       
             redirect(base_url().'index.php/adminLogin');
             return;
         }

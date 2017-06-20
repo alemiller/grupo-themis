@@ -95,6 +95,9 @@
                     <a href="clientes" class="nav-menu-link"><i class="fa fa-lg fa-fw fa-user"></i><span class="menu-item-parent">Clientes</span></a>
                 </li>
                 <li>
+                    <a href="tramites" class="nav-menu-link"><i class="fa fa-lg fa-fw fa-archive"></i><span class="menu-item-parent">Trámites</span></a>
+                </li>
+                <li>
                     <a href="corresponsales" class="nav-menu-link"><i class="fa fa-lg fa-fw fa-briefcase"></i><span class="menu-item-parent">Corresponsales</span></a>
                 </li>
                 <li>

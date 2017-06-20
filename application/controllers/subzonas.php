@@ -19,7 +19,7 @@ class Subzonas extends CI_Controller {
         $data = array();
         $data["zonas"] = $this->zonas_model->list_zonas();
         $data["subzonas"] = $this->subzonas_model->list_subzonas();
-        error_log('subzonas: ' . json_encode($data["subzonas"]));
+    
         $this->load->view('pages/subzonas', $data);
     }
 

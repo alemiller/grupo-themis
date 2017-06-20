@@ -57,13 +57,34 @@
                 text-align: center;
 
             }
+
+            #tramites-table{
+                width: 100%;
+                border: 1px solid #ccc;
+            }
+
+            tr.detalle-header th{
+                border-bottom: 1px solid #ccc;
+            }
+
+            tr.tramite-row td{
+                border-bottom: 1px solid #ccc;
+            }
+
+            td.border-right, th.border-right{
+                border-right: 1px solid #ccc;  
+            }
+
+            tr.tramite-row:last-of-type td{
+                border-bottom: none;
+            }
         </style>
 
     </head>
     <body>
         <header>
             <div id="logo"></div>
-            <div id="title">Su trámite está listo</div>
+            <div id="title">Trámites listos</div>
         </header>
         <div id="content">
             <p id="fecha">
@@ -75,13 +96,37 @@
 
             <p>
                 <br>
-                Le informamos que el trámite Nro. <?php echo $tramite->id; ?>, con carátula <b>"<?php echo $tramite->caratula; ?>"</b>, 
-                ha finalizado y se encuentra en nuestras oficinas para ser retirado de lunes a viernes de 9 a 16 hs.
+                Le informamos que los siguientes trámites han finalizado y se encuentran en 
+                nuestras oficinas para ser retirados de lunes a viernes de 9 a 16 hs:
             </p>
+            <table id="tramites-table">
+                <tr class="detalle-header">
+                    <th class="border-right">Trámite Nro.</th>
+                    <th class="border-right">Carátula</th>
+                    <th class="border-right">Fecha Aviso</th>
+                    <th>Valor</th>
+                </tr>
+                <?php
+                for ($i = 0; $i < sizeof($tramites); $i++) {
+                    if ($tramites[$i]->fecha_aviso) {
+                        $fecha_aviso = date('d-m-Y', strtotime($tramites[$i]->fecha_aviso));
+                    } else {
+                        $fecha_aviso = date('d-m-Y', time());
+                    }
+                    ?>
+
+                    <tr class="tramite-row">
+                        <td class="border-right"><?php echo $tramites[$i]->id; ?></td>
+                        <td class="border-right"><?php echo $tramites[$i]->caratula; ?></td>
+                        <td class="border-right"><?php echo $fecha_aviso; ?></td>
+                        <td><?php echo "$" . (floatval($tramites[$i]->honorarios) + floatval($tramites[$i]->sellado) + floatval($tramites[$i]->honorario_corresponsal)); ?></td>
+                    </tr>
+                    <?php
+                }
+                ?>
+            </table>
             <p>
                 Cualquier consulta comuniquese al 4373-0739 o por email a <a href="mailto:themisgestiones@gmail.com?Subject=Re:Aviso de trámite finalizado" target="_top">themisgestiones@gmail.com</a> de lunes a viernes de 9 a 16 hs.
-
-
             </p>
             <p id="pie-pagina">
                 Este email ha sido enviado de manera automática. <b>Por favor NO responder.</b><br> 
