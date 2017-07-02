@@ -101,14 +101,13 @@ class Tramites extends CI_Controller {
                             $return = array('status' => 0, 'msg' => 'Complete el campo "Email" en la solapa Datos Personales');
                             $flag = false;
                         } else {
-
-
-
+                            
                             $info = new stdClass();
                             $info->cliente = $cliente;
                             $info->tramites = array($data);
 
                             $this->final_email_model->send_email('Aviso de trámite finalizado', $info, 'tramite_listo');
+                            $return = array('status' => 1, 'msg' => 'El trámite se actualizó con éxito');
                         }
                     }
                 } else {
@@ -150,6 +149,7 @@ class Tramites extends CI_Controller {
                             if ($url) {
 
                                 $this->final_email_model->send_email('Aviso de trámites retirados', $info, 'tramite_retirado');
+                                $return = array('status' => 1, 'msg' => 'El trámite se actualizó con éxito');
                             } else {
 
                                 $flag = false;
