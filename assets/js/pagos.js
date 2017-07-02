@@ -1,6 +1,7 @@
 namespace["pagos"] = {
 
     get_by_id: function (id) {
+        reset_pagos_footer_buttons();
         var that = this;
         $(this).addClass('item-selected');
 
@@ -22,7 +23,7 @@ namespace["pagos"] = {
     },
 
     create: function () {
-
+        reset_pagos_footer_buttons();
         var that = this;
         if (typeof (id_cliente) !== 'undefined' && id_cliente) {
 
@@ -36,7 +37,7 @@ namespace["pagos"] = {
                 success: function (data) {
 
                     var row_index = pagos_table.dataTable().fnAddData(["", data.data.id, format_datetime(data.data.fecha_creacion), data.data.title, capitalise(data.data.valor.toString().replace('-', ''))]);
-                    pagos_table.fnSort( [ [1,'desc'] ] );
+                    pagos_table.fnSort([[1, 'desc']]);
                     var row = pagos_table.fnGetNodes(row_index);
 
                     $(row).addClass('item-selected row-item');
@@ -69,7 +70,7 @@ namespace["pagos"] = {
     },
 
     update: function () {
-
+        reset_pagos_footer_buttons();
         var that = this;
         var item_id = $('#pago-id').val();
         var json = this.get_data();
@@ -80,8 +81,7 @@ namespace["pagos"] = {
             dataType: 'json',
             data: "id=" + item_id + "&id_cliente=" + $('#cliente-id').val() + "&data=" + json,
             success: function (data) {
-                that.set_data(data.data);
-                update_pagos_table();
+                update_pagos_table(data.data);
                 reset_pagos_footer_buttons();
                 if (data.status) {
                     set_small_box_message("Creación", data.msg, "#659265", "fa fa-check fa-2x fadeInRight animated", 4000);
@@ -165,9 +165,10 @@ namespace["pagos"] = {
 
     set_data: function (data) {
 
-        $('#info_item_title').text(data.caratula);
+        $('#info_pago_title').html("Pago Nro. " + data.id);
         $('#pago-id').val(data.id);
-        $('#pago-valor').val(data.valor.replace('-', ''));
+        var valor = data.valor.toString();
+        $('#pago-valor').val(valor.replace('-', ''));
         $('#pago-clase').val(data.tipo);
 
 
@@ -186,11 +187,12 @@ namespace["pagos"] = {
 };
 
 
-function update_pagos_table() {
+function update_pagos_table(data) {
 
-    $('#info_item_title').text($('#pago-nombre').val());
-    $('.item-selected').children('.row-nombre').text($('#pago-nombre').val());
-    $('.item-selected').children('.row-estado').text(capitalise($('#pago-estado').val().replace('en_pago', 'En Trámite')));
+    $('#info_pago_title').html("Pago Nro. " + data.id);
+    $('.item-selected').children('.row-nombre').text(data.title);
+    var valor = data.valor.toString();
+    $('.item-selected').children('.row-valor').text("$ " + valor.replace('-', ''));
 }
 
 $(document).on('click', '#nuevo-pago', function () {
@@ -201,7 +203,7 @@ $(document).on('click', '#nuevo-pago', function () {
     $('.pagos-metadata').find('input').val('');
     $('.pagos-metadata').find('select').val(null);
     $('.pagos-metadata').find('textarea').val('');
-    $('#info_item_title').text('');
+    $('#info_pago_title').text('');
 
     $('#pago-clase').val('1');
 
@@ -284,7 +286,7 @@ function reset_pagos_metadata() {
     $('.pagos-metadata').attr('disabled', 'disabled');
     $('.pagos-metadata').find('input').val('');
     $('.pagos-metadata').find('select').val(null);
-    $('#info_item_title').text('');
+    $('#info_pago_title').html('');
 }
 
 function reset_pagos_footer_buttons() {

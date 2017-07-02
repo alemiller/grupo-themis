@@ -46,7 +46,7 @@
                                     $checkbox = "<td class='chbx-item-cell'><input type='checkbox' class='chbx-item' id='" . $pagos[$i]->id . "'></td>";
                                     $tramite_id = "<td class='pagos-clickeable-item'>" . $pagos[$i]->id . "</td>";
                                     $creacion = "<td class='pagos-clickeable-item'>" . $fecha_creacion . " hs.</td>";
-                                    $detalle = "<td class='pagos-clickeable-item'>" . $pagos[$i]->title . "</td>";
+                                    $detalle = "<td class='row-nombre pagos-clickeable-item'>" . $pagos[$i]->title . "</td>";
                                     $valor = "<td class='row-valor pagos-clickeable-item'>$ " . str_replace("-","",strval($pagos[$i]->valor)) . "</td>";
                                     
 

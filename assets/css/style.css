@@ -128,7 +128,7 @@ input.login-error{
     font-size: 12px;
 }
 
-.cliente-item, .clickeable-item, .ordenes-clickeable-item, .pagos-clickeable-item {
+.cliente-item, .clickeable-item, .ordenes-clickeable-item, .pagos-clickeable-item, .result-clickeable {
     cursor: pointer;
 }
 
@@ -188,4 +188,8 @@ input.login-error{
 
 .row-total-transaccion, .row-valor{
     text-align: right;
+}
+
+#tramites-content{
+    min-height: 600px;
 }

@@ -23,11 +23,14 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"> Reimprimir <b class="caret"></b> </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"> Imprimir <b class="caret"></b> </a>
                         <ul class="dropdown-menu">
                             <li>
                                 <a class="reimprimir-btn" data-constancia="retiro" href="javascript:void(0);">Orden de Retiro</a>
                             </li>
+<!--                            <li>
+                                <a class="codebar-btn" href="javascript:void(0);">Código de Barras</a>
+                            </li>-->
                             
                         </ul>
                     </li>
@@ -58,3 +61,4 @@
     <?php $this->load->view('templates/cliente/tramites/lista_tramites') ?>
     <?php $this->load->view('templates/cliente/tramites/detalle_tramite') ?>
 </div>
+

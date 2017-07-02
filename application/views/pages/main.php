@@ -83,7 +83,7 @@
                         echo $this->session->userdata('user');
                         ?>&nbsp;&nbsp;
                     </span>
-                    <i class="fa fa-angle-down"></i>
+                  
                 </a> 
             </span>
         </div>
@@ -112,6 +112,13 @@
                         <li>
                             <a href="subzonas" class="nav-menu-link"><i class="fa fa-fw fa-globe"></i> <span> Sub-zonas</span></a>
                         </li>
+                        <?php if ($this->session->userdata('user_type') === "superadmin") { ?>
+                            <li>
+                                <a href="usuarios" class="nav-menu-link"><i class="fa fa-fw fa-group"></i> <span> Usuarios</span></a>
+                            </li>
+                            <?php
+                        }
+                        ?>
                     </ul>
             </ul>
         </nav>

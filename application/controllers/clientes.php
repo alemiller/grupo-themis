@@ -64,10 +64,10 @@ class Clientes extends CI_Controller {
 
             $create = $this->clientes_model->create($_POST['data']);
 
-            if ($create) {
-                $return = array('status' => 1, 'msg' => 'El usuario fue creado con éxito', 'data' => $create[0]);
-            } else {
+            if ($create->error) {
                 $return = array('status' => 0, 'msg' => 'Hubo un problema en la creación del usuario');
+            } else {
+                $return = array('status' => 1, 'msg' => 'El usuario fue creado con éxito', 'data' => $create[0]);
             }
 
             echo json_encode($return);

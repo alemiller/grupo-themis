@@ -88,7 +88,7 @@ $(document).on('click', '#guardar-cliente-btn', function () {
     cliente_data.saldo_inicial = $('#cliente-saldo-inicial').val();
 
     var json = JSON.stringify(cliente_data);
-    console.log(cliente_data);
+
     $.ajax({
         url: base_url + "index.php/clientes/update",
         type: 'POST',

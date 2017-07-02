@@ -19,7 +19,7 @@ class Subzonas extends CI_Controller {
         $data = array();
         $data["zonas"] = $this->zonas_model->list_zonas();
         $data["subzonas"] = $this->subzonas_model->list_subzonas();
-    
+
         $this->load->view('pages/subzonas', $data);
     }
 
@@ -54,10 +54,10 @@ class Subzonas extends CI_Controller {
 
             $update = $this->subzonas_model->update($_POST['id'], $_POST['data']);
 
-            if ($update) {
-                $return = array('status' => 1, 'msg' => 'La subzona fue actualizada con éxito');
-            } else {
+            if ($update->error) {
                 $return = array('status' => 0, 'msg' => 'Hubo un problema en la actualización de la subzona');
+            } else {
+                $return = array('status' => 1, 'msg' => 'La subzona fue actualizada con éxito');
             }
 
 

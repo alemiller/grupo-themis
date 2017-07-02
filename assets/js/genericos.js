@@ -2,6 +2,9 @@ var namespace = new Array();
 
 $(document).on('click', '.nuevo-item', function () {
 
+    $('.metadata').removeClass('field-error');
+    $('.mandatory-field-error').hide();
+
     $('.row-item').removeClass('item-selected');
     $('.row-item').removeClass('new-object-row');
     $('.metadata').removeAttr('disabled');
@@ -13,7 +16,7 @@ $(document).on('click', '.nuevo-item', function () {
     if ($('#tramite-estado').length > 0) {
         $('#tramite-estado').val('en_tramite');
     }
-    
+
     if ($('#pago-clase').length > 0) {
         $('#pago-clase').val('1');
     }
@@ -25,6 +28,8 @@ $(document).on('click', '.nuevo-item', function () {
 
 $(document).on('click', '.clickeable-item', function () {
 
+    $('.metadata').removeClass('field-error');
+    $('.mandatory-field-error').hide();
     $('.row-item').removeClass('item-selected');
     $(this).parents('.row-item').addClass('item-selected');
     $('.metadata').removeAttr('disabled');
@@ -43,7 +48,7 @@ $(document).on('click', '#crear-item-btn', function () {
         $('.footerButtons').find('button').attr('disabled', 'disabled');
         $('.save_waiting').show();
         namespace[page].create();
-    }else{
+    } else {
         set_small_box_error_message("Error!", "Complete los campos obligatorios", "#C46A69", "fa fa-times fa-2x fadeInRight animated");
     }
 });

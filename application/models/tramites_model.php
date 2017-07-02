@@ -105,6 +105,7 @@ class Tramites_model extends CI_Model {
 
     public function update($id, $data) {
 
+        $result = new stdClass();
         $data_obj = json_decode($data);
 
         foreach ($data_obj as $key => $value) {
@@ -113,15 +114,30 @@ class Tramites_model extends CI_Model {
 
         $this->db->where('id', $id);
         $this->db->update('tramites');
-        $result = $this->db->affected_rows();
+        
+        if($this->db->_error_number() !== 0){
+            $result->error = true;
+            $result->msg = $this->db->_error_message();
+        }else{
+            $result->error = false;
+        }
 
         return $result;
     }
 
     public function update_batch($data, $field) {
 
+        $result = new stdClass();
         $this->db->update_batch('tramites', $data, $field);
-        $result = $this->db->affected_rows();
+        
+        if($this->db->_error_number() !== 0){
+            $result->error = true;
+            $result->msg = $this->db->_error_message();
+        }else{
+            $result->error = false;
+            $result->affected_rows = $this->db->affected_rows();
+            
+        }
 
         return $result;
     }

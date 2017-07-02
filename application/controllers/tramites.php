@@ -3,6 +3,9 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
+//require 'vendor/autoload.php';
+//require 'vendor/picqer/phpmailer/php-barcode-generator/src/BarcodeGeneratorPNG.php';
+
 class Tramites extends CI_Controller {
 
     public function __construct() {
@@ -85,7 +88,7 @@ class Tramites extends CI_Controller {
                 $data->fecha_actualizacion = date('Y-m-d', time());
                 $update = $this->tramites_model->update($_POST['id'], json_encode($data));
 
-                if ($update) {
+                if (!$update->error) {
 
                     $return = array('status' => 1, 'msg' => 'El tramite fue actualizado con éxito', 'data' => $data, 'url' => $url);
 
@@ -122,7 +125,7 @@ class Tramites extends CI_Controller {
                 $data->fecha_actualizacion = date('Y-m-d', time());
                 $update = $this->tramites_model->update($_POST['id'], json_encode($data));
 
-                if ($update) {
+                if (!$update->error) {
 
                     //Si ya tiene fecha de retiro no manda el email ni imprime el comprobante
                     if (!isset($tramite->fecha_retiro) || (isset($tramite->fecha_retiro) && !$tramite->fecha_retiro)) {
@@ -212,7 +215,7 @@ class Tramites extends CI_Controller {
                     //Actualiza todos los tramites con el nuevo estado
                     $update_tramites = $this->tramites_model->update_batch($new_tramites, 'id');
 
-                    if (sizeof($tramites_ids) === $update_tramites) {
+                    if (!$update_tramites->error && sizeof($tramites_ids) === $update_tramites->affected_rows) {
 
                         $tramites = $this->tramites_model->get_by_multiple_ids($tramites_ids);
 
@@ -257,7 +260,7 @@ class Tramites extends CI_Controller {
                     //Actualiza todos los tramites con el nuevo estado
                     $update_tramites = $this->tramites_model->update_batch($new_tramites, 'id');
 
-                    if (sizeof($tramites_ids) === $update_tramites) {
+                    if (!$update_tramites->error && sizeof($tramites_ids) === $update_tramites->affected_rows) {
 
                         $tramites = $this->tramites_model->get_by_multiple_ids($tramites_ids);
 
@@ -448,6 +451,18 @@ class Tramites extends CI_Controller {
         }
     }
 
+    public function imprimir_codebar() {
+
+        $data = array();
+
+        $tramites_ids = explode(',', $_POST['tramites']);
+        $data['tramites'] = $this->tramites_model->get_by_multiple_ids($tramites_ids);
+        $data['generator'] = new \Picqer\Barcode\BarcodeGeneratorPNG();
+
+        $ajax_response = $this->load->view('templates/tramites/codebar_page', $data, TRUE);
+        $this->output->set_output($ajax_response);
+    }
+
     public function search() {
 
         $data = array();
@@ -473,14 +488,14 @@ class Tramites extends CI_Controller {
                         $clausulas_adicionales["fecha_creacion <"] = $value[1];
 
                         break;
-                    
+
                     case 'fecha_vencimiento':
 
                         $clausulas["fecha_vencimiento >"] = $value[0];
                         $clausulas_adicionales["fecha_vencimiento <"] = $value[1];
 
                         break;
-                    
+
                     case 'fecha_audiencia':
 
                         $clausulas["fecha_audiencia >"] = $value[0];
@@ -508,7 +523,7 @@ class Tramites extends CI_Controller {
 
             $data['tramites'] = $this->tramites_model->search($clausulas, $clausulas_adicionales);
         }
-        error_log('tramites: ' . json_encode($data['tramites']));
+
         $ajax_response = $this->load->view('templates/tramites/search_results', $data, TRUE);
         $this->output->set_output($ajax_response);
     }

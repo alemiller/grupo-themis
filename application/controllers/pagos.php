@@ -65,13 +65,12 @@ class Pagos extends CI_Controller {
 
         if (isset($_POST['data']) && isset($_POST['id'])) {
 
-            $update = $this->pagos_model->update($_POST['id'], json_encode($data));
+            $update = $this->pagos_model->update($_POST['id'], $_POST['data']);
 
-            if ($update) {
-
-                $return = array('status' => 1, 'msg' => 'El pago fue actualizado con éxito', 'data' => $data);
-            } else {
+            if ($update->error) {
                 $return = array('status' => 0, 'msg' => 'Hubo un problema en la actualización del pago');
+            } else {
+                $return = array('status' => 1, 'msg' => 'El pago fue actualizado con éxito', 'data' => $update->data);
             }
         } else {
             array('status' => 0, 'msg' => 'Hubo un problema en la actualización del pago');
@@ -116,16 +115,16 @@ class Pagos extends CI_Controller {
         $root = $this->config->item('save_file_folder') . $name;
         $url = base_url() . $this->config->item('save_file_root') . $name;
         $create_file = file_put_contents($root, $ajax_response);
-        
+
         if ($create_file) {
-         
+
             $info = new stdClass();
             $info->pago = $pago;
             $info->cliente = $cliente;
             $info->saldo = $data['saldo'];
 
             $email = $this->final_email_model->send_email('Aviso de pago', $info, 'pago');
-            
+
             $return = array('status' => 1, 'msg' => 'El pago fue creado con éxito', 'data' => $pago, 'url' => $url);
         } else {
             $return = array('status' => 0, 'msg' => 'Hubo un problema en la creación del pago');

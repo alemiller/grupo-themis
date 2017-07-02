@@ -7,9 +7,9 @@
             <li>
                 <a id="nuevo-cliente-btn" href="javascript:void(0);">Nuevo Cliente</a>
             </li>
-            <li>
+<!--            <li>
                 <a id="borrar-cliente-btn" href="javascript:void(0);">Borrar Cliente(s)</a>
-            </li>
+            </li>-->
 
         </ul>
         <form id="search-by-tramite-form" class="navbar-form navbar-left pull-right" role="search">

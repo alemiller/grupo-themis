@@ -21,7 +21,6 @@ class Zonas extends CI_Controller {
         $this->load->view('pages/zonas', $data);
     }
 
-
     public function get_by_id() {
 
         $id = $_POST['id'];
@@ -53,10 +52,10 @@ class Zonas extends CI_Controller {
 
             $update = $this->zonas_model->update($_POST['id'], $_POST['data']);
 
-            if ($update) {
-                $return = array('status' => 1, 'msg' => 'La zona fue actualizada con éxito');
-            } else {
+            if ($update->error) {
                 $return = array('status' => 0, 'msg' => 'Hubo un problema en la actualización de la zona');
+            } else {
+                $return = array('status' => 1, 'msg' => 'La zona fue actualizada con éxito');
             }
 
 
@@ -67,14 +66,14 @@ class Zonas extends CI_Controller {
     public function delete() {
 
         if (isset($_POST['ids'])) {
-            
+
             $ids = explode(',', $_POST['ids']);
             $delete = $this->zonas_model->delete($ids);
-           
+
             if ($delete === sizeof($ids)) {
-                if($delete > 1){
+                if ($delete > 1) {
                     $msg = 'Las zonas fueron eliminadas con éxito';
-                }else{
+                } else {
                     $msg = 'La zona fue eliminada con éxito';
                 }
                 $return = array('status' => 1, 'msg' => $msg);
@@ -85,8 +84,8 @@ class Zonas extends CI_Controller {
             echo json_encode($return);
         }
     }
-    
-    public function batch_insert(){
+
+    public function batch_insert() {
         $delete = $this->zonas_model->batch_insert();
     }
 

@@ -433,6 +433,41 @@ $(document).on('click', '.reenviar-email-btn', function () {
 });
 
 
+$(document).on('click', '.codebar-btn', function () {
+    
+    var tramite_items = new Array();
+    var row = tramites_table.fnGetNodes();
+
+    row.forEach(function (item) {
+
+        var that = $(item).find('.chbx-item');
+        if (that.prop("checked")) {
+            tramite_items.push(parseInt(that.parents('.row-item').attr('id')));
+        }
+    });
+
+    if (tramite_items.length > 0) {
+
+        $.ajax({
+            url: base_url + "index.php/tramites/imprimir_codebar",
+            type: 'POST',
+            data: "tramites=" + tramite_items,
+            success: function (data) {
+
+                if (data.status) {
+
+                   
+
+                } else {
+                    set_small_box_error_message("Error!", data.msg, "#C46A69", "fa fa-times fa-2x fadeInRight animated");
+                }
+            }
+        });
+    } else {
+        set_small_box_error_message("Error!", "Por favor seleccione al menos un item", "#C46A69", "fa fa-times fa-2x fadeInRight animated");
+    }
+});
+
 function update_table() {
 
     $('#info_item_title').text($('#tramite-nombre').val());
@@ -504,12 +539,12 @@ $(document).on('click', '#buscar-item-btn', function () {
 
 
 $(document).on('click', '.result-clickeable', function () {
-    
+
     $('.row-item').removeClass('item-selected');
     $(this).parents('.row-item').addClass('item-selected');
 
     var tramite_id = $(this).parents('.row-item').attr('id');
     var cliente_id = $(this).parents('.row-item').attr('data-cliente');
-    
-     window.location.href = "main#clientes/get_by_id?id=" + cliente_id + "&tramite_id=" + tramite_id;
+
+    window.location.href = "main#clientes/get_by_id?id=" + cliente_id + "&tramite_id=" + tramite_id;
 });

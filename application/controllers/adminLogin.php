@@ -12,6 +12,7 @@ class AdminLogin extends CI_Controller {
         $this->load->model("admin_user");
         $this->load->library('session');
         $this->load->helper('file');
+        session_start();
     }
 
     public function index() {
@@ -23,13 +24,21 @@ class AdminLogin extends CI_Controller {
 
         $result = $this->admin_user->login($_POST['user'], $_POST['password']);
 
-        if ($result === 'true') {
+        if ($result !== 'false') {
+            
+            $return = 'true';
+            $_SESSION['user'] = $result;
             delete_files('./uploads/');
-            $this->session->set_userdata('user', $_POST['user']);
+            $this->session->set_userdata('user', $result->username);
+            $this->session->set_userdata('user_type', $result->type);
             $this->session->set_userdata('password', $_POST['password']);
+        
+            
+        }else{
+            $return = 'false';
         }
 
-        echo $result;
+        echo $return;
     }
 
     public function logout() {

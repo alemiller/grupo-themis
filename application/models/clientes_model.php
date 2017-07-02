@@ -56,7 +56,7 @@ class Clientes_model extends CI_Model {
 
     public function update($id, $data) {
 
-
+        $result = new stdClass();
         $data_obj = json_decode($data);
 
         $this->db->set('nombre', $data_obj->nombre);
@@ -69,7 +69,13 @@ class Clientes_model extends CI_Model {
 
         $this->db->where('id', $id);
         $this->db->update('clientes');
-        $result = $this->db->affected_rows();
+        
+        if($this->db->_error_number() !== 0){
+            $result->error = true;
+            $result->msg = $this->db->_error_message();
+        }else{
+            $result->error = false;
+        }
 
         return $result;
     }

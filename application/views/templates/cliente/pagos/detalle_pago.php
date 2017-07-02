@@ -6,7 +6,7 @@
 
             <header>
                 <span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
-                <h2 id="info_item_title"></h2>
+                <h2 id="info_pago_title"></h2>
 
                 <div class="widget-toolbar hidden-phone">
 

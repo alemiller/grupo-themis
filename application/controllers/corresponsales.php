@@ -23,7 +23,6 @@ class Corresponsales extends CI_Controller {
         $this->load->view('pages/corresponsales', $data);
     }
 
-
     public function get_by_id() {
 
         $id = $_POST['id'];
@@ -55,10 +54,10 @@ class Corresponsales extends CI_Controller {
 
             $update = $this->corresponsales_model->update($_POST['id'], $_POST['data']);
 
-            if ($update) {
-                $return = array('status' => 1, 'msg' => 'El corresponsal fue actualizado con éxito');
-            } else {
+            if ($update->error) {
                 $return = array('status' => 0, 'msg' => 'Hubo un problema en la actualización del corresponsal');
+            } else {
+                $return = array('status' => 1, 'msg' => 'El corresponsal fue actualizado con éxito');
             }
 
 
@@ -69,14 +68,14 @@ class Corresponsales extends CI_Controller {
     public function delete() {
 
         if (isset($_POST['ids'])) {
-            
+
             $ids = explode(',', $_POST['ids']);
             $delete = $this->corresponsales_model->delete($ids);
-           
+
             if ($delete === sizeof($ids)) {
-                if($delete > 1){
+                if ($delete > 1) {
                     $msg = 'Los corresponsales fueron eliminados con éxito';
-                }else{
+                } else {
                     $msg = 'el corresponsal fue eliminado con éxito';
                 }
                 $return = array('status' => 1, 'msg' => $msg);
@@ -87,8 +86,8 @@ class Corresponsales extends CI_Controller {
             echo json_encode($return);
         }
     }
-    
-    public function batch_insert(){
+
+    public function batch_insert() {
         $delete = $this->corresponsales_model->batch_insert();
     }
 

@@ -11,10 +11,10 @@
     <div class="collapse navbar-collapse navbar-default navbar-custom">
         <ul class="nav navbar-nav">
             <li>
-                <a id="nueva-clcase-btn" class="nuevo-item" href="javascript:void(0);">Nuevo Corresponsal</a>
+                <a id="nueva-clcase-btn" class="nuevo-item" href="javascript:void(0);">Nuevo Usuario</a>
             </li>
             <li>
-                <a id="borrar-corresponsal-btn" class="borrar-item" href="javascript:void(0);">Borrar Corresponsal(es)</a>
+                <a id="borrar-usuario-btn" class="borrar-item" href="javascript:void(0);">Borrar Usuario(s)</a>
             </li>
         </ul>
     </div> 
@@ -39,26 +39,28 @@
                         <div class="widget-body-toolbar">
                         </div>
 
-                        <table id="corresponsales-table" class="table table-striped table-bordered table-hover main-grid">
+                        <table id="usuarios-table" class="table table-striped table-bordered table-hover main-grid">
                             <thead>
                                 <tr>
                                     <th class="col-md-1"><input type="checkbox" id="select-all-items"></th>
                                     <th>ID</th>
-                                    <th>Nombre</th>
+                                    <th>Username</th>
+                                    <th>Tipo</th>
 
 
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                if (isset($corresponsales)) {
+                                if (isset($usuarios)) {
 
-                                    for ($i = 0; $i < sizeof($corresponsales); $i++) {
+                                    for ($i = 0; $i < sizeof($usuarios); $i++) {
                                         ?>
-                                        <tr id="<?php echo $corresponsales[$i]->id; ?>" class="row-item">
+                                        <tr id="<?php echo $usuarios[$i]->id; ?>" class="row-item">
                                             <td class='chbx-item-cell'><input type='checkbox' class='chbx-item'></td>
-                                            <td class="clickeable-item"><?php echo $corresponsales[$i]->id; ?></td>
-                                            <td class="row-nombre clickeable-item"><?php echo $corresponsales[$i]->nombre; ?></td> 
+                                            <td class="clickeable-item"><?php echo $usuarios[$i]->id; ?></td>
+                                            <td class="row-username clickeable-item"><?php echo $usuarios[$i]->username; ?></td> 
+                                            <td class="row-type clickeable-item"><?php echo ucfirst($usuarios[$i]->type); ?></td> 
                                         </tr>
 
                                         <?php
@@ -106,65 +108,46 @@
                             <div class='form-group col-md-12'>
                                 <label class=' control-label'>ID</label>
                                 <div class='col-md-12'>
-                                    <input id='corresponsal-id' class='form-control metadata'  type='text' disabled="disabled" readonly="readonly"/>
+                                    <input id='usuario-id' class='form-control metadata'  type='text' disabled="disabled" readonly="readonly"/>
                                 </div>
                             </div>
 
                             <div class='form-group col-md-12'>
-                                <label class=' control-label'>*Nombre</label>
+                                <label class=' control-label'>*Username</label>
                                 <div class='col-md-12'>
-                                    <input id='corresponsal-nombre' class='form-control metadata mandatory'  type='text' disabled="disabled"/>
+                                    <input id='usuario-username' class='form-control metadata mandatory'  type='text' disabled="disabled"/>
                                     <span class="mandatory-field-error error-message">Este campo es obligatorio</span>
                                 </div>
                             </div>
                             <div class='form-group col-md-12'>
-                                <label class=' control-label'>Domicilio</label>
+                                <label class=' control-label'>*Password</label>
                                 <div class='col-md-12'>
-                                    <input id='corresponsal-domicilio' class='form-control metadata'  type='text' disabled="disabled"/>   
+                                    <input id='usuario-password' class='form-control metadata mandatory'  type='password' disabled="disabled"/>   
+                                    <span class="mandatory-field-error error-message">Este campo es obligatorio</span>
                                 </div>
                             </div>
                             <div class='form-group col-md-12'>
-                                <label class=' control-label'>Teléfono</label>
+                                <label class=' control-label'>Repetir Password</label>
                                 <div class='col-md-12'>
-                                    <input id='corresponsal-telefono' class='form-control metadata'  type='text' disabled="disabled"/>   
-                                </div>
-                            </div>
-                            <div class='form-group col-md-12'>
-                                <label class=' control-label'>Email</label>
-                                <div class='col-md-12'>
-                                    <input id='corresponsal-email' class='form-control metadata'  type='email' disabled="disabled"/>   
-                                </div>
-                            </div>
-                            <div class='form-group col-md-12'>
-                                <label class=' control-label'>Sub-zona</label>
-                                <div class='col-md-12'>
-
-                                    <select id="id_subzona" class="form-control metadata" disabled="disabled">
-                                        <option value="null">Elija una opción</option>
-                                        <?php
-                                        if (isset($subzonas)) {
-                                            for ($i = 0; $i < sizeof($subzonas); $i++) {
-                                                echo '<option value="' . $subzonas[$i]->id . '">' . $subzonas[$i]->nombre . '</option>';
-                                            }
-                                        }
-                                        ?>
-                                    </select> <i></i> 
-                                <!--<input id='subzona-nombre' class='form-control metadata'  type='text' disabled="disabled"/>-->
-                                </div>
-                            </div>
-                            <div class='form-group col-md-12'>
-                                <label class=' control-label'>Tomo/Folio/Colegio</label>
-                                <div class='col-md-12'>
-                                    <input id='corresponsal-tomo-folio-colegio' class='form-control metadata'  type='text' disabled="disabled"/>   
-                                </div>
-                            </div>
-                            <div class='form-group col-md-12'>
-                                <label class=' control-label'>Observaciones</label>
-                                <div class='col-md-12'>
-                                    <textarea id='corresponsal-observaciones' class='form-control metadata'  type='text' disabled="disabled"></textarea>   
+                                    <input id='usuario-repetir-password' class='form-control metadata mandatory'  type='password' disabled="disabled"/>   
+                                    <span class="mandatory-field-error error-message">Este campo es obligatorio</span>
                                 </div>
                             </div>
                             
+                            <div class='form-group col-md-12'>
+                                <label class=' control-label'>*Tipo</label>
+                                <div class='col-md-12'>
+
+                                    <select id="usuario-type" class="form-control metadata" disabled="disabled">
+                                        <option value="null">Elija una opción</option>
+                                        <option value="superadmin">Super-Admin</option>
+                                        <option value="admin">Administrador</option>
+                                        
+                                    </select> <i></i> 
+                                <!--<input id='subzona-username' class='form-control metadata'  type='text' disabled="disabled"/>-->
+                                </div>
+                            </div>
+                           
                         </div>
 
 
@@ -196,7 +179,7 @@
     </div>
 </section>
 <script type="text/javascript">
-    loadScript("<?php echo base_url(); ?>assets/js/corresponsales.js");
+    loadScript("<?php echo base_url(); ?>assets/js/usuarios.js");
 
     // DO NOT REMOVE : GLOBAL FUNCTIONS!
 
@@ -207,7 +190,7 @@
         /*
          * BASIC
          */
-        corresponsales_table = $('#corresponsales-table').dataTable({
+        usuarios_table = $('#usuarios-table').dataTable({
             "sPaginationType": "bootstrap",
             "bLengthChange": false,
             "aaSorting": [],
@@ -285,4 +268,10 @@
 
         /* END TABLE TOOLS */
     });
+
+
+    $('#tabs').tabs();
+
+
+
 </script>

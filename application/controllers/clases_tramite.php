@@ -53,10 +53,11 @@ class Clases_tramite extends CI_Controller {
 
             $update = $this->clases_tramite_model->update($_POST['id'], $_POST['data']);
 
-            if ($update) {
-                $return = array('status' => 1, 'msg' => 'La clase fue actualizada con éxito');
-            } else {
+            if ($update->error) {
                 $return = array('status' => 0, 'msg' => 'Hubo un problema en la actualización de la clase');
+            } else {
+                $return = array('status' => 1, 'msg' => 'La clase fue actualizada con éxito');
+                
             }
 
 

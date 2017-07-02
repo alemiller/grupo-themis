@@ -71,6 +71,7 @@ class Pagos_model extends CI_Model {
 
     public function update($id, $data) {
 
+        $result = new stdClass();
         $data_obj = json_decode($data);
 
         foreach ($data_obj as $key => $value) {
@@ -79,7 +80,21 @@ class Pagos_model extends CI_Model {
 
         $this->db->where('id', $id);
         $this->db->update('pagos');
-        $result = $this->db->affected_rows();
+
+        if ($this->db->_error_number() !== 0) {
+            $result->error = true;
+            $result->msg = $this->db->_error_message();
+        } else {
+            $result->error = false;
+
+            $this->db->select('pagos.id,pagos.id_cliente,pagos.tipo,pagos.valor,pagos.fecha_creacion,cp.title,cp.label');
+            $this->db->from('pagos');
+            $this->db->join('clases_pago as cp', 'pagos.tipo = cp.id');
+            $this->db->where('pagos.id', $id);
+            $query = $this->db->get();
+
+            $result->data = $query->result()[0];
+        }
 
         return $result;
     }
