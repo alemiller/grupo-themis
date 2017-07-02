@@ -90,7 +90,7 @@ class Tramites extends CI_Controller {
 
                 if (!$update->error) {
 
-                    $return = array('status' => 1, 'msg' => 'El tramite fue actualizado con éxito', 'data' => $data, 'url' => $url);
+                    $return = array('status' => 1, 'msg' => 'El tramite fue actualizado con éxito', 'data' => $data);
 
                     //Si ya tiene fecha de aviso no manda el email
                     if (!isset($tramite->fecha_aviso) || (isset($tramite->fecha_aviso) && !$tramite->fecha_aviso)) {
@@ -101,13 +101,13 @@ class Tramites extends CI_Controller {
                             $return = array('status' => 0, 'msg' => 'Complete el campo "Email" en la solapa Datos Personales');
                             $flag = false;
                         } else {
-                            
+
                             $info = new stdClass();
                             $info->cliente = $cliente;
                             $info->tramites = array($data);
 
                             $this->final_email_model->send_email('Aviso de trámite finalizado', $info, 'tramite_listo');
-                            $return = array('status' => 1, 'msg' => 'El trámite se actualizó con éxito');
+         
                         }
                     }
                 } else {
@@ -138,7 +138,6 @@ class Tramites extends CI_Controller {
 
                             $saldo = $this->cta_cte_model->get_saldo($_POST['id_cliente']);
 
-
                             $info = new stdClass();
                             $info->cliente = $cliente;
                             $info->tramites = array($data);
@@ -149,7 +148,7 @@ class Tramites extends CI_Controller {
                             if ($url) {
 
                                 $this->final_email_model->send_email('Aviso de trámites retirados', $info, 'tramite_retirado');
-                                $return = array('status' => 1, 'msg' => 'El trámite se actualizó con éxito');
+                                $return = array('status' => 1, 'msg' => 'El trámite se actualizó con éxito', 'url' => $url);
                             } else {
 
                                 $flag = false;
@@ -161,9 +160,10 @@ class Tramites extends CI_Controller {
                     $return = array('status' => 0, 'msg' => 'Hubo un problema en la actualización del tramite');
                 }
             }
-
-            echo json_encode($return);
+        } else {
+            $return = array('status' => 0, 'msg' => 'Error interno. Comuníquese con el administrador.');
         }
+        echo json_encode($return);
     }
 
     public function delete() {
