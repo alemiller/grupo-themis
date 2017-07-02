@@ -32,23 +32,25 @@ namespace["tramites"] = {
                 data: "data=" + json,
                 success: function (data) {
 
-                    var row_index = tramites_table.dataTable().fnAddData(["", data.data.id, format_datetime(data.data.fecha_creacion), data.data.caratula, capitalise(data.data.estado.replace('tramite', 'trámite')), '$' + data.data.total]);
-                    tramites_table.fnSort([[1, 'desc']]);
-                    var row = tramites_table.fnGetNodes(row_index);
-
-                    $(row).addClass('item-selected row-item');
-                    $(row).attr('id', data.data.id);
-                    $(row).children('td:eq( 0 )').addClass('chbx-item-cell');
-                    $(row).children('td:eq( 0 )').html("<input type='checkbox' class='chbx-item' id='" + data.data.id + "'>");
-                    $(row).children('td:eq( 1 )').addClass('clickeable-item');
-                    $(row).children('td:eq( 2 )').addClass('clickeable-item');
-                    $(row).children('td:eq( 3 )').addClass('clickeable-item');
-                    $(row).children('td:eq( 4 )').addClass('clickeable-item row-estado');
-                    $(row).children('td:eq( 5 )').addClass('clickeable-item row-valor');
-
-                    that.set_data(data.data);
                     reset_footer_buttons();
                     if (data.status) {
+
+                        var row_index = tramites_table.dataTable().fnAddData(["", data.data.id, format_datetime(data.data.fecha_creacion), data.data.caratula, capitalise(data.data.estado.replace('tramite', 'trámite')), '$' + data.data.total]);
+                        tramites_table.fnSort([[1, 'desc']]);
+                        var row = tramites_table.fnGetNodes(row_index);
+
+                        $(row).addClass('item-selected row-item');
+                        $(row).attr('id', data.data.id);
+                        $(row).children('td:eq( 0 )').addClass('chbx-item-cell');
+                        $(row).children('td:eq( 0 )').html("<input type='checkbox' class='chbx-item' id='" + data.data.id + "'>");
+                        $(row).children('td:eq( 1 )').addClass('clickeable-item');
+                        $(row).children('td:eq( 2 )').addClass('clickeable-item');
+                        $(row).children('td:eq( 3 )').addClass('clickeable-item');
+                        $(row).children('td:eq( 4 )').addClass('clickeable-item row-estado');
+                        $(row).children('td:eq( 5 )').addClass('clickeable-item row-valor');
+
+                        that.set_data(data.data);
+
                         set_small_box_message("Creación", data.msg, "#659265", "fa fa-check fa-2x fadeInRight animated", 4000);
                     } else {
                         set_small_box_error_message("Error!", data.msg, "#C46A69", "fa fa-times fa-2x fadeInRight animated");
@@ -72,10 +74,11 @@ namespace["tramites"] = {
             dataType: 'json',
             data: "id=" + item_id + "&id_cliente=" + $('#cliente-id').val() + "&data=" + json,
             success: function (data) {
-                that.set_data(data.data);
-                update_table();
+
                 reset_footer_buttons();
                 if (data.status) {
+                    that.set_data(data.data);
+                    update_table();
                     set_small_box_message("Creación", data.msg, "#659265", "fa fa-check fa-2x fadeInRight animated", 4000);
 
                     if (typeof (data.url) !== 'undefined' && data.url) {
@@ -434,7 +437,7 @@ $(document).on('click', '.reenviar-email-btn', function () {
 
 
 $(document).on('click', '.codebar-btn', function () {
-    
+
     var tramite_items = new Array();
     var row = tramites_table.fnGetNodes();
 
@@ -456,7 +459,7 @@ $(document).on('click', '.codebar-btn', function () {
 
                 if (data.status) {
 
-                   
+
 
                 } else {
                     set_small_box_error_message("Error!", data.msg, "#C46A69", "fa fa-times fa-2x fadeInRight animated");

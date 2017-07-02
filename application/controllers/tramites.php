@@ -148,11 +148,11 @@ class Tramites extends CI_Controller {
                             if ($url) {
 
                                 $this->final_email_model->send_email('Aviso de trámites retirados', $info, 'tramite_retirado');
-                                $return = array('status' => 1, 'msg' => 'El trámite se actualizó con éxito', 'url' => $url);
+                                $return = array('status' => 1, 'msg' => 'El trámite se actualizó con éxito', 'url' => $url, 'data'=> $data);
                             } else {
 
                                 $flag = false;
-                                $return = array('status' => 0, 'msg' => 'Hay un inconveniente para imprimir la Orden');
+                                $return = array('status' => 0, 'msg' => 'Hay un inconveniente para imprimir la Orden','data'=> $update);
                             }
                         }
                     }
