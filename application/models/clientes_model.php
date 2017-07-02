@@ -27,7 +27,7 @@ class Clientes_model extends CI_Model {
 
     public function create($data) {
 
-
+        $result = new stdClass();
         $data_obj = json_decode($data);
 
         $this->db->set('nombre', $data_obj->nombre);
@@ -39,17 +39,18 @@ class Clientes_model extends CI_Model {
         $this->db->set('saldo_inicial', $data_obj->saldo_inicial);
 
         $this->db->insert('clientes');
-        $result = $this->db->affected_rows();
 
-        if ($result) {
 
+        if ($this->db->_error_number() !== 0) {
+            $result->error = true;
+            $result->msg = $this->db->_error_message();
+        } else {
+            $result->error = false;
             $id = $this->db->insert_id();
-
             $query = $this->db->get_where('clientes', array('id' => $id));
 
-            $result = $query->result();
+            $result->data = $query->result();
         }
-
 
         return $result;
     }
@@ -69,11 +70,11 @@ class Clientes_model extends CI_Model {
 
         $this->db->where('id', $id);
         $this->db->update('clientes');
-        
-        if($this->db->_error_number() !== 0){
+
+        if ($this->db->_error_number() !== 0) {
             $result->error = true;
             $result->msg = $this->db->_error_message();
-        }else{
+        } else {
             $result->error = false;
         }
 

@@ -67,7 +67,7 @@ class Clientes extends CI_Controller {
             if ($create->error) {
                 $return = array('status' => 0, 'msg' => 'Hubo un problema en la creación del usuario');
             } else {
-                $return = array('status' => 1, 'msg' => 'El usuario fue creado con éxito', 'data' => $create[0]);
+                $return = array('status' => 1, 'msg' => 'El usuario fue creado con éxito', 'data' => $create->data[0]);
             }
 
             echo json_encode($return);
@@ -80,7 +80,7 @@ class Clientes extends CI_Controller {
 
             $create = $this->clientes_model->update($_POST['id'], $_POST['data']);
 
-            if ($create) {
+            if ($create->error) {
                 $return = array('status' => 1, 'msg' => 'El usuario fue actualizado con éxito');
             } else {
                 $return = array('status' => 0, 'msg' => 'Hubo un problema en la actualización del usuario');
