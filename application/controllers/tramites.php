@@ -74,6 +74,7 @@ class Tramites extends CI_Controller {
             $data->id = $_POST['id'];
             $flag = true;
             $url = null;
+            $return = array();
 
             $tramite = $this->tramites_model->get_by_id($_POST['id']);
 
@@ -107,8 +108,9 @@ class Tramites extends CI_Controller {
                             $info->tramites = array($data);
 
                             $this->final_email_model->send_email('Aviso de trámite finalizado', $info, 'tramite_listo');
-         
                         }
+                    } else {
+                        $return = array('status' => 1, 'msg' => 'El trámite se actualizó con éxito', 'data' => $data);
                     }
                 } else {
                     $return = array('status' => 0, 'msg' => 'Hubo un problema en la actualización del tramite');
@@ -148,13 +150,15 @@ class Tramites extends CI_Controller {
                             if ($url) {
 
                                 $this->final_email_model->send_email('Aviso de trámites retirados', $info, 'tramite_retirado');
-                                $return = array('status' => 1, 'msg' => 'El trámite se actualizó con éxito', 'url' => $url, 'data'=> $data);
+                                $return = array('status' => 1, 'msg' => 'El trámite se actualizó con éxito', 'url' => $url, 'data' => $data);
                             } else {
 
                                 $flag = false;
-                                $return = array('status' => 0, 'msg' => 'Hay un inconveniente para imprimir la Orden','data'=> $update);
+                                $return = array('status' => 0, 'msg' => 'Hay un inconveniente para imprimir la Orden', 'data' => $update);
                             }
                         }
+                    } else {
+                        $return = array('status' => 1, 'msg' => 'El trámite se actualizó con éxito', 'data' => $data);
                     }
                 } else {
                     $return = array('status' => 0, 'msg' => 'Hubo un problema en la actualización del tramite');
