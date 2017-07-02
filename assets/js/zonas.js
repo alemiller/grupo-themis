@@ -40,7 +40,8 @@ namespace["zonas"] = {
                 $(row).attr('id', data.data.id);
                 $(row).children('td:eq( 0 )').addClass('chbx-item-cell');
                 $(row).children('td:eq( 0 )').html("<input type='checkbox' class='chbx-item' id='" + data.data.id + "'>");
-                $(row).children('td:eq( 2 )').addClass('row-nombre');
+                $(row).children('td:eq( 1 )').addClass('clickeable-item');
+                $(row).children('td:eq( 2 )').addClass('clickeable-item row-nombre');
 
 
                 $('#info_item_title').text(data.data.nombre);
