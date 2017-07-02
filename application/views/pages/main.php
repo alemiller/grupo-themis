@@ -100,6 +100,7 @@
                 <li>
                     <a href="corresponsales" class="nav-menu-link"><i class="fa fa-lg fa-fw fa-briefcase"></i><span class="menu-item-parent">Corresponsales</span></a>
                 </li>
+                
                 <li>
                     <a href="#"><i class="fa fa-lg fa-fw fa-cog"></i><span class="menu-item-parent nav-menu-link">Configuración</span></a>
                     <ul>
@@ -120,6 +121,10 @@
                         }
                         ?>
                     </ul>
+                </li>
+                <li>
+                    <a href="estadisticas" class="nav-menu-link"><i class="fa fa-lg fa-fw fa-bar-chart"></i><span class="menu-item-parent">Estadísticas</span></a>
+                </li>
             </ul>
         </nav>
         <span class="minifyme"> <i class="fa fa-arrow-circle-left hit"></i> </span>
