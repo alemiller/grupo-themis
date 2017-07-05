@@ -17,10 +17,7 @@
                 margin-right: auto;
                 color: #000;
                 font-family: 'Roboto', sans-serif;
-            }
-
-            title{
-                color: #fff;
+                font-size: 12px;
             }
 
             p{
@@ -30,7 +27,7 @@
 
             #constancia{
                 width: 100%;
-                border: 1px solid #ccc;
+                border: 1px solid #000;
                 padding: 0px;
                 margin-top: 50px;
 
@@ -38,7 +35,7 @@
 
             .colum-izq{
                 width: 50%;
-                border-right: 1px solid #ccc;
+                border-right: 1px solid #000;
                 text-align: center
             }
 
@@ -53,7 +50,7 @@
             }
 
             tr.top-row td{
-                border-bottom: 1px solid #ccc; 
+                border-bottom: 1px solid #000; 
             }
 
             #logo{
@@ -90,7 +87,7 @@
             }
 
             td.cliente-detalle{
-                border-bottom: 1px solid #ccc;  
+                border-bottom: 1px solid #000;  
             }
 
             #detalle{
@@ -105,15 +102,15 @@
             }
 
             td.detalle-cell{
-                border-bottom: 1px solid #ccc;  
+                border-bottom: 1px solid #000;  
             }
 
             tr.detalle-header th{
-                border-bottom: 1px solid #ccc;
+                border-bottom: 1px solid #000;
             }
 
             td.border-right, th.border-right{
-                border-right: 1px solid #ccc;  
+                border-right: 1px solid #000;  
             }
 
             #firma-content{
@@ -138,7 +135,7 @@
 
             #tramites-table{
                 width: 100%;
-                border: 1px solid #ccc;
+                border: 1px solid #000;
             }
 
             #fecha{
@@ -150,7 +147,7 @@
             #firma{
                 width: 95%;
                 height: 35px;
-                border-bottom: 1px solid #ccc;
+                border-bottom: 1px solid #000;
             }
 
             #pie{
