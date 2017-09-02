@@ -72,7 +72,7 @@ input.login-error{
 }
 
 #impresion-content{
-    display: block;
+    display: none;
 }
 
 .form-by-tramite{
