@@ -66,7 +66,7 @@
     </div>
 
 </div>
-<iframe id="impresion-content" style="display: none"></iframe>
+<iframe id="impresion-content"></iframe>
 <script type="text/javascript">
     loadScript("<?php echo base_url(); ?>assets/js/clientes.js", dt_1);
 

@@ -71,6 +71,10 @@ input.login-error{
     padding-left: 0px!important;   
 }
 
+#impresion-content{
+    display: block;
+}
+
 .form-by-tramite{
     display: inline-block;
     vertical-align: middle;

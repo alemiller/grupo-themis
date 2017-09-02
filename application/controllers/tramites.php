@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-//require 'vendor/autoload.php';
+require 'vendor/autoload.php';
 //require 'vendor/picqer/phpmailer/php-barcode-generator/src/BarcodeGeneratorPNG.php';
 
 class Tramites extends CI_Controller {
@@ -55,8 +55,13 @@ class Tramites extends CI_Controller {
 
             $create = $this->tramites_model->create($_POST['data']);
 
+            $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();  
+            $barcode = base64_encode($generator->getBarcode($create[0]->id, $generator::TYPE_CODE_128));
+
+            $url = $this->generar_barcode($create[0], $barcode);
+           
             if ($create) {
-                $return = array('status' => 1, 'msg' => 'El tramite fue creado con éxito', 'data' => $create[0]);
+                $return = array('status' => 1, 'msg' => 'El tramite fue creado con éxito', 'data' => $create[0], 'url' => $url);
             } else {
                 $return = array('status' => 0, 'msg' => 'Hubo un problema en la creación del tramite');
             }
@@ -455,16 +460,25 @@ class Tramites extends CI_Controller {
         }
     }
 
-    public function imprimir_codebar() {
+    public function generar_barcode($tramite, $barcode) {
 
         $data = array();
 
-        $tramites_ids = explode(',', $_POST['tramites']);
-        $data['tramites'] = $this->tramites_model->get_by_multiple_ids($tramites_ids);
-        $data['generator'] = new \Picqer\Barcode\BarcodeGeneratorPNG();
+        $data['tramite'] = $tramite;
+        $data['barcode'] = $barcode;
 
-        $ajax_response = $this->load->view('templates/tramites/codebar_page', $data, TRUE);
-        $this->output->set_output($ajax_response);
+        $ajax_response = $this->load->view('templates/tramites/barcode_page', $data, TRUE);
+
+        $name = 'barcode_' . time() . '.html';
+        $root = $this->config->item('save_file_folder') . $name;
+        $url = base_url() . $this->config->item('save_file_root') . $name;
+        $create_file = file_put_contents($root, $ajax_response);
+
+        if ($create_file) {
+            return $url;
+        } else {
+            return false;
+        }
     }
 
     public function search() {

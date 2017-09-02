@@ -22,10 +22,6 @@
                 font-family: 'Roboto', sans-serif;
             }
 
-            title{
-                color: #fff;
-            }
-
             p{
                 margin: 0px;
                 font-weight: bold;

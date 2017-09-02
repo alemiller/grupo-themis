@@ -52,6 +52,14 @@ namespace["tramites"] = {
                         that.set_data(data.data);
 
                         set_small_box_message("Creación", data.msg, "#659265", "fa fa-check fa-2x fadeInRight animated", 4000);
+
+                        if (typeof (data.url) !== 'undefined' && data.url) {
+
+                            $('#impresion-content').attr("src", data.url).load(function () {
+                                document.getElementById('impresion-content').contentWindow.print();
+                            });
+                        }
+
                     } else {
                         set_small_box_error_message("Error!", data.msg, "#C46A69", "fa fa-times fa-2x fadeInRight animated");
                     }
