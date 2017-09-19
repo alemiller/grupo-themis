@@ -3,6 +3,8 @@ namespace["tramites"] = {
     get_by_id: function (id) {
         var that = this;
         $(this).addClass('item-selected');
+        $('#reclamos-content').html('');
+        $('#add-reclamo-btn').removeAttr('disabled');
 
         $.ajax({
             url: base_url + "index.php/tramites/get_by_id",
@@ -19,7 +21,9 @@ namespace["tramites"] = {
     },
 
     create: function () {
-
+        
+        $('#reclamos-content').html('');
+        $('#add-reclamo-btn').attr('disabled', 'disabled');
         var that = this;
         if (typeof (id_cliente) !== 'undefined' && id_cliente) {
 
@@ -32,6 +36,7 @@ namespace["tramites"] = {
                 data: "data=" + json,
                 success: function (data) {
 
+                    $('#add-reclamo-btn').removeAttr('disabled');
                     reset_footer_buttons();
                     if (data.status) {
 
@@ -53,12 +58,12 @@ namespace["tramites"] = {
 
                         set_small_box_message("Creación", data.msg, "#659265", "fa fa-check fa-2x fadeInRight animated", 4000);
 
-                        if (typeof (data.url) !== 'undefined' && data.url) {
-
-                            $('#impresion-content').attr("src", data.url).load(function () {
-                                document.getElementById('impresion-content').contentWindow.print();
-                            });
-                        }
+//                        if (typeof (data.url) !== 'undefined' && data.url) {
+//
+//                            $('#impresion-content').attr("src", data.url).load(function () {
+//                                document.getElementById('impresion-content').contentWindow.print();
+//                            });
+//                        }
 
                     } else {
                         set_small_box_error_message("Error!", data.msg, "#C46A69", "fa fa-times fa-2x fadeInRight animated");
@@ -86,8 +91,8 @@ namespace["tramites"] = {
                 reset_footer_buttons();
                 if (data.status) {
                     that.set_data(data.data);
-                    update_table();
-                    set_small_box_message("Creación", data.msg, "#659265", "fa fa-check fa-2x fadeInRight animated", 4000);
+                    update_table(data.data);
+                    set_small_box_message("Guardar", data.msg, "#659265", "fa fa-check fa-2x fadeInRight animated", 4000);
 
                     if (typeof (data.url) !== 'undefined' && data.url) {
 
@@ -137,6 +142,8 @@ namespace["tramites"] = {
                         }
 
                         reset_metadata();
+                        $('#add-reclamo-btn').attr('disabled', 'disabled');
+                        $('#reclamos-content').html('');
                         $('.footerButtons').find('button').attr('disabled', 'disabled');
 
                         set_small_box_message("Eliminar tramite(s)", data.msg, "#659265", "fa fa-check fa-2x fadeInRight animated", 4000);
@@ -181,6 +188,15 @@ namespace["tramites"] = {
         $('#tramite-caratula').val(data.caratula);
         $('#tramite-clase').val(data.id_clase);
         $('#tramite-estado').val(data.estado);
+
+        if (data.estado === 'enviado') {
+            $('#tramite-enviado-content').show();
+        } else {
+            $('#tramite-enviado-content').hide();
+        }
+
+        $('#tramite-correo').val(data.correo);
+        $('#tramite-nro-envio').val(data.nro_envio);
         $('#tramite-subzona').val(data.id_subzona);
         $('#tramite-honorarios').val(data.honorarios);
         $('#tramite-sellado').val(data.sellado);
@@ -188,27 +204,57 @@ namespace["tramites"] = {
 
         if (data.fecha_creacion) {
             $('#tramite-fecha-creacion').val(format_date(data.fecha_creacion));
+        } else {
+            $('#tramite-fecha-creacion').val('');
         }
 
         if (data.fecha_vencimiento) {
             $('#tramite-fecha-vto').datepicker('setDate', format_date(data.fecha_vencimiento));
+        } else {
+            $('#tramite-fecha-vto').val('');
         }
 
         if (data.fecha_audiencia) {
             $('#tramite-fecha-audiencia').datepicker('setDate', format_date(data.fecha_audiencia));
+        } else {
+            $('#tramite-fecha-audiencia').val('');
         }
+
         if (data.fecha_aviso) {
             $('#tramite-fecha-aviso').val(format_date(data.fecha_aviso));
+        } else {
+            $('#tramite-fecha-aviso').val('');
         }
 
         if (data.fecha_retiro) {
             $('#tramite-fecha-retiro').val(format_date(data.fecha_retiro));
+        } else {
+            $('#tramite-fecha-retiro').val('');
+        }
+
+        if (data.fecha_envio) {
+            $('#tramite-fecha-envio').val(format_date(data.fecha_envio));
+        } else {
+            $('#tramite-fecha-envio').val('');
         }
 
         $('#tramite-corresponsales').val(data.id_corresponsal);
         $('#tramite-honorario-corresponsal').val(data.honorario_corresponsal);
-        $('#tramite-observaciones').val(data.observaciones);
+        $('#tramite-observaciones').val(data.observacion_id);
         $('#tramite-observaciones-cliente').val(data.observaciones_cliente);
+
+        $('#tramite-creado-por').val(data.creado_por);
+        $('#tramite-actualizado-por').val(data.actualizado_por);
+
+        if (data.fecha_actualizacion) {
+            $('#tramite-fecha-actualizacion').val(format_date(data.fecha_actualizacion));
+        } else {
+            $('#tramite-fecha-actualizacion').val('');
+        }
+        
+        if(typeof(data.reclamos) !== 'undefined' && data.reclamos.length >0){
+            add_reclamos_form(data.reclamos);
+        }
 
     },
     get_data: function () {
@@ -218,6 +264,8 @@ namespace["tramites"] = {
         tramite_data.caratula = $('#tramite-caratula').val();
         tramite_data.id_clase = $('#tramite-clase').val();
         tramite_data.estado = $('#tramite-estado').val();
+        tramite_data.correo = $('#tramite-correo').val();
+        tramite_data.nro_envio = $('#tramite-nro-envio').val();
         tramite_data.id_subzona = $('#tramite-subzona').val();
         tramite_data.honorarios = $('#tramite-honorarios').val();
         tramite_data.sellado = $('#tramite-sellado').val();
@@ -232,7 +280,7 @@ namespace["tramites"] = {
         tramite_data.id_corresponsal = $('#tramite-corresponsales').val();
         tramite_data.honorario_corresponsal = $('#tramite-honorario-corresponsal').val();
 
-        tramite_data.observaciones = $('#tramite-observaciones').val();
+        tramite_data.observacion_id = $('#tramite-observaciones').val();
         tramite_data.observaciones_cliente = $('#tramite-observaciones-cliente').val();
 
         var json = JSON.stringify(tramite_data);
@@ -264,6 +312,18 @@ $(document).on('change', '#tramite-clase', function () {
 $(document).on('change', '#tramite-subzona', function () {
     $('#tramite-corresponsales option[data-subzona="' + $(this).val() + '"]').prop('selected', true);
 });
+
+$(document).on('change', '#tramite-estado', function () {
+    if ($(this).val() === "enviado") {
+        $('#tramite-enviado-content').show();
+    } else {
+        $('#tramite-enviado-content').hide();
+        $('#tramite-correo').val('');
+        $('#tramite-nro-envio').val('');
+    }
+});
+
+
 
 $(document).on('click', '#crear-orden-btn', function () {
 
@@ -479,15 +539,12 @@ $(document).on('click', '.codebar-btn', function () {
     }
 });
 
-function update_table() {
+function update_table(tramite) {
 
-    $('#info_item_title').text($('#tramite-nombre').val());
-    $('.item-selected').children('.row-nombre').text($('#tramite-nombre').val());
-    $('.item-selected').children('.row-estado').text(capitalise($('#tramite-estado').val().replace('en_tramite', 'En Trámite')));
-
-    var valor = parseFloat($('#tramite-honorarios').val()) + parseFloat($('#tramite-sellado').val()) + parseFloat($('#tramite-honorario-corresponsal').val());
-
-    $('.item-selected').children('.row-valor').text('$' + valor);
+    $('#info_item_title').text(tramite.caratula);
+    $('.item-selected').children('.row-nombre').text(tramite.caratula);
+    $('.item-selected').children('.row-estado').text(capitalise(tramite.estado.replace('en_tramite', 'En Trámite')));
+    $('.item-selected').children('.row-valor').text('$' + tramite.total);
 }
 
 //END TRAMITES ON CLIENTES

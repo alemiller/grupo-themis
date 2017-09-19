@@ -1,5 +1,24 @@
 <?php
 
-define('ENVIRONMENT', 'production');
-define('CLEARDB_DATABASE_URL', 'mysql://bb15b20dd502f8:7610465a@us-cdbr-iron-east-03.cleardb.net/heroku_7ad906a4627bbea?reconnect=true');
+define('ENVIRONMENT', read_config_var('ENVIRONMENT'));
+
+function read_config_var($variable) {
+
+	$ret = '';
+
+	if (file_exists('env.ini')) {
+		$env_array = parse_ini_file("env.ini");
+		if (isset($env_array[$variable])) $ret = $env_array[$variable];
+	} 
+
+	if (!$ret) {
+		if (getenv($variable) === false) {
+			die('Invalid configuration. ' . $variable . ' not set.');
+		} else {
+			$ret = getenv($variable);
+		}
+	}
+
+	return $ret;
+}
 

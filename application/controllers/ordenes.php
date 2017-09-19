@@ -213,7 +213,7 @@ class Ordenes extends CI_Controller {
 
             array_push($info, $item);
         }
-
+     
         $url = $this->generar_impresiones($info);
 
         if ($url) {

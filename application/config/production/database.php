@@ -69,10 +69,10 @@ $active_record = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'us-cdbr-iron-east-03.cleardb.net',
-	'username' => 'bb15b20dd502f8',
-	'password' => '7610465a',
-	'database' => 'heroku_7ad906a4627bbea',
+	'hostname' => '192.168.0.196',
+	'username' => 'themis-bdadmin',
+	'password' => 'Boca10Juniors03',
+	'database' => 'grupo-themis',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

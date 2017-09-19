@@ -115,6 +115,7 @@
                     <th class="border-right">Trámite Nro.</th>
                     <th class="border-right">Carátula</th>
                     <th class="border-right">Fecha de retiro</th>
+                    <th class="border-right">Observaciones</th>
                     <th>Valor</th>
                 </tr>
                 <?php
@@ -130,6 +131,7 @@
                         <td class="border-right"><?php echo $tramites[$i]->id; ?></td>
                         <td class="border-right"><?php echo $tramites[$i]->caratula; ?></td>
                         <td class="border-right"><?php echo $fecha_retiro; ?></td>
+                        <td class="border-right"><?php echo $tramites[$i]->observaciones_cliente; ?></td>
                         <td><?php echo "$" . (floatval($tramites[$i]->honorarios) + floatval($tramites[$i]->sellado) + floatval($tramites[$i]->honorario_corresponsal)); ?></td>
                     </tr>
                     <?php

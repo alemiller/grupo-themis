@@ -72,12 +72,17 @@ input.login-error{
 }
 
 #impresion-content{
-    display: none;
+    z-index: -999;
+    position: relative;
 }
 
 .form-by-tramite{
     display: inline-block;
     vertical-align: middle;
+}
+
+#tramite-enviado-content{
+    display: none;
 }
 
 #main-footer{
@@ -103,7 +108,7 @@ input.login-error{
     font-size: 14px!important;
 }
 #tabs-tramites{
-    min-height: 1000px;
+    min-height: 1250px;
     padding-top: 0px!important;
 }
 
@@ -196,4 +201,16 @@ input.login-error{
 
 #tramites-content{
     min-height: 600px;
+}
+
+#reclamos-content{
+    margin-top: 10px;
+}
+
+.reclamo-item{
+    margin-bottom: 10px;
+}
+
+.reclamo-item footer{
+    margin-left: 13px;
 }

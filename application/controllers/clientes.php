@@ -13,6 +13,8 @@ class Clientes extends CI_Controller {
         $this->load->model('subzonas_model');
         $this->load->model('corresponsales_model');
         $this->load->model('pagos_model');
+        $this->load->model('observaciones_model');
+        $this->load->model('reclamos_model');
         $this->load->helper('url');
         $this->load->helper('file');
         $this->load->library('session');
@@ -37,9 +39,11 @@ class Clientes extends CI_Controller {
         $data['subzonas'] = $this->subzonas_model->list_subzonas();
         $data['corresponsales'] = $this->corresponsales_model->list_corresponsales();
         $data['clases_tramite'] = $this->clases_tramite_model->list_clases();
+        $data['tramite_observaciones'] = $this->observaciones_model->list_observaciones();
 
         if (isset($_GET['tramite_id'])) {
             $data['tramite_selected'] = $this->tramites_model->get_by_id($_GET['tramite_id']);
+            $data['reclamos'] = $this->reclamos_model->get_by_tramite_id($_GET['tramite_id']);
         }
 
         $ajax_response = $this->load->view('pages/detalle_cliente', $data, TRUE);

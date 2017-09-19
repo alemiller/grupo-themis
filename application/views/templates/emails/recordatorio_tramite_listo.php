@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Aviso de Trámite finalizado</title>
+        <title>Recordatorio de Trámite finalizado</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -84,7 +84,7 @@
     <body>
         <header>
             <div id="logo"></div>
-            <div id="title">Trámites listos</div>
+            <div id="title">Recordatorio: Trámites listos</div>
         </header>
         <div id="content">
             <p id="fecha">
@@ -96,8 +96,8 @@
 
             <p>
                 <br>
-                Le informamos que los siguientes trámites han finalizado y se encuentran en 
-                nuestras oficinas para ser retirados de lunes a viernes de 9 a 16 hs:
+                Le recordamos que los siguientes trámites han finalizado y se encuentran en 
+                nuestras oficinas, desde el día <?php echo date('d-m-Y', strtotime($tramites[0]->fecha_aviso));?> para ser retirados de lunes a viernes de 9 a 16 hs:
             </p>
             <table id="tramites-table">
                 <tr class="detalle-header">
@@ -121,7 +121,7 @@
                         <td class="border-right"><?php echo $tramites[$i]->caratula; ?></td>
                         <td class="border-right"><?php echo $fecha_aviso; ?></td>
                         <td class="border-right"><?php echo $tramites[$i]->observaciones_cliente; ?></td>
-                        <td><?php echo "$" . (floatval($tramites[$i]->honorarios) + floatval($tramites[$i]->sellado) + floatval($tramites[$i]->honorario_corresponsal)); ?></td>
+                        <td><?php echo "$" . $tramites[$i]->total; ?></td>
                     </tr>
                     <?php
                 }

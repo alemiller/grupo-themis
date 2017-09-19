@@ -17,6 +17,9 @@
                                 <a class='cambiar-estado-btn' data-estado='listo' href="javascript:void(0);">Listo</a>
                             </li>
                             <li>
+                                <a class='cambiar-estado-btn' data-estado='enviado' href="javascript:void(0);">Enviado</a>
+                            </li>
+                            <li>
                                 <a class='cambiar-estado-btn' data-estado='retirado' href="javascript:void(0);">Retirado</a>
                             </li>
                            
@@ -25,6 +28,9 @@
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"> Imprimir <b class="caret"></b> </a>
                         <ul class="dropdown-menu">
+                            <li>
+                                <a class="reimprimir-btn" data-constancia="codigo_barras" href="javascript:void(0);">Código de Barras</a>
+                            </li>
                             <li>
                                 <a class="reimprimir-btn" data-constancia="retiro" href="javascript:void(0);">Orden de Retiro</a>
                             </li>
@@ -39,6 +45,9 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a class="reenviar-email-btn" data-email="listo" href="javascript:void(0);">Trámite Listo</a>
+                            </li>
+                            <li>
+                                <a class="reenviar-email-btn" data-email="enviado" href="javascript:void(0);">Trámite Enviado</a>
                             </li>
                             <li>
                                 <a class="reenviar-email-btn" data-email="retirado" href="javascript:void(0);">Trámite Retirado</a>

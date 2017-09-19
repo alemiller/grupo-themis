@@ -66,19 +66,25 @@
                 <div class="widget-body" style="text-align: center;">
                     <p>
                         <?php
-                        $first_item = $ingresos[0];
-                        $last_item = $ingresos[sizeof($ingresos) - 1];
+                        if (sizeof($ingresos) > 0) {
+                            $first_item = $ingresos[0];
+                            $last_item = $ingresos[sizeof($ingresos) - 1];
 
-                        $total = 0;
-                        for ($i = 0; $i < sizeof($ingresos); $i++) {
-                            $total += abs($ingresos[$i]->valor);
-                        }
+                            $total = 0;
+                            for ($i = 0; $i < sizeof($ingresos); $i++) {
+                                $total += abs($ingresos[$i]->valor);
+                            }
+                            ?>
+                        <h5>Período</h5>
+                        <h5><?php echo date('d-m-Y', strtotime($first_item->fecha)); ?> al <?php echo date('d-m-Y', strtotime($last_item->fecha)); ?></h5>
+
+                        <h4><b><?php echo 'Total: $ ' . $total; ?></b></h4>
+                        </p>
+                    <?php }else{
                         ?>
-                    <h5>Período</h5>
-                    <h5><?php echo date('d-m-Y', strtotime($first_item->fecha)); ?> al <?php echo date('d-m-Y', strtotime($last_item->fecha)); ?></h5>
-
-                    <h4><b><?php echo 'Total: $ ' . $total; ?></b></h4>
-                    </p>
+                         <h5>No hay ingresos para el período seleccionado</h5>
+                        <?php
+                    } ?>
                 </div>
                 <!-- end widget content -->
 

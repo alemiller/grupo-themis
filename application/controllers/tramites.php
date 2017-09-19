@@ -4,6 +4,7 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 require 'vendor/autoload.php';
+
 //require 'vendor/picqer/phpmailer/php-barcode-generator/src/BarcodeGeneratorPNG.php';
 
 class Tramites extends CI_Controller {
@@ -12,6 +13,7 @@ class Tramites extends CI_Controller {
         parent::__construct();
         $this->load->model('tramites_model');
         $this->load->model('clientes_model');
+        $this->load->model('reclamos_model');
         $this->load->model('cta_cte_model');
         $this->load->model('clases_tramite_model');
         $this->load->model('subzonas_model');
@@ -44,9 +46,13 @@ class Tramites extends CI_Controller {
     public function get_by_id() {
 
         $id = $_POST['id'];
-        $cliente = $this->tramites_model->get_by_id($id);
-
-        echo json_encode($cliente);
+        $tramite = $this->tramites_model->get_by_id($id);
+        $reclamos = $this->reclamos_model->get_by_tramite_id($id);
+        
+        $tramite->reclamos = $reclamos;
+        
+        error_log('tramite: '.json_encode($tramite));
+        echo json_encode($tramite);
     }
 
     public function create() {
@@ -55,13 +61,13 @@ class Tramites extends CI_Controller {
 
             $create = $this->tramites_model->create($_POST['data']);
 
-            $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();  
-            $barcode = base64_encode($generator->getBarcode($create[0]->id, $generator::TYPE_CODE_128));
+//            $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
+//            $barcode = base64_encode($generator->getBarcode($create[0]->id, $generator::TYPE_CODE_128));
+//
+//            $url = $this->generar_barcode($create[0], $barcode);
 
-            $url = $this->generar_barcode($create[0], $barcode);
-           
             if ($create) {
-                $return = array('status' => 1, 'msg' => 'El tramite fue creado con éxito', 'data' => $create[0], 'url' => $url);
+                $return = array('status' => 1, 'msg' => 'El tramite fue creado con éxito', 'data' => $create[0]);
             } else {
                 $return = array('status' => 0, 'msg' => 'Hubo un problema en la creación del tramite');
             }
@@ -83,91 +89,141 @@ class Tramites extends CI_Controller {
 
             $tramite = $this->tramites_model->get_by_id($_POST['id']);
 
-            if ($data->estado === 'listo') {
+            switch ($data->estado) {
 
-                //Si ya tiene fecha de aviso no la actualiza
-                if (!isset($tramite->fecha_aviso) || (isset($tramite->fecha_aviso) && !$tramite->fecha_aviso)) {
-                    $data->fecha_aviso = date('Y-m-d', time());
-                }
-
-                //Actualiza en este momento para enviar datos actualizados en el email
-                $data->fecha_actualizacion = date('Y-m-d', time());
-                $update = $this->tramites_model->update($_POST['id'], json_encode($data));
-
-                if (!$update->error) {
-
-                    $return = array('status' => 1, 'msg' => 'El tramite fue actualizado con éxito', 'data' => $data);
-
-                    //Si ya tiene fecha de aviso no manda el email
+                case 'listo':
+                    //Si ya tiene fecha de aviso no la actualiza
                     if (!isset($tramite->fecha_aviso) || (isset($tramite->fecha_aviso) && !$tramite->fecha_aviso)) {
-
-                        $cliente = $this->clientes_model->get_by_id($_POST['id_cliente']);
-
-                        if ($cliente->email === '') {
-                            $return = array('status' => 0, 'msg' => 'Complete el campo "Email" en la solapa Datos Personales');
-                            $flag = false;
-                        } else {
-
-                            $info = new stdClass();
-                            $info->cliente = $cliente;
-                            $info->tramites = array($data);
-
-                            $this->final_email_model->send_email('Aviso de trámite finalizado', $info, 'tramite_listo');
-                        }
-                    } else {
-                        $return = array('status' => 1, 'msg' => 'El trámite se actualizó con éxito', 'data' => $data);
+                        $data->fecha_aviso = date('Y-m-d', time());
                     }
-                } else {
-                    $return = array('status' => 0, 'msg' => 'Hubo un problema en la actualización del tramite');
-                }
-            } else if ($data->estado === 'retirado') {
 
-                //Si ya tiene fecha de retiro no la actualiza
-                if (!isset($tramite->fecha_retiro) || (isset($tramite->fecha_retiro) && !$tramite->fecha_retiro)) {
-                    $data->fecha_retiro = date('Y-m-d', time());
-                }
+                    //Actualiza en este momento para enviar datos actualizados en el email
+                    $update = $this->tramites_model->update($_POST['id'], json_encode($data));
 
-                //Actualiza en este momento para enviar datos actualizados en el email
-                $data->fecha_actualizacion = date('Y-m-d', time());
-                $update = $this->tramites_model->update($_POST['id'], json_encode($data));
+                    if (!$update->error) {
 
-                if (!$update->error) {
+                        $return = array('status' => 1, 'msg' => 'El tramite fue actualizado con éxito', 'data' => $update->tramite);
 
-                    //Si ya tiene fecha de retiro no manda el email ni imprime el comprobante
-                    if (!isset($tramite->fecha_retiro) || (isset($tramite->fecha_retiro) && !$tramite->fecha_retiro)) {
+                        //Si ya tiene fecha de aviso no manda el email
+                        if (!isset($tramite->fecha_aviso) || (isset($tramite->fecha_aviso) && !$tramite->fecha_aviso)) {
 
-                        $cliente = $this->clientes_model->get_by_id($_POST['id_cliente']);
-
-                        if ($cliente->email === '') {
-                            $return = array('status' => 0, 'msg' => 'Complete el campo "Email" en la solapa Datos Personales');
-                            $flag = false;
-                        } else {
-
-                            $saldo = $this->cta_cte_model->get_saldo($_POST['id_cliente']);
-
-                            $info = new stdClass();
-                            $info->cliente = $cliente;
-                            $info->tramites = array($data);
-                            $info->saldo = $saldo;
-
-                            $url = $this->generar_impresion($info);
-
-                            if ($url) {
-
-                                $this->final_email_model->send_email('Aviso de trámites retirados', $info, 'tramite_retirado');
-                                $return = array('status' => 1, 'msg' => 'El trámite se actualizó con éxito', 'url' => $url, 'data' => $data);
+                            $cliente = $this->clientes_model->get_by_id($_POST['id_cliente']); 
+                            
+                            if ($cliente->email === '') {
+                                $return = array('status' => 0, 'msg' => 'Complete el campo "Email" en la solapa Datos Personales');
+                                $flag = false;
                             } else {
 
-                                $flag = false;
-                                $return = array('status' => 0, 'msg' => 'Hay un inconveniente para imprimir la Orden', 'data' => $update);
+                                $info = new stdClass();
+                                $info->cliente = $cliente;
+                                $info->tramites = array($data);
+
+                                $this->final_email_model->send_email('Aviso de trámite finalizado', $info, 'tramite_listo');
                             }
                         }
                     } else {
-                        $return = array('status' => 1, 'msg' => 'El trámite se actualizó con éxito', 'data' => $data);
+                        $return = array('status' => 0, 'msg' => 'Hubo un problema en la actualización del tramite');
                     }
-                } else {
-                    $return = array('status' => 0, 'msg' => 'Hubo un problema en la actualización del tramite');
-                }
+                    break;
+
+                case 'enviado':
+                    //Si ya tiene fecha de envio no la actualiza
+                    if (!isset($tramite->fecha_envio) || (isset($tramite->fecha_envio) && !$tramite->fecha_envio)) {
+                        $data->fecha_envio = date('Y-m-d', time());
+                    }
+                    if (!isset($tramite->fecha_aviso) || (isset($tramite->fecha_aviso) && !$tramite->fecha_aviso)) {
+                        $data->fecha_aviso = date('Y-m-d', time());
+                    }
+
+                    //Actualiza en este momento para enviar datos actualizados en el email
+                    $update = $this->tramites_model->update($_POST['id'], json_encode($data));
+
+                    if (!$update->error) {
+
+                        $return = array('status' => 1, 'msg' => 'El tramite fue actualizado con éxito', 'data' => $update->tramite);
+
+                        //Si ya tiene fecha de aviso no manda el email
+                        if (!isset($tramite->fecha_envio) || (isset($tramite->fecha_envio) && !$tramite->fecha_envio)) {
+
+                            $cliente = $this->clientes_model->get_by_id($_POST['id_cliente']);
+
+                            if ($cliente->email === '') {
+                                $return = array('status' => 0, 'msg' => 'Complete el campo "Email" en la solapa Datos Personales');
+                                $flag = false;
+                            } else {
+
+                                $info = new stdClass();
+                                $info->cliente = $cliente;
+                                $info->tramites = array($data);
+
+                                $this->final_email_model->send_email('Aviso de trámite enviado', $info, 'tramite_enviado');
+                            }
+                        }
+                    } else {
+                        $return = array('status' => 0, 'msg' => 'Hubo un problema en la actualización del tramite');
+                    }
+                    break;
+
+                case 'retirado':
+
+                    //Si ya tiene fecha de retiro no la actualiza
+                    if (!isset($tramite->fecha_retiro) || (isset($tramite->fecha_retiro) && !$tramite->fecha_retiro)) {
+                        $data->fecha_retiro = date('Y-m-d', time());
+                    }
+
+                    //Actualiza en este momento para enviar datos actualizados en el email
+
+                    $update = $this->tramites_model->update($_POST['id'], json_encode($data));
+
+                    if (!$update->error) {
+
+                        //Si ya tiene fecha de retiro no manda el email ni imprime el comprobante
+                        if (!isset($tramite->fecha_retiro) || (isset($tramite->fecha_retiro) && !$tramite->fecha_retiro)) {
+
+                            $cliente = $this->clientes_model->get_by_id($_POST['id_cliente']);
+
+                            if ($cliente->email === '') {
+                                $return = array('status' => 0, 'msg' => 'Complete el campo "Email" en la solapa Datos Personales');
+                                $flag = false;
+                            } else {
+
+                                $saldo = $this->cta_cte_model->get_saldo($_POST['id_cliente']);
+
+                                $info = new stdClass();
+                                $info->cliente = $cliente;
+                                $info->tramites = array($data);
+                                $info->saldo = $saldo;
+
+                                $url = $this->generar_impresion($info);
+
+                                if ($url) {
+
+                                    $this->final_email_model->send_email('Aviso de trámites retirados', $info, 'tramite_retirado');
+                                    $return = array('status' => 1, 'msg' => 'El trámite se actualizó con éxito', 'url' => $url, 'data' => $update->tramite);
+                                } else {
+
+                                    $flag = false;
+                                    $return = array('status' => 0, 'msg' => 'Hay un inconveniente para imprimir la Orden', 'data' => $update);
+                                }
+                            }
+                        } else {
+                            $return = array('status' => 1, 'msg' => 'El trámite se actualizó con éxito', 'data' => $update->tramite);
+                        }
+                    } else {
+                        $return = array('status' => 0, 'msg' => 'Hubo un problema en la actualización del tramite');
+                    }
+                    break;
+
+                default:
+
+                    $update = $this->tramites_model->update($_POST['id'], json_encode($data));
+
+                    if (!$update->error) {
+                        $return = array('status' => 1, 'msg' => 'El trámite se actualizó con éxito', 'data' => $update->tramite);
+                    } else {
+                        $return = array('status' => 0, 'msg' => 'Hubo un problema en la actualización del tramite');
+                    }
+                    break;
             }
         } else {
             $return = array('status' => 0, 'msg' => 'Error interno. Comuníquese con el administrador.');
@@ -218,6 +274,11 @@ class Tramites extends CI_Controller {
                         $item['id'] = intval($tramites_ids[$i]);
                         $item['estado'] = $_POST['estado'];
                         $item['fecha_aviso'] = date('Y-m-d', time());
+                        $item['fecha_actualizacion'] = date('Y-m-d', time());
+                        if (isset($_SESSION['user']->id)) {
+                            $item['actualizado_por'] = $_SESSION['user']->id;
+                        }
+
                         array_push($new_tramites, $item);
                     }
 
@@ -244,6 +305,52 @@ class Tramites extends CI_Controller {
                     }
                 }
 
+                break;
+
+            case 'enviado':
+
+                if ($cliente->email === '') {
+                    $return = array('status' => 0, 'msg' => 'Complete el campo "Email" en la solapa Datos Personales');
+                } else {
+
+                    $new_tramites = array();
+
+                    for ($i = 0; $i < sizeof($tramites_ids); $i++) {
+
+                        $item = array();
+                        $item['id'] = intval($tramites_ids[$i]);
+                        $item['estado'] = $_POST['estado'];
+                        $item['fecha_envio'] = date('Y-m-d', time());
+                        $item['fecha_actualizacion'] = date('Y-m-d', time());
+                        if (isset($_SESSION['user']->id)) {
+                            $item['actualizado_por'] = $_SESSION['user']->id;
+                        }
+
+                        array_push($new_tramites, $item);
+                    }
+
+                    //Actualiza todos los tramites con el nuevo estado
+                    $update_tramites = $this->tramites_model->update_batch($new_tramites, 'id');
+
+                    if (!$update_tramites->error && sizeof($tramites_ids) === $update_tramites->affected_rows) {
+
+                        $tramites = $this->tramites_model->get_by_multiple_ids($tramites_ids);
+
+                        $info = new stdClass();
+                        $info->cliente = $cliente;
+                        $info->tramites = $tramites;
+
+                        $email = $this->final_email_model->send_email('Aviso de trámite enviado', $info, 'tramite_enviado');
+
+                        if ($email) {
+                            $return = array('status' => 1, 'msg' => 'Los tramites fueron actualizados con éxito', 'data' => $tramites);
+                        } else {
+                            $return = array('status' => 0, 'msg' => 'Hubo un problema en la actualización de los trámites');
+                        }
+                    } else {
+                        $return = array('status' => 0, 'msg' => 'Hubo un problema en la actualización de los trámites');
+                    }
+                }
 
                 break;
 
@@ -263,6 +370,10 @@ class Tramites extends CI_Controller {
                         $item['id'] = intval($tramites_ids[$i]);
                         $item['estado'] = $_POST['estado'];
                         $item['fecha_retiro'] = date('Y-m-d H:i:s', time());
+                        $item['fecha_actualizacion'] = date('Y-m-d H:i:s', time());
+                        if (isset($_SESSION['user']->id)) {
+                            $item['actualizado_por'] = $_SESSION['user']->id;
+                        }
                         array_push($new_tramites, $item);
                     }
 
@@ -309,6 +420,40 @@ class Tramites extends CI_Controller {
         $tramites_ids = explode(',', $_POST['tramites']);
 
         switch ($_POST['constancia']) {
+
+            case 'codigo_barras':
+
+                $tramites = $this->tramites_model->get_by_multiple_ids($tramites_ids);
+
+                $barcodes = array('barcodes'=>array());
+                $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
+                for ($i = 0; $i < sizeof($tramites); $i++) {
+
+                    $barcode = base64_encode($generator->getBarcode($tramites[$i]->id, $generator::TYPE_CODE_128));
+                    $data = new stdClass();
+                    $data->tramite = $tramites[$i];
+                    $data->barcode = $barcode;
+
+                    array_push($barcodes['barcodes'], $data);
+                }
+
+                $ajax_response = $this->load->view('templates/tramites/barcodes_page', $barcodes, TRUE);
+
+                $name = 'barcode_' . time() . '.html';
+                $root = $this->config->item('save_file_folder') . $name;
+                $url = base_url() . $this->config->item('save_file_root') . $name;
+                $create_file = file_put_contents($root, $ajax_response);
+
+                if ($create_file) {
+
+                    $return = array('status' => 1, 'msg' => '', 'url' => $url);
+                } else {
+
+                    $return = array('status' => 0, 'msg' => 'Hay un inconveniente para imprimir');
+                }
+
+
+                break;
 
             case 'retiro':
 
@@ -399,6 +544,34 @@ class Tramites extends CI_Controller {
                         }
                     } else {
                         $return = array('status' => 0, 'msg' => 'El trámite Nro. ' . $id_error . ' no ha finalizado.');
+                    }
+
+                    break;
+
+                case 'enviado':
+
+                    $flag = true;
+                    for ($i = 0; $i < sizeof($tramites); $i++) {
+                        if (!isset($tramites[$i]->fecha_envio) ||
+                                (isset($tramites[$i]->fecha_envio) && !$tramites[$i]->fecha_envio)) {
+
+                            $flag = false;
+                            $id_error = $tramites[$i]->id;
+                            break;
+                        }
+                    }
+
+                    if ($flag) {
+
+                        $email = $this->final_email_model->send_email('Aviso de trámite enviado', $info, 'tramite_enviado');
+
+                        if ($email) {
+                            $return = array('status' => 1, 'msg' => $msg, 'data' => $tramites);
+                        } else {
+                            $return = array('status' => 0, 'msg' => 'Hubo un problema en el envío de email(s)');
+                        }
+                    } else {
+                        $return = array('status' => 0, 'msg' => 'El trámite Nro. ' . $id_error . ' no ha sido enviado.');
                     }
 
                     break;

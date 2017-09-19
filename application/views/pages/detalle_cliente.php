@@ -75,11 +75,15 @@
     }
 
     function dt_2() {
-        loadScript("<?php echo base_url(); ?>assets/js/pagos.js",dt_3);
+        loadScript("<?php echo base_url(); ?>assets/js/pagos.js", dt_3);
     }
-    
+
     function dt_3() {
-        loadScript("<?php echo base_url(); ?>assets/js/ordenes.js");
+        loadScript("<?php echo base_url(); ?>assets/js/ordenes.js", dt_4);
+    }
+
+    function dt_4() {
+        loadScript("<?php echo base_url(); ?>assets/js/reclamos.js");
     }
 
     // DO NOT REMOVE : GLOBAL FUNCTIONS!

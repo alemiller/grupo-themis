@@ -76,6 +76,7 @@
                                                         <div class="col-md-12 select">
                                                             <select id="estado" class="form-control metadata" disabled="disabled">
                                                                 <option value="en_tramite">En trámite</option>
+                                                                <option value="enviado">Enviado</option>
                                                                 <option value="listo">Listo</option>
                                                                 <option value="retirado">Retirado</option>
                                                             </select> <i></i> 
@@ -251,5 +252,5 @@
     $(document).ready(function () {
 
         pageSetUp();
-    })
+    });
 </script>

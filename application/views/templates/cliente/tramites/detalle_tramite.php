@@ -8,7 +8,12 @@ if (isset($tramite_selected)) {
     $honorarios = $tramite_selected->honorarios;
     $sellado = $tramite_selected->sellado;
     $estado = $tramite_selected->estado;
+    $correo = $tramite_selected->correo;
+    $nro_envio = $tramite_selected->nro_envio;
+    $creado_por = $tramite_selected->creado_por;
+    $actualizado_por = $tramite_selected->actualizado_por;
     $fecha_creacion = date('d-m-Y', strtotime($tramite_selected->fecha_creacion));
+
     if ($tramite_selected->fecha_actualizacion) {
         $fecha_actualizacion = date('d-m-Y', strtotime($tramite_selected->fecha_actualizacion));
     } else {
@@ -34,8 +39,13 @@ if (isset($tramite_selected)) {
     } else {
         $fecha_aviso = "";
     }
+    if ($tramite_selected->fecha_envio) {
+        $fecha_envio = date('d-m-Y', strtotime($tramite_selected->fecha_envio));
+    } else {
+        $fecha_envio = "";
+    }
 
-    $observaciones = $tramite_selected->observaciones;
+    $observacion_id = $tramite_selected->observacion_id;
     $observaciones_cliente = $tramite_selected->observaciones_cliente;
     $id_corresponsal = $tramite_selected->id_corresponsal;
     $honorario_corresponsal = $tramite_selected->honorario_corresponsal;
@@ -47,13 +57,18 @@ if (isset($tramite_selected)) {
     $honorarios = '';
     $sellado = '';
     $estado = '';
+    $correo = '';
+    $nro_envio = '';
+    $creado_por = '';
+    $actualizado_por = '';
     $fecha_creacion = '';
     $fecha_actualizacion = "";
     $fecha_vencimiento = "";
     $fecha_audiencia = "";
     $fecha_retiro = "";
     $fecha_aviso = "";
-    $observaciones = '';
+    $fecha_envio = "";
+    $observacion_id = '';
     $observaciones_cliente = '';
     $id_corresponsal = '';
     $honorario_corresponsal = '';
@@ -145,10 +160,27 @@ if (isset($tramite_selected)) {
                                                     <label class="control-label">Estado</label>
                                                     <div class="col-md-12 select">
                                                         <select id="tramite-estado" class="form-control metadata" disabled="disabled">
-                                                            <option value="en_tramite" <?php if($estado === "" || $estado === "en_tramite")  echo 'selected="selected"'; ?>>En trámite</option>
-                                                            <option value="listo" <?php if($estado === "listo")  echo 'selected="selected"'; ?>>Listo</option>
-                                                            <option value="retirado" <?php if($estado === "retirado")  echo 'selected="selected"'; ?>>Retirado</option>
+                                                            <option value="en_tramite" <?php if ($estado === "" || $estado === "en_tramite") echo 'selected="selected"'; ?>>En trámite</option>
+                                                            <option value="enviado" <?php if ($estado === "enviado") echo 'selected="selected"'; ?>>Enviado</option>
+                                                            <option value="listo" <?php if ($estado === "listo") echo 'selected="selected"'; ?>>Listo</option>
+                                                            <option value="retirado" <?php if ($estado === "retirado") echo 'selected="selected"'; ?>>Retirado</option>
                                                         </select> <i></i> 
+                                                    </div>
+                                                </div>
+                                                <div id="tramite-enviado-content">
+                                                    <div class="form-group col-md-12">
+                                                        <label class="control-label">Correo</label>
+                                                        <div class="col-md-12">
+                                                            <input id="tramite-correo" class="form-control metadata" type="text" disabled="disabled" value="<?php echo $correo; ?>">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label class="control-label">Nro. Envío</label>
+                                                        <div class="col-md-12">
+                                                            <input id="tramite-nro-envio" class="form-control metadata" type="text" disabled="disabled" value="<?php echo $nro_envio; ?>">
+
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-12">
@@ -224,6 +256,12 @@ if (isset($tramite_selected)) {
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-12">
+                                                    <label class="control-label">Fecha de Envío</label>
+                                                    <div class="col-md-12">
+                                                        <input id='tramite-fecha-envio' type="text" name="mydate" placeholder="Seleccione una fecha" class="form-control fechas-input" disabled="disabled"  value="<?php echo $fecha_envio; ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-12">
                                                     <label class="control-label">Fecha de Retiro</label>
                                                     <div class="col-md-12">
                                                         <input id='tramite-fecha-retiro' type="text" name="mydate" placeholder="Seleccione una fecha" class="form-control fechas-input readonly" disabled="disabled" value="<?php echo $fecha_retiro; ?>">
@@ -254,7 +292,7 @@ if (isset($tramite_selected)) {
                                                                     } else {
                                                                         $corresponsal_selected = '';
                                                                     }
-                                                                    echo "<option value='" . $corresponsales[$i]->id . "' data-subzona='" . $corresponsales[$i]->id_subzona . "' ".$corresponsal_selected.">" . $corresponsales[$i]->nombre . "</option>";
+                                                                    echo "<option value='" . $corresponsales[$i]->id . "' data-subzona='" . $corresponsales[$i]->id_subzona . "' " . $corresponsal_selected . ">" . $corresponsales[$i]->nombre . "</option>";
                                                                 }
                                                             }
                                                             ?>
@@ -281,15 +319,85 @@ if (isset($tramite_selected)) {
                                                 <div class="form-group col-md-12">
                                                     <label class="control-label">Observaciones</label>
                                                     <div class="col-md-12">
-                                                        <textarea id="tramite-observaciones" class="form-control metadata" type="text" disabled="disabled"><?php echo $observaciones; ?></textarea>
+                                                        <select id="tramite-observaciones" class="form-control metadata" disabled="disabled">
+                                                            <option value="none" selected="selected">Ninguna</option>
+                                                            <?php
+                                                            if (isset($tramite_observaciones)) {
+                                                                for ($i = 0; $i < sizeof($tramite_observaciones); $i++) {
+
+                                                                    if ($observacion_id === $tramite_observaciones[$i]->id) {
+                                                                        $observacion_selected = 'selected="selected"';
+                                                                    } else {
+                                                                        $observacion_selected = '';
+                                                                    }
+                                                                    echo "<option value='" . $tramite_observaciones[$i]->id . "'" . $observacion_selected . ">" . $tramite_observaciones[$i]->texto . "</option>";
+                                                                }
+                                                            }
+                                                            ?>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-12">
                                                     <label class="control-label">Observaciones Cliente</label>
                                                     <div class="col-md-12">
-                                                        <textarea id="tramite-observaciones-cliente" class="form-control metadata" type="text" disabled="disabled"><?php echo $observaciones_cliente; ?></textarea>
+                                                        <textarea id="tramite-observaciones-cliente" class="form-control metadata" type="text" disabled="disabled" rows="7"><?php echo $observaciones_cliente; ?></textarea>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>  
+                                    </div>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#reclamos-tab" class="collapsed"> <i class="fa fa-lg fa-angle-down pull-right"></i> <i class="fa fa-lg fa-angle-up pull-right"></i> Reclamos </a></h4>
+                                        </div>
+                                        <div id="reclamos-tab" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <?php 
+                                                if(isset($reclamos) && sizeof($reclamos) > 0){
+                                                    $disabled = "";
+                                                }else{
+                                                    $disabled = 'disabled="disable"';
+                                                }
+                                                ?>
+                                                <button id="add-reclamo-btn" class="btn btn-default btn-sm" <?php echo $disabled ?>>Agregar Reclamo</button>
+                                                
+                                                <div id="reclamos-content"></div>
+                                                    <?php
+                                                     if(isset($reclamos) && sizeof($reclamos) > 0){
+                                                         $this->load->view('templates/tramites/reclamos_form',array('reclamos' => $reclamos));
+                                                     }
+                                                    ?>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#historial-tab" class="collapsed"> <i class="fa fa-lg fa-angle-down pull-right"></i> <i class="fa fa-lg fa-angle-up pull-right"></i> Historial </a></h4>
+                                        </div>
+                                        <div id="historial-tab" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <div class="form-group col-md-12">
+                                                    <label class="control-label">Creado por</label>
+                                                    <div class="col-md-12">
+                                                        <input id="tramite-creado-por" class=" form-control metadata readonly" type="text" disabled="disabled" readonly="readonly" value="<?php echo $creado_por; ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="control-label">Actualizado por</label>
+                                                    <div class="col-md-12">
+                                                        <input id="tramite-actualizado-por" class="form-control metadata readonly" type="text" disabled="disabled" readonly="readonly" value="<?php echo $actualizado_por; ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="control-label">Última actualización</label>
+                                                    <div class="col-md-12">
+                                                        <input id="tramite-fecha-actualizacion" class="form-control readonly fechas-input" type="text" disabled="disabled" value="<?php echo $fecha_actualizacion; ?>">
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>

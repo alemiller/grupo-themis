@@ -42,7 +42,8 @@ class Cta_cte_model extends CI_Model {
 
     public function get_saldo($id) {
 
-        $query = $this->db->query("select * from (select sum(honorarios)+sum(sellado)+sum(honorario_corresponsal) total_tramites "
+        $query = $this->db->query(
+                "select * from (select sum(honorarios)+sum(sellado)+sum(honorario_corresponsal) total_tramites "
                 . "FROM tramites "
                 . "WHERE id_cliente = " . $id . ") t  "
                 . "JOIN (select sum(valor) total_pagos "

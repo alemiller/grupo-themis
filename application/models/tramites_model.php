@@ -5,6 +5,7 @@ class Tramites_model extends CI_Model {
     function __construct() {
         parent::__construct();
         $this->load->database();
+        session_start();
     }
 
     public function list_tramites() {
@@ -18,9 +19,37 @@ class Tramites_model extends CI_Model {
 
     public function get_by_id($id) {
 
-        $this->db->select('*');
-        $this->db->from('tramites');
-        $this->db->where('id', $id);
+        $this->db->select('t.id,'
+                . 't.id_cliente,'
+                . 't.id_clase,'
+                . 't.id_subzona,'
+                . 't.caratula,'
+                . 't.observacion_id,'
+                . 't.honorarios,'
+                . 't.sellado,'
+                . 't.estado,'
+                . 't.correo,'
+                . 't.nro_envio,'
+                . 't.fecha_creacion,'
+                . 't.fecha_actualizacion,'
+                . 't.fecha_vencimiento,'
+                . 't.fecha_audiencia,'
+                . 't.fecha_retiro,'
+                . 't.fecha_aviso,'
+                . 't.fecha_envio,'
+                . 't.observaciones_cliente,'
+                . 't.id_corresponsal,'
+                . 't.honorario_corresponsal,'
+                . 't.id_orden_trabajo,'
+                . 't.honorarios + t.sellado + t.honorario_corresponsal as total,'
+                . 'u.username as creado_por,'
+                . 'ua.username as actualizado_por,'
+                . 'o.texto as observacion_texto');
+        $this->db->from('tramites t');
+        $this->db->join('usuarios u', 't.creado_por = u.id');
+        $this->db->join('usuarios ua', 't.actualizado_por = ua.id', 'left');
+        $this->db->join('observaciones o', 't.observacion_id = o.id', 'left');
+        $this->db->where('t.id', $id);
         $query = $this->db->get();
 
         if (isset($query->result()[0])) {
@@ -34,8 +63,16 @@ class Tramites_model extends CI_Model {
 
     public function get_by_cliente_id($id) {
 
-        $this->db->select('id,caratula,estado,fecha_creacion,(SUM(honorarios)+SUM(sellado)+SUM(honorario_corresponsal)) AS total');
-        $this->db->from('tramites');
+        $this->db->select('t.id,'
+                . 't.caratula,'
+                . 't.estado,'
+                . 't.fecha_creacion,'
+                . 't.honorarios + t.sellado + t.honorario_corresponsal AS total,'
+                . 'u.username as creado_por,'
+                . 'ua.username as actualizado_por');
+        $this->db->from('tramites t');
+        $this->db->join('usuarios u', 't.creado_por = u.id');
+        $this->db->join('usuarios ua', 't.actualizado_por = ua.id', 'left');
         $this->db->where('id_cliente', $id);
         $this->db->order_by("fecha_creacion", "desc");
         $this->db->group_by("id");
@@ -46,10 +83,15 @@ class Tramites_model extends CI_Model {
 
     public function get_by_custom($custom) {
 
-        $this->db->select('tramites.id,tramites.caratula,tramites.honorarios,tramites.sellado,'
-                . 'tramites.honorario_corresponsal,clases_tramite.nombre');
-        $this->db->from('tramites');
-        $this->db->join('clases_tramite', 'tramites.id_clase = clases_tramite.id');
+        $this->db->select('t.id,'
+                . 't.caratula,'
+                . 't.honorarios,'
+                . 't.sellado,'
+                . 't.honorario_corresponsal,'
+                . 'clases_tramite.nombre');
+        $this->db->from('tramites t');
+        $this->db->join('clases_tramite', 't.id_clase = clases_tramite.id');
+       
         $this->db->where($custom);
         $query = $this->db->get();
 
@@ -82,6 +124,10 @@ class Tramites_model extends CI_Model {
             $this->db->set($key, $value);
         }
 
+        if (isset($_SESSION['user']->id)) {
+            $this->db->set('creado_por', $_SESSION['user']->id);
+        }
+
         $this->db->insert('tramites');
         $result = $this->db->affected_rows();
 
@@ -89,14 +135,7 @@ class Tramites_model extends CI_Model {
 
             $id = $this->db->insert_id();
 
-
-            $query = $this->db->query('SELECT * , (SELECT (SUM(honorarios)+SUM(sellado)+SUM(honorario_corresponsal))    
-                            FROM tramites 
-                            WHERE id=' . $id . ') as total
-                            FROM tramites 
-                            WHERE id=' . $id);
-
-            $result = $query->result();
+            $result = $this->get_by_id($id);
         }
 
 
@@ -112,16 +151,23 @@ class Tramites_model extends CI_Model {
             $this->db->set($key, $value);
         }
 
-        $this->db->where('id', $id);
-        $this->db->update('tramites');
-        
-        if($this->db->_error_number() !== 0){
-            $result->error = true;
-            $result->msg = $this->db->_error_message();
-        }else{
-            $result->error = false;
+        $this->db->set('fecha_actualizacion', date('Y-m-d H:i:s', time()));
+
+        if (isset($_SESSION['user']->id)) {
+            $this->db->set('actualizado_por', $_SESSION['user']->id);
         }
 
+        $this->db->where('id', $id);
+        $this->db->update('tramites');
+
+        if ($this->db->_error_number() !== 0) {
+            $result->error = true;
+            $result->msg = $this->db->_error_message();
+        } else {
+            $result->tramite = $this->get_by_id($id);
+            $result->error = false;
+        }
+       
         return $result;
     }
 
@@ -129,14 +175,13 @@ class Tramites_model extends CI_Model {
 
         $result = new stdClass();
         $this->db->update_batch('tramites', $data, $field);
-        
-        if($this->db->_error_number() !== 0){
+
+        if ($this->db->_error_number() !== 0) {
             $result->error = true;
             $result->msg = $this->db->_error_message();
-        }else{
+        } else {
             $result->error = false;
             $result->affected_rows = $this->db->affected_rows();
-            
         }
 
         return $result;
@@ -151,17 +196,22 @@ class Tramites_model extends CI_Model {
     }
 
     public function search($clausulas, $adicionales) {
-        
-        error_log('clausulas: '.json_encode($clausulas));
-        $this->db->select('tramites.id,tramites.fecha_creacion,caratula,estado,'
-                . '(SUM(honorarios)+SUM(sellado)+SUM(honorario_corresponsal)) AS total,'
-                . 'clientes.nombre, clases_tramite.nombre as clase_tramite, clientes.id as id_cliente');
+
+        error_log('clausulas: ' . json_encode($clausulas));
+        $this->db->select('tramites.id, '
+                . 'tramites.fecha_creacion, '
+                . 'caratula, '
+                . 'estado, '
+                . 'tramites.honorarios + tramites.sellado + tramites.honorario_corresponsal AS total, '
+                . 'clientes.nombre, '
+                . 'clases_tramite.nombre as clase_tramite, '
+                . 'clientes.id as id_cliente');
         $this->db->from('tramites');
         $this->db->join('clientes', 'tramites.id_cliente = clientes.id');
         $this->db->join('clases_tramite', 'tramites.id_clase = clases_tramite.id');
         $this->db->where($clausulas);
-        if($adicionales){
-           $this->db->where($adicionales);  
+        if ($adicionales) {
+            $this->db->where($adicionales);
         }
         $this->db->order_by("tramites.fecha_creacion", "desc");
         $this->db->group_by("tramites.id");

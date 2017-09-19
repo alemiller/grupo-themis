@@ -83,7 +83,7 @@
                         echo $this->session->userdata('user');
                         ?>&nbsp;&nbsp;
                     </span>
-                  
+
                 </a> 
             </span>
         </div>
@@ -100,12 +100,23 @@
                 <li>
                     <a href="corresponsales" class="nav-menu-link"><i class="fa fa-lg fa-fw fa-briefcase"></i><span class="menu-item-parent">Corresponsales</span></a>
                 </li>
-                
+
+                <li>
+                    <a href="estadisticas" class="nav-menu-link"><i class="fa fa-lg fa-fw fa-bar-chart"></i><span class="menu-item-parent">Estadísticas</span></a>
+                </li>
+
+                <li>
+                    <a href="tareas_programadas" class="nav-menu-link"><i class="fa fa-lg fa-fw fa-clock-o"></i><span class="menu-item-parent">Tareas programadas</span></a>
+                </li>
+
                 <li>
                     <a href="#"><i class="fa fa-lg fa-fw fa-cog"></i><span class="menu-item-parent nav-menu-link">Configuración</span></a>
                     <ul>
                         <li>
                             <a href="clases_tramite" class="nav-menu-link"><i class="fa fa-fw fa-list-ul"></i> <span> Clases de Trámite</span></a>  
+                        </li>
+                        <li>
+                            <a href="observaciones" class="nav-menu-link"><i class="fa fa-fw fa-thumb-tack"></i> <span> Observaciones</span></a>  
                         </li>
                         <li>
                             <a href="zonas" class="nav-menu-link"><i class="fa fa-fw fa-globe"></i> <span> Zonas</span></a>
@@ -122,9 +133,7 @@
                         ?>
                     </ul>
                 </li>
-                <li>
-                    <a href="estadisticas" class="nav-menu-link"><i class="fa fa-lg fa-fw fa-bar-chart"></i><span class="menu-item-parent">Estadísticas</span></a>
-                </li>
+
             </ul>
         </nav>
         <span class="minifyme"> <i class="fa fa-arrow-circle-left hit"></i> </span>

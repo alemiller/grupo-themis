@@ -19,6 +19,7 @@ function reset_metadata() {
     $('.row-item').removeClass('new-object-row');
     $('.metadata').attr('disabled', 'disabled');
     $('.metadata').find('input').val('');
+    $('.metadata').find('textarea').text('');
     $('.metadata').find('select').val(null);
     $('#info_item_title').text('');
 }

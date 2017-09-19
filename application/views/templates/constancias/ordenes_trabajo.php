@@ -187,33 +187,33 @@
                 <tr>
                     <td class="cliente-detalle" colspan="2">
                         <div id="encabezado">
-                                <p>DETALLE CLIENTE:</p>
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <b>Nro. de cliente:</b> <?php echo $cliente->id; ?>
-                                        </td>
-                                        <td style="padding-left:10px;">
+                            <p>DETALLE CLIENTE:</p>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <b>Nro. de cliente:</b> <?php echo $ordenes[$i]->cliente->id; ?>
+                                    </td>
+                                    <td style="padding-left:10px;">
 
-                                            <b>Email:</b> <?php echo $cliente->email; ?> 
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b>Nombre:</b> <?php echo $cliente->nombre; ?>
-                                        </td>
-                                        <td style="padding-left:10px;">
-                                            <b>Saldo al día de la fecha:</b> $<?php echo $saldo; ?>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
+                                        <b>Email:</b> <?php echo $ordenes[$i]->cliente->email; ?> 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Nombre:</b> <?php echo $ordenes[$i]->cliente->nombre; ?>
+                                    </td>
+                                    <td style="padding-left:10px;">
+                                        <b>Saldo al día de la fecha:</b> $<?php echo $ordenes[$i]->saldo; ?>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </td>
                 </tr>
                 <tr class="detalle-row">
                     <td class="detalle-cell" colspan="2">
                         <div id="detalle">
-                            <p>DETALLE:</p>
+                            <p>DETALLE DE TRAMITES:</p>
                             <table id="tramites-table">
                                 <tr class="detalle-header">
                                     <th class="border-right">Nro.</th>
@@ -247,8 +247,12 @@
                     </td>
                 </tr>
             </table>
-            <div class="pagebreak section"> </div>
             <?php
+            if ($i !== (sizeof($ordenes) - 1)) {
+                ?>
+                <div class="pagebreak section"> </div>
+                <?php
+            }
         }
         ?>
     </body>

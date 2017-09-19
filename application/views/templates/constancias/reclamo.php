@@ -83,6 +83,14 @@
                 float: left;
                 color: #000;
                 line-height: 28px;
+                width: 100%;
+            }
+            
+            #reclamo_content{
+                float: left;
+                width: 100%;
+                margin: 5px 0px 10px 5px;
+                padding: 10px 0px 0px 6px;
             }
 
             td.cliente-detalle{
@@ -172,74 +180,24 @@
                     </div>
                 </td>
                 <td class="colum-der">
-                    <h1>ORDEN DE TRABAJO Nro. <?php echo $orden_id; ?></h1>
+                    <h1>RECLAMO Nro. <?php echo $reclamo->id; ?></h1>
                     <p>Fecha: <?php echo date('d-m-Y', time()); ?></p>
+
                 </td>
             </tr>
             <tr>
                 <td class="cliente-detalle" colspan="2">
                     <div id="encabezado">
-                        <p>DETALLE CLIENTE:</p>
-                        <table>
-                            <tr>
-                                <td>
-                                    <b>Nro. de cliente:</b> <?php echo $cliente->id; ?>
-                                </td>
-                                <td style="padding-left:10px;">
+                        <p>DETALLE</p>
+                        <p>TRAMITE Nro. <?php echo $reclamo->tramite_id ?></p>
+                    </div>
+                    <div id="reclamo_content">
+                        <p>Reclamo: <br><?php echo $reclamo->reclamo ?></p>
+                    </div>
+                </td>
+            </tr>
 
-                                    <b>Email:</b> <?php echo $cliente->email; ?> 
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>Nombre:</b> <?php echo $cliente->nombre; ?>
-                                </td>
-                                <td style="padding-left:10px;">
-                                    <b>Saldo al día de la fecha:</b> $<?php echo $saldo; ?>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </td>
-            </tr>
-            <tr class="detalle-row">
-                <td class="detalle-cell" colspan="2">
-                    <div id="detalle">
-                        <p>DETALLE DE TRAMITE:</p>
-                        <table id="tramites-table">
-                            <tr class="detalle-header">
-                                <th class="border-right">Nro.</th>
-                                <th class="border-right">Carátula</th>
-                                <th>Clase</th>
-                                <th>Valor</th>
-                            </tr>
-                            <?php
-                            for ($i = 0; $i < sizeof($tramites); $i++) {
-                                ?>
-                                <tr>
-                                    <td class="border-right"><?php echo $tramites[$i]->id; ?></td>
-                                    <td class="border-right"><?php echo $tramites[$i]->caratula; ?></td>
-                                    <td class="border-right"><?php echo $tramites[$i]->nombre; ?></td>
-                                    <td><?php echo "$" . (floatval($tramites[$i]->honorarios) + floatval($tramites[$i]->sellado) + floatval($tramites[$i]->honorario_corresponsal)); ?></td>
-                                </tr>
-                                <?php
-                            }
-                            ?>
-                        </table>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <div id="firma-content">
-                        <p>FIRMA Y ACLARACION</p>
-                        <div id="firma"></div>
-                        <p id="pie">Se ha enviado copia de esta constancia al email: <?php echo $cliente->email ?></p>
-                    </div>
-                </td>
-            </tr>
         </table>
-
     </body>
 </html>
 

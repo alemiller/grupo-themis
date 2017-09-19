@@ -29,8 +29,15 @@ class Ordenes_model extends CI_Model {
         $orden = $this->db->get();
         $result->orden = $orden->result()[0];
         
-        $this->db->select('tramites.id,tramites.fecha_creacion,tramites.caratula,tramites.honorarios,tramites.sellado,'
-                . 'tramites.honorario_corresponsal,tramites.estado,clases_tramite.nombre');
+        $this->db->select(
+                'tramites.id,'
+                . 'tramites.fecha_creacion,'
+                . 'tramites.caratula,'
+                . 'tramites.honorarios,'
+                . 'tramites.sellado,'
+                . 'tramites.honorario_corresponsal,'
+                . 'tramites.estado,'
+                . 'clases_tramite.nombre');
         $this->db->from('tramites');
         $this->db->join('clases_tramite', 'tramites.id_clase = clases_tramite.id');
         $this->db->where('id_orden_trabajo', $id);
