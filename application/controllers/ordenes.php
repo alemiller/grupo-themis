@@ -66,55 +66,78 @@ class Ordenes extends CI_Controller {
 
             $new_order = array("id_cliente" => $_POST['id']);
 
-            //Crea la orden
-            $create = $this->ordenes_model->create($new_order);
+            $items = json_decode($_POST['order_items']);
 
-            if ($create) {
+            $tramites = $this->tramites_model->get_by_multiple_ids($items);
+error_log("tramites: ". json_encode($tramites));
 
-                $items = json_decode($_POST['order_items']);
-                $order_items = array();
+            //Chequea que ningún trámite ya pertenezca a una orden creada.
+            $exists = false;
+            $exists_array = array();
+            for ($i=0; $i < sizeof($tramites) ; $i++) {
+                if($tramites[$i]->id_orden_trabajo){
+                    $exists = true;
+                    $item = new stdClass();
+                    $item->tramite_id = $tramites[$i]->id;
+                    $item->orden_id = $tramites[$i]->id_orden_trabajo;
+                    array_push($exists_array, $item);
+                } 
+            }
 
-                for ($i = 0; $i < sizeof($items); $i++) {
+            //Si ninguno de los tramites está incluido en un orden, crea la orden y actualiza los tramites
+            if(!$exists){
+                //Crea la orden
+                $create = $this->ordenes_model->create($new_order);
 
-                    $item = array();
-                    $item['id'] = intval($items[$i]);
-                    $item['id_orden_trabajo'] = intval($create[0]->id);
-                    array_push($order_items, $item);
-                }
+                if ($create) {
 
-                //Actualiza todos los tramites con el ID de la orden creada
-                $update_tramites = $this->tramites_model->update_batch($order_items, 'id');
+                    
+                    $order_items = array();
 
-                if ($update_tramites) {
+                    for ($i = 0; $i < sizeof($items); $i++) {
 
-                    $cliente = $this->clientes_model->get_by_id($_POST['id']);
+                        $item = array();
+                        $item['id'] = intval($items[$i]);
+                        $item['id_orden_trabajo'] = intval($create[0]->id);
+                        array_push($order_items, $item);
+                    }
 
-                    $custom = 'id_orden_trabajo = ' . $create[0]->id;
-                    $tramites = $this->tramites_model->get_by_custom($custom);
+                    //Actualiza todos los tramites con el ID de la orden creada
+                    $update_tramites = $this->tramites_model->update_batch($order_items, 'id');
 
-                    $saldo = $this->cta_cte_model->get_saldo($_POST['id']);
+                    if ($update_tramites) {
 
-                    $info = new stdClass();
-                    $info->cliente = $cliente;
-                    $info->tramites = $tramites;
-                    $info->saldo = $saldo;
-                    $info->id_orden = $create[0]->id;
+                        $cliente = $this->clientes_model->get_by_id($_POST['id']);
 
-                    $url = $this->generar_impresion($info);
+                        $custom = 'id_orden_trabajo = ' . $create[0]->id;
+                        $tramites = $this->tramites_model->get_by_custom($custom);
 
-                    if ($url) {
+                        $saldo = $this->cta_cte_model->get_saldo($_POST['id']);
 
-                        $this->final_email_model->send_email('Aviso de orden de trabajo', $info, 'orden_trabajo');
+                        $info = new stdClass();
+                        $info->cliente = $cliente;
+                        $info->tramites = $tramites;
+                        $info->saldo = $saldo;
+                        $info->id_orden = $create[0]->id;
 
-                        $return = array('status' => 1, 'msg' => 'La orden fue creada con éxito', 'url' => $url);
+                        $url = $this->generar_impresion($info);
+
+                        if ($url) {
+
+                            $this->final_email_model->send_email('Aviso de orden de trabajo', $info, 'orden_trabajo');
+
+                            $return = array('status' => 1, 'msg' => 'La orden fue creada con éxito', 'url' => $url);
+                        } else {
+                            $return = array('status' => 0, 'msg' => 'Hay un inconveniente para imprimir la Orden');
+                        }
                     } else {
-                        $return = array('status' => 0, 'msg' => 'Hay un inconveniente para imprimir la Orden');
+                        $return = array('status' => 0, 'msg' => 'Hubo un problema en la creación de la orden');
                     }
                 } else {
                     $return = array('status' => 0, 'msg' => 'Hubo un problema en la creación de la orden');
                 }
-            } else {
-                $return = array('status' => 0, 'msg' => 'Hubo un problema en la creación de la orden');
+            }else{
+                $return = array('status' => 0, 'msg' => 'Hay ordenes creadas para los algunos trámites', "tramites" => $exists_array);
             }
 
 

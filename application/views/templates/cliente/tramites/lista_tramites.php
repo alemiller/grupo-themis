@@ -38,6 +38,8 @@ if (isset($tramite_selected)) {
                                 <th>Creación</th>
                                 <th>Caratula</th>
                                 <th>Estado</th>
+                                <th>Honorarios</th>
+                                <th>Sellado</th>
                                 <th>Valor</th>
                             </tr>
                         </thead>
@@ -63,7 +65,9 @@ if (isset($tramite_selected)) {
                                     $caratula = "<td class='row-nombre clickeable-item'>" . $tramites[$i]->caratula . "</td>";
                                     $creacion = "<td class='clickeable-item'>" . $fecha_creacion . " hs.</td>";
                                     $estado = "<td class='row-estado clickeable-item'>" . ucwords(str_replace('en_tramite', 'en trámite', $tramites[$i]->estado)) . "</td>";
-                                    $valor = "<td class='row-valor clickeable-item'>$" . $tramites[$i]->total . "</td>";
+                                    $honorarios = "<td class='row-honorarios clickeable-item'>$" . $tramites[$i]->honorarios . "</td>";
+                                    $sellado = "<td class='row-sellado clickeable-item'>$" . $tramites[$i]->sellado . "</td>";
+                                    $valor = "<td class='row-valor clickeable-item'><b>$" . $tramites[$i]->total . "</b></td>";
 
                                     echo "<tr class='row-item " . $item_selected . "' id='" . $tramites[$i]->id . "'>" .
                                     $checkbox .
@@ -71,6 +75,8 @@ if (isset($tramite_selected)) {
                                     $creacion .
                                     $caratula .
                                     $estado .
+                                    $honorarios .
+                                    $sellado .
                                     $valor .
                                     "</tr>";
                                 }

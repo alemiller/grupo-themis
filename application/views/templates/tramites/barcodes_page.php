@@ -9,7 +9,7 @@
 
             @page { 
                 size: auto;  
-                margin-top: 5mm; 
+                margin-top: 2mm; 
                 margin-left: 0mm; 
                 margin-right: 0mm; 
             }
@@ -32,7 +32,7 @@
             
             .barcode-item{
                 width: 120px;
-                margin: 0px auto 28px auto;
+                margin: 0px auto 8px auto;
             }
             
             .barcode-id{
@@ -55,10 +55,10 @@
                 echo '<img class="barcode" src="data:image/png;base64,' . $barcodes[$i]->barcode . '"><br>' .
                 '<div class="barcode-id">'.str_pad($barcodes[$i]->tramite->id, 13, '0', STR_PAD_LEFT) . '</div><br>' .
                 'Grupo-Themis.<br>' .
-                $barcodes[$i]->tramite->caratula . '<br>' .
+                'Sellado: $' . $barcodes[$i]->tramite->sellado . '<br>' .
                 'Ing: ' . date('d-m-Y', strtotime($barcodes[$i]->tramite->fecha_creacion)) . '<br>';
                 
-                if (($i !== (sizeof($barcodes) - 1)) && (($i+1)%2 === 0)) {
+                if (($i < (sizeof($barcodes) - 1)) && (($i+1)%2 === 0)) {
                     
                     echo '<div class="pagebreak section"> </div>';
                 }

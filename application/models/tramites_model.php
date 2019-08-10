@@ -67,6 +67,8 @@ class Tramites_model extends CI_Model {
                 . 't.caratula,'
                 . 't.estado,'
                 . 't.fecha_creacion,'
+                . 't.honorarios,'
+                . 't.sellado,'
                 . 't.honorarios + t.sellado + t.honorario_corresponsal AS total,'
                 . 'u.username as creado_por,'
                 . 'ua.username as actualizado_por');

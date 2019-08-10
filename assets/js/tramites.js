@@ -1,6 +1,6 @@
 namespace["tramites"] = {
 
-    get_by_id: function (id) {
+    get_by_id: function(id) {
         var that = this;
         $(this).addClass('item-selected');
         $('#reclamos-content').html('');
@@ -11,7 +11,7 @@ namespace["tramites"] = {
             type: 'POST',
             dataType: 'json',
             data: "id=" + id,
-            success: function (data) {
+            success: function(data) {
 
                 that.set_data(data);
 
@@ -20,12 +20,12 @@ namespace["tramites"] = {
         });
     },
 
-    create: function () {
-        
+    create: function() {
+
         $('#reclamos-content').html('');
         $('#add-reclamo-btn').attr('disabled', 'disabled');
         var that = this;
-        if (typeof (id_cliente) !== 'undefined' && id_cliente) {
+        if (typeof(id_cliente) !== 'undefined' && id_cliente) {
 
             var json = this.get_data();
 
@@ -34,14 +34,16 @@ namespace["tramites"] = {
                 type: 'POST',
                 dataType: 'json',
                 data: "data=" + json,
-                success: function (data) {
+                success: function(data) {
 
                     $('#add-reclamo-btn').removeAttr('disabled');
                     reset_footer_buttons();
                     if (data.status) {
 
                         var row_index = tramites_table.dataTable().fnAddData(["", data.data.id, format_datetime(data.data.fecha_creacion), data.data.caratula, capitalise(data.data.estado.replace('tramite', 'trámite')), '$' + data.data.total]);
-                        tramites_table.fnSort([[1, 'desc']]);
+                        tramites_table.fnSort([
+                            [1, 'desc']
+                        ]);
                         var row = tramites_table.fnGetNodes(row_index);
 
                         $(row).addClass('item-selected row-item');
@@ -58,12 +60,12 @@ namespace["tramites"] = {
 
                         set_small_box_message("Creación", data.msg, "#659265", "fa fa-check fa-2x fadeInRight animated", 4000);
 
-//                        if (typeof (data.url) !== 'undefined' && data.url) {
-//
-//                            $('#impresion-content').attr("src", data.url).load(function () {
-//                                document.getElementById('impresion-content').contentWindow.print();
-//                            });
-//                        }
+                        //                        if (typeof (data.url) !== 'undefined' && data.url) {
+                        //
+                        //                            $('#impresion-content').attr("src", data.url).load(function () {
+                        //                                document.getElementById('impresion-content').contentWindow.print();
+                        //                            });
+                        //                        }
 
                     } else {
                         set_small_box_error_message("Error!", data.msg, "#C46A69", "fa fa-times fa-2x fadeInRight animated");
@@ -75,7 +77,7 @@ namespace["tramites"] = {
         }
     },
 
-    update: function () {
+    update: function() {
 
         var that = this;
         var item_id = $('#tramite-id').val();
@@ -86,7 +88,7 @@ namespace["tramites"] = {
             type: 'POST',
             dataType: 'json',
             data: "id=" + item_id + "&id_cliente=" + $('#cliente-id').val() + "&data=" + json,
-            success: function (data) {
+            success: function(data) {
 
                 reset_footer_buttons();
                 if (data.status) {
@@ -94,9 +96,9 @@ namespace["tramites"] = {
                     update_table(data.data);
                     set_small_box_message("Guardar", data.msg, "#659265", "fa fa-check fa-2x fadeInRight animated", 4000);
 
-                    if (typeof (data.url) !== 'undefined' && data.url) {
+                    if (typeof(data.url) !== 'undefined' && data.url) {
 
-                        $('#impresion-content').attr("src", data.url).load(function () {
+                        $('#impresion-content').attr("src", data.url).load(function() {
                             document.getElementById('impresion-content').contentWindow.print();
                         });
                     }
@@ -109,12 +111,12 @@ namespace["tramites"] = {
 
     },
 
-    delete: function () {
+    delete: function() {
 
         var delete_items = new Array();
         var row = tramites_table.fnGetNodes();
 
-        row.forEach(function (item) {
+        row.forEach(function(item) {
 
             var that = $(item).find('.chbx-item');
             if (that.prop("checked")) {
@@ -129,12 +131,12 @@ namespace["tramites"] = {
                 type: 'POST',
                 dataType: 'json',
                 data: "ids=" + delete_items,
-                success: function (data) {
+                success: function(data) {
 
                     if (data.status) {
 
                         for (i = 0; i < delete_items.length; i++) {
-                            row.forEach(function (item) {
+                            row.forEach(function(item) {
                                 if (parseInt($(item).attr('id')) === delete_items[i]) {
                                     tramites_table.fnDeleteRow(tramites_table.fnGetPosition(item));
                                 }
@@ -157,11 +159,11 @@ namespace["tramites"] = {
         }
     },
 
-    select_all: function (select_all) {
+    select_all: function(select_all) {
 
         var row = tramites_table.fnGetNodes();
 
-        row.forEach(function (item) {
+        row.forEach(function(item) {
 
             var that = $(item).find('.chbx-item');
             if (that.prop("checked")) {
@@ -181,7 +183,7 @@ namespace["tramites"] = {
         });
     },
 
-    set_data: function (data) {
+    set_data: function(data) {
 
         $('#info_item_title').text(data.caratula);
         $('#tramite-id').val(data.id);
@@ -251,13 +253,13 @@ namespace["tramites"] = {
         } else {
             $('#tramite-fecha-actualizacion').val('');
         }
-        
-        if(typeof(data.reclamos) !== 'undefined' && data.reclamos.length >0){
+
+        if (typeof(data.reclamos) !== 'undefined' && data.reclamos.length > 0) {
             add_reclamos_form(data.reclamos);
         }
 
     },
-    get_data: function () {
+    get_data: function() {
 
         var tramite_data = {};
         tramite_data.id_cliente = id_cliente;
@@ -292,7 +294,7 @@ namespace["tramites"] = {
 
 //TRAMITES ON CLIENTES
 
-$(document).on('change', '#tramite-clase', function () {
+$(document).on('change', '#tramite-clase', function() {
 
     var duracion = $(this).find(":selected").attr('data-duracion');
 
@@ -309,11 +311,11 @@ $(document).on('change', '#tramite-clase', function () {
 
 });
 
-$(document).on('change', '#tramite-subzona', function () {
+$(document).on('change', '#tramite-subzona', function() {
     $('#tramite-corresponsales option[data-subzona="' + $(this).val() + '"]').prop('selected', true);
 });
 
-$(document).on('change', '#tramite-estado', function () {
+$(document).on('change', '#tramite-estado', function() {
     if ($(this).val() === "enviado") {
         $('#tramite-enviado-content').show();
     } else {
@@ -325,12 +327,12 @@ $(document).on('change', '#tramite-estado', function () {
 
 
 
-$(document).on('click', '#crear-orden-btn', function () {
+$(document).on('click', '#crear-orden-btn', function() {
 
     var order_items = new Array();
     var row = tramites_table.fnGetNodes();
 
-    row.forEach(function (item) {
+    row.forEach(function(item) {
 
         var that = $(item).find('.chbx-item');
         if (that.prop("checked")) {
@@ -345,7 +347,7 @@ $(document).on('click', '#crear-orden-btn', function () {
             type: 'POST',
             dataType: 'json',
             data: "id=" + id_cliente + "&order_items=" + JSON.stringify(order_items),
-            success: function (data) {
+            success: function(data) {
 
                 if (data.status) {
 
@@ -353,15 +355,24 @@ $(document).on('click', '#crear-orden-btn', function () {
                     $('.footerButtons').find('button').attr('disabled', 'disabled');
                     set_small_box_message("Crear Orden", data.msg, "#659265", "fa fa-check fa-2x fadeInRight animated", 4000);
 
-                    if (typeof (data.url) !== 'undefined') {
+                    // if (typeof (data.url) !== 'undefined') {
 
-                        $('#impresion-content').attr("src", data.url).load(function () {
-                            document.getElementById('impresion-content').contentWindow.print();
-                        });
-                    }
+                    //     $('#impresion-content').attr("src", data.url).load(function () {
+                    //         document.getElementById('impresion-content').contentWindow.print();
+                    //     });
+                    // }
 
                 } else {
-                    set_small_box_error_message("Error!", data.msg, "#C46A69", "fa fa-times fa-2x fadeInRight animated");
+                    if (typeof(data.tramites) != 'undefined') {
+                        var text = "";
+                        for (i = 0; i < data.tramites.length; i++) {
+                            text += "Trámite: " + data.tramites[i].tramite_id + " - Orden: " + data.tramites[i].orden_id + "<br>";
+                        }
+                        set_small_box_error_message("Error!", "Los siguientes trámites ya están incluidos en una orden:<br>" + text, "#C46A69", "fa fa-times fa-2x fadeInRight animated");
+
+                    } else {
+                        set_small_box_error_message("Error!", data.msg, "#C46A69", "fa fa-times fa-2x fadeInRight animated");
+                    }
                 }
             }
         });
@@ -371,13 +382,13 @@ $(document).on('click', '#crear-orden-btn', function () {
 });
 
 
-$(document).on('click', '.cambiar-estado-btn', function () {
+$(document).on('click', '.cambiar-estado-btn', function() {
 
     var estado = $(this).attr('data-estado');
     var tramite_items = new Array();
     var row = tramites_table.fnGetNodes();
 
-    row.forEach(function (item) {
+    row.forEach(function(item) {
 
         var that = $(item).find('.chbx-item');
         if (that.prop("checked")) {
@@ -392,11 +403,11 @@ $(document).on('click', '.cambiar-estado-btn', function () {
             type: 'POST',
             dataType: 'json',
             data: "id_cliente=" + id_cliente + "&estado=" + estado + "&tramites=" + tramite_items,
-            success: function (data) {
+            success: function(data) {
 
                 if (data.status) {
 
-                    row.forEach(function (item) {
+                    row.forEach(function(item) {
                         var that = $(item).find('.chbx-item');
                         if (that.prop("checked")) {
                             $(item).find('.row-estado').text(capitalise(estado));
@@ -405,9 +416,9 @@ $(document).on('click', '.cambiar-estado-btn', function () {
 
                     set_small_box_message("Cambiar estado", data.msg, "#659265", "fa fa-check fa-2x fadeInRight animated", 4000);
 
-                    if (typeof (data.url) !== 'undefined' && data.url) {
+                    if (typeof(data.url) !== 'undefined' && data.url) {
 
-                        $('#impresion-content').attr("src", data.url).load(function () {
+                        $('#impresion-content').attr("src", data.url).load(function() {
                             document.getElementById('impresion-content').contentWindow.print();
                         });
                     }
@@ -423,13 +434,13 @@ $(document).on('click', '.cambiar-estado-btn', function () {
 });
 
 
-$(document).on('click', '.reimprimir-btn', function () {
+$(document).on('click', '.reimprimir-btn', function() {
 
     var constancia = $(this).attr('data-constancia');
     var tramite_items = new Array();
     var row = tramites_table.fnGetNodes();
 
-    row.forEach(function (item) {
+    row.forEach(function(item) {
 
         var that = $(item).find('.chbx-item');
         if (that.prop("checked")) {
@@ -444,13 +455,13 @@ $(document).on('click', '.reimprimir-btn', function () {
             type: 'POST',
             dataType: 'json',
             data: "id_cliente=" + id_cliente + "&constancia=" + constancia + "&tramites=" + tramite_items,
-            success: function (data) {
+            success: function(data) {
 
                 if (data.status) {
 
-                    if (typeof (data.url) !== 'undefined' && data.url) {
+                    if (typeof(data.url) !== 'undefined' && data.url) {
 
-                        $('#impresion-content').attr("src", data.url).load(function () {
+                        $('#impresion-content').attr("src", data.url).load(function() {
                             document.getElementById('impresion-content').contentWindow.print();
                         });
                     }
@@ -466,13 +477,13 @@ $(document).on('click', '.reimprimir-btn', function () {
 });
 
 
-$(document).on('click', '.reenviar-email-btn', function () {
+$(document).on('click', '.reenviar-email-btn', function() {
 
     var email = $(this).attr('data-email');
     var tramite_items = new Array();
     var row = tramites_table.fnGetNodes();
 
-    row.forEach(function (item) {
+    row.forEach(function(item) {
 
         var that = $(item).find('.chbx-item');
         if (that.prop("checked")) {
@@ -487,7 +498,7 @@ $(document).on('click', '.reenviar-email-btn', function () {
             type: 'POST',
             dataType: 'json',
             data: "id_cliente=" + id_cliente + "&email=" + email + "&tramites=" + tramite_items,
-            success: function (data) {
+            success: function(data) {
 
                 if (data.status) {
 
@@ -504,12 +515,12 @@ $(document).on('click', '.reenviar-email-btn', function () {
 });
 
 
-$(document).on('click', '.codebar-btn', function () {
+$(document).on('click', '.codebar-btn', function() {
 
     var tramite_items = new Array();
     var row = tramites_table.fnGetNodes();
 
-    row.forEach(function (item) {
+    row.forEach(function(item) {
 
         var that = $(item).find('.chbx-item');
         if (that.prop("checked")) {
@@ -523,7 +534,7 @@ $(document).on('click', '.codebar-btn', function () {
             url: base_url + "index.php/tramites/imprimir_codebar",
             type: 'POST',
             data: "tramites=" + tramite_items,
-            success: function (data) {
+            success: function(data) {
 
                 if (data.status) {
 
@@ -551,7 +562,7 @@ function update_table(tramite) {
 
 //PAGE TRAMITES
 
-$(document).on('click', '.search-chbx', function () {
+$(document).on('click', '.search-chbx', function() {
     if ($(this).prop("checked")) {
         $(this).parents('.form-group').find('.metadata').removeAttr('disabled');
     } else {
@@ -561,10 +572,10 @@ $(document).on('click', '.search-chbx', function () {
 });
 
 
-$(document).on('click', '#buscar-item-btn', function () {
+$(document).on('click', '#buscar-item-btn', function() {
 
     var search_items = {};
-    $('.search-chbx').each(function () {
+    $('.search-chbx').each(function() {
         if ($(this).prop('checked')) {
 
             if ($(this).hasClass('data-fecha')) {
@@ -591,7 +602,7 @@ $(document).on('click', '#buscar-item-btn', function () {
         url: base_url + "index.php/tramites/search",
         type: 'POST',
         data: "criteria=" + criteria,
-        success: function (data) {
+        success: function(data) {
 
             if (data) {
 
@@ -606,7 +617,7 @@ $(document).on('click', '#buscar-item-btn', function () {
 });
 
 
-$(document).on('click', '.result-clickeable', function () {
+$(document).on('click', '.result-clickeable', function() {
 
     $('.row-item').removeClass('item-selected');
     $(this).parents('.row-item').addClass('item-selected');
