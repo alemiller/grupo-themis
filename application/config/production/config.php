@@ -18,7 +18,7 @@ $config['email_app'] = 'heroku_email';
 | path to your installation.
 |
 */
-$config['base_url'] = '';
+$config['base_url'] = 'http://grupo-themis.com.ar.latincloud.com/';
 
 /*
 |--------------------------------------------------------------------------

@@ -28,7 +28,7 @@ class Tareas_programadas_model extends CI_Model {
                 . 't.fecha_envio,'
                 . 't.observaciones_cliente,'
                 . 't.id_orden_trabajo,'
-                . 't.honorarios + t.sellado + t.honorario_corresponsal as total,'
+                . 'SUM(t.honorarios + t.sellado + t.honorario_corresponsal) as total,'
                 . 'c.nombre as cliente,'
                 . 'c.email');
         $this->db->from('tramites t');
