@@ -44,7 +44,7 @@ $config['index_page'] = 'index.php';
 | 'ORIG_PATH_INFO'	Uses the ORIG_PATH_INFO
 |
 */
-$config['uri_protocol']	= 'AUTO';
+$config['uri_protocol']	= 'REQUEST_URI';
 
 /*
 |--------------------------------------------------------------------------
@@ -356,7 +356,8 @@ $config['rewrite_short_tags'] = FALSE;
 |
 */
 $config['proxy_ips'] = '';
-
+// $config['logo_email'] = FCPATH.'assets/img/logo-email.png';
+$config['logo_email'] = 'http://grupo-themis.com.ar.latincloud.com/assets/img/logo-email.png';
 
 
 /* End of file config.php */

@@ -32,7 +32,7 @@
                             <a data-toggle="tab" href="#tabs-tramites" data-page="tramites">Trámites</a>
                         </li>
                         <li>
-                            <a id="ordenes-tab-btn" data-toggle="tab" href="#tabs-ordenes" data-page="ordenes">Ordenes Trabajo</a>
+                            <a id="ordenes-tab-btn" data-toggle="tab" href="#tabs-ordenes" data-page="ordenes">Ordenes de Trabajo</a>
                         </li>
                         <li>
                             <a id="pagos-tab" data-toggle="tab" href="#tabs-pagos" data-page="pagos">Pagos</a>

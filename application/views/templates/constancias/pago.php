@@ -167,7 +167,7 @@
         <table id="constancia">
             <tr class="top-row">
                 <td class="colum-izq">
-                    <img id="logo" src="http://advncedcdn.vo.llnwd.net/vtt_storage/watchfolder/vtt_admin/logo-email.jpg">
+                    <img id="logo" src="<?php echo $this->config->item('logo_email'); ?>">
                     <div class="down_logo">
                         Talcahuano 452 9º 36, Ciudad Autónoma de Buenos Aires. Tel: 4373 0739. <br>
                         www.grupo-themis.com.ar - themisgestiones@gmail.com

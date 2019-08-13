@@ -69,10 +69,10 @@ $active_record = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '192.168.0.196',
-	'username' => 'themis-bdadmin',
-	'password' => 'Boca10Juniors03',
-	'database' => 'grupo-themis',
+	'hostname' => '190.228.29.61',
+	'username' => 'grupothemis',
+	'password' => 'Univtec1@',
+	'database' => 'grupothemis',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

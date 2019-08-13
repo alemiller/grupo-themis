@@ -18,7 +18,7 @@ $config['email_app'] = 'php_email';
 | path to your installation.
 |
 */
-$config['base_url']	= '';
+$config['base_url']	= 'http://grupo-themis.local.com/';
 //$config['base_url']	= 'http://localhost/grupo-themis/';
 //$config['base_url']	= 'http://192.168.0.12/pokesend/';
 
@@ -365,7 +365,8 @@ $config['rewrite_short_tags'] = FALSE;
 |
 */
 $config['proxy_ips'] = '';
-
+$config['logo_email'] = FCPATH.'assets/img/logo-email.png';
+$config['logo_email'] = 'http://grupo-themis.com.ar.latincloud.com/assets/img/logo-email.png';
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */

@@ -4,6 +4,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <?php
+        $logo_image = $this->config->item('logo_email');
+        ?>
+        <style>
         <style>
             header{
                 width: 100%;
@@ -15,7 +19,7 @@
                 width: 230px;
                 height: 100px;
                 margin: 10px 20px;
-                background-image: url("http://advncedcdn.vo.llnwd.net/vtt_storage/watchfolder/vtt_admin/logo-email.jpg");
+                background-image: url(<?php echo $this->config->item('logo_email'); ?>);
                 float: left
             }
 

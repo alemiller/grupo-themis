@@ -71,11 +71,16 @@
                                         $total .= ")";
                                     }
 
+                                    $valor_class = "";
+                                    if(strpos($total,"(") !== FALSE){
+                                        $valor_class = " restar";
+                                    }
+
 //                                    $checkbox = "<td class='chbx-item-cell'><input type='checkbox' class='chbx-item' id='" . $transacciones[$i]->id . "'></td>";
                                     $id = "<td>" . $transacciones[$i]->id . "</td>";
                                     $caratula = "<td>" . $titulo . "</td>";
                                     $creacion = "<td>" . $fecha_creacion . " hs.</td>";
-                                    $valor = "<td class='row-total-transaccion'>" . $total . "</td>";
+                                    $valor = "<td class='row-total-transaccion". $valor_class."'>" . $total . "</td>";
                                     $valor_consolidado = "<td class='row-total-transaccion'>" . $consolidado_final[$i]->consolidado . "</td>";
 
                                     echo "<tr'>" .

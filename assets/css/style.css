@@ -214,3 +214,7 @@ input.login-error{
 .reclamo-item footer{
     margin-left: 13px;
 }
+
+.restar{
+    color: red;
+}
