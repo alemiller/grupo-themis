@@ -7,8 +7,12 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <style>
 
-            @page { size: auto;  margin: 20mm;}
+            /* @page { size: auto;  margin: 20mm;} */
 
+            @media print {
+                @page { margin: 0; }
+                body { margin: 1.6cm; }
+            }
             .section { margin-top: 200px; }
 
             body {

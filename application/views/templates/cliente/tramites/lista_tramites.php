@@ -67,7 +67,7 @@ if (isset($tramite_selected)) {
                                     $estado = "<td class='row-estado clickeable-item'>" . ucwords(str_replace('en_tramite', 'en trámite', $tramites[$i]->estado)) . "</td>";
                                     $honorarios = "<td class='row-honorarios clickeable-item'>$" . $tramites[$i]->honorarios . "</td>";
                                     $sellado = "<td class='row-sellado clickeable-item'>$" . $tramites[$i]->sellado . "</td>";
-                                    $valor = "<td class='row-valor clickeable-item'><b>$" . $tramites[$i]->total . "</b></td>";
+                                    $valor = "<td class='row-valor clickeable-item'>$" . $tramites[$i]->total . "</td>";
 
                                     echo "<tr class='row-item " . $item_selected . "' id='" . $tramites[$i]->id . "'>" .
                                     $checkbox .

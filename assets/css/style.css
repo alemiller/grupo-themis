@@ -218,3 +218,7 @@ input.login-error{
 .restar{
     color: red;
 }
+
+.row-valor{
+    font-weight: bold;
+}

@@ -7,7 +7,10 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <style>
 
-            @page { size: auto;  margin: 0mm; }
+            @media print {
+                @page { margin: 0; }
+                body { margin: 1.6cm; }
+            }
 
             body {
                 height: 842px;

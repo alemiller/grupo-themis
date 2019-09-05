@@ -67,7 +67,7 @@ class Tramites extends CI_Controller {
 //            $url = $this->generar_barcode($create[0], $barcode);
 
             if ($create) {
-                $return = array('status' => 1, 'msg' => 'El tramite fue creado con éxito', 'data' => $create[0]);
+                $return = array('status' => 1, 'msg' => 'El tramite fue creado con éxito', 'data' => $create);
             } else {
                 $return = array('status' => 0, 'msg' => 'Hubo un problema en la creación del tramite');
             }

@@ -361,7 +361,8 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 // $config['logo_email'] = FCPATH .'/assets/img/logo-email.png';
-$config['logo_email'] = 'http://grupo-themis.com.ar.latincloud.com/assets/img/logo-email.png';
+$config['logo_email'] = 'http://grupo-themis.com.ar.latincloud.com/assets/img/logo-email.jpg';
+$config['logo_email'] = 'https://univcdn.streamgates.net/univ_delivery/sht/delivery/gt/logo-email.jpg';
 
 
 /* End of file config.php */

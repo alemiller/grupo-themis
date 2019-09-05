@@ -69,7 +69,6 @@ class Ordenes extends CI_Controller {
             $items = json_decode($_POST['order_items']);
 
             $tramites = $this->tramites_model->get_by_multiple_ids($items);
-error_log("tramites: ". json_encode($tramites));
 
             //Chequea que ningún trámite ya pertenezca a una orden creada.
             $exists = false;

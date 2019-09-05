@@ -40,7 +40,7 @@ namespace["tramites"] = {
                     reset_footer_buttons();
                     if (data.status) {
 
-                        var row_index = tramites_table.dataTable().fnAddData(["", data.data.id, format_datetime(data.data.fecha_creacion), data.data.caratula, capitalise(data.data.estado.replace('tramite', 'trámite')), '$' + data.data.total]);
+                        var row_index = tramites_table.dataTable().fnAddData(["", data.data.id, format_datetime(data.data.fecha_creacion), data.data.caratula, capitalise(data.data.estado.replace('tramite', 'trámite')), data.data.sellado, data.data.honorarios, '$' + data.data.total]);
                         tramites_table.fnSort([
                             [1, 'desc']
                         ]);
@@ -54,7 +54,9 @@ namespace["tramites"] = {
                         $(row).children('td:eq( 2 )').addClass('clickeable-item');
                         $(row).children('td:eq( 3 )').addClass('clickeable-item');
                         $(row).children('td:eq( 4 )').addClass('clickeable-item row-estado');
-                        $(row).children('td:eq( 5 )').addClass('clickeable-item row-valor');
+                        $(row).children('td:eq( 5)').addClass('clickeable-item row-honorarios');
+                        $(row).children('td:eq( 6 )').addClass('clickeable-item row-sellado');
+                        $(row).children('td:eq( 7 )').addClass('clickeable-item row-valor');
 
                         that.set_data(data.data);
 
@@ -266,8 +268,14 @@ namespace["tramites"] = {
         tramite_data.caratula = $('#tramite-caratula').val();
         tramite_data.id_clase = $('#tramite-clase').val();
         tramite_data.estado = $('#tramite-estado').val();
-        tramite_data.correo = $('#tramite-correo').val();
-        tramite_data.nro_envio = $('#tramite-nro-envio').val();
+        
+        if($('#tramite-correo').val() !== ''){
+            tramite_data.correo = $('#tramite-correo').val();
+        }
+        if($('#tramite-nro-envio').val() !== ''){
+            tramite_data.nro_envio = $('#tramite-nro-envio').val();
+        }
+        
         tramite_data.id_subzona = $('#tramite-subzona').val();
         tramite_data.honorarios = $('#tramite-honorarios').val();
         tramite_data.sellado = $('#tramite-sellado').val();

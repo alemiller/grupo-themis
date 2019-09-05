@@ -83,8 +83,11 @@ function format_date_to_save(date) {
 function format_datetime(date) {
     var step1_tmp = date.split(" ");
     var step2_tmp = step1_tmp[0].split("-");
+    var time_tmp = step1_tmp[1].split(':');
+    var time = time_tmp[0] + ':' + time_tmp[1] + ' hs.'
 
-    return step2_tmp[2] + '-' + step2_tmp[1] + '-' + step2_tmp[0] + ' ' + step1_tmp[1];
+
+    return step2_tmp[2] + '-' + step2_tmp[1] + '-' + step2_tmp[0] + ' ' + time;
 }
 
 
