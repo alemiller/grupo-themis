@@ -12,8 +12,16 @@
             @media print {
                 @page { margin: 0; }
                 body { margin: 1.6cm; }
+                .pagebreak { 
+                    page-break-before: always; 
+                 } 
+
+                 .section { margin-top: 200px; }
+                 .separator{
+                     height: 100px;
+                }
+            
             }
-            .section { margin-top: 200px; }
 
             body {
 
@@ -36,6 +44,10 @@
                 border: 1px solid #ccc;
                 padding: 0px;
 
+            }
+
+            .constancia::nth-of-type(2){
+                margin-top: 10cm;
             }
 
             .colum-izq{
@@ -163,17 +175,15 @@
 
             }
 
-            .pagebreak { page-break-before: always; } 
-
         </style>
 
     </head>
+ 
     <body>
-
         <?php
         for ($i = 0; $i < sizeof($ordenes); $i++) {
             ?>
-
+ 
             <table class="constancia">
                 <tr class="top-row">
                     <td class="colum-izq">
@@ -255,10 +265,11 @@
             if ($i !== (sizeof($ordenes) - 1)) {
                 ?>
                 <div class="pagebreak section"> </div>
+                <div class="separator"></div>
                 <?php
             }
         }
         ?>
-    </body>
+  </body>
 </html>
 

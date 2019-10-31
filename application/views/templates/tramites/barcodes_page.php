@@ -14,7 +14,11 @@
                 margin-right: 0mm; 
             }
 
-            .section { margin-top: 200px; }
+            @media print {
+                @page { margin: 0; }
+
+                .section { margin-top: 200px; }
+            }
 
             body {
 
