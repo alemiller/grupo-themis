@@ -1,7 +1,7 @@
 {
 
     "require": {
-        "phpmailer/phpmailer": "~5.2",
+        "phpmailer/phpmailer": "~6.1",
         "picqer/php-barcode-generator": "^0.2.1"
     }
 }
